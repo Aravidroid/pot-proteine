@@ -3,35 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protein Pot - Fresh Fruits & Nuts Protein Bowls</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <title>Pot protéiné - Fresh Fruits & Nuts Protein Bowls</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-white">
+<body class="bg-light">
     <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-white shadow-md">
+    <nav class="nav-container sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg">P</div>
-                    <span class="text-xl font-bold text-gray-800">Protein Pot</span>
+                    <div class="flex items-center gap-2">
+                        <img src="logo.jpeg" alt="Protein Pot Logo" class="w-12 h-12 object-cover rounded-full">
+                    </div>
+                    <span class="nav-brand">Pot protéiné</span>
                 </div>
-                
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-green-600 transition">Home</a>
-                    <a href="menu.html" class="text-gray-700 hover:text-green-600 transition">Menu</a>
-                    <a href="about.html" class="text-gray-700 hover:text-green-600 transition">About</a>
-                    <a href="#contact" class="text-gray-700 hover:text-green-600 transition">Contact</a>
+
+                <div class="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="menu.html" class="nav-link">Menu</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button id="cart-btn" class="relative text-gray-700 hover:text-green-600 transition">
+                    <button id="cart-btn" class="nav-link relative">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
-                        <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                        <span id="cart-count" class="absolute -top-2 -right-2 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center bg-primary-light">0</span>
                     </button>
-                    <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <button id="mobile-menu-btn" class="md:hidden nav-link">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -41,212 +44,210 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-light border-soft">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:bg-green-50">Home</a>
-                <a href="menu.html" class="block px-3 py-2 text-gray-700 hover:bg-green-50">Menu</a>
-                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:bg-green-50">About</a>
-                <a href="#contact" class="block px-3 py-2 text-gray-700 hover:bg-green-50">Contact</a>
+                <a href="index.html" class="block px-3 py-2 rounded nav-link">Home</a>
+                <a href="menu.html" class="block px-3 py-2 rounded nav-link">Menu</a>
+                <a href="#about" class="block px-3 py-2 rounded nav-link">About</a>
+                <a href="#contact" class="block px-3 py-2 rounded nav-link">Contact</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section h-screen bg-gradient-to-br from-green-50 via-white to-orange-50 flex items-center justify-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-4">Fresh Fruits & Nuts Protein Bowls</h1>
-                <p class="text-xl text-gray-600 mb-8">Handpicked fresh fruits and premium nuts sourced directly from Tamil Nadu. Packed with protein, nutrition, and taste.</p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                    <a href="menu.html" class="btn-primary text-center">Order Now</a>
+    <section class="hero-section h-screen flex items-center justify-center text-center section-hero">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="hero-title">Fresh Fruits & Nuts Protein Bowls</h1>
+            <p class="hero-subtitle">Handpicked fresh fruits and premium nuts sourced directly from Tamil Nadu. Packed with protein, nutrition, and taste.</p>
+
+            <!-- Order Button -->
+            <div class="flex justify-center mb-12">
+                <a href="menu.html" class="hero-button gradient-button text-white">
+                    Order Now
+                </a>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
+                <div class="feature-card feature-card-light">
+                    <div class="feature-card-icon">🥗</div>
+                    <p class="feature-card-title">100% Fresh</p>
                 </div>
 
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="premium-card p-4 text-center">
-                        <p class="text-2xl font-bold text-green-600">🥗</p>
-                        <p class="text-sm text-gray-600 mt-2">100% Fresh</p>
-                    </div>
-                    <div class="premium-card p-4 text-center">
-                        <p class="text-2xl font-bold text-orange-600">⚡</p>
-                        <p class="text-sm text-gray-600 mt-2">High Protein</p>
-                    </div>
-                    <div class="premium-card p-4 text-center">
-                        <p class="text-2xl font-bold text-purple-600">🎯</p>
-                        <p class="text-sm text-gray-600 mt-2">Nutritious</p>
-                    </div>
+                <div class="feature-card feature-card-light">
+                    <div class="feature-card-icon">⚡</div>
+                    <p class="feature-card-title">High Protein</p>
                 </div>
-            </div>
 
-            <div class="hidden md:block">
-                <div class="relative">
-                    <div class="absolute -inset-4 bg-gradient-to-r from-green-400 to-orange-400 rounded-3xl opacity-20 blur-3xl"></div>
-                    <div class="relative bg-white rounded-3xl p-8 shadow-2xl">
-                        <div class="w-full h-96 bg-gradient-to-br from-green-100 via-orange-100 to-pink-100 rounded-2xl flex items-center justify-center">
-                            <div class="text-6xl">🍓🥜🍌</div>
-                        </div>
-                    </div>
+                <div class="feature-card feature-card-light">
+                    <div class="feature-card-icon">🎯</div>
+                    <p class="feature-card-title">Nutritious</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Products Section -->
-    <section class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-2">Popular Bowls</h2>
-                <p class="text-gray-600 text-lg">Try our bestsellers loved by health-conscious customers</p>
-            </div>
-
-            <div id="featured-products" class="grid md:grid-cols-3 gap-8">
-                <!-- Products will be loaded here -->
-            </div>
-
-            <div class="text-center mt-12">
-                <a href="menu.html" class="btn-primary">Explore Full Menu</a>
             </div>
         </div>
     </section>
 
     <!-- Benefits Section -->
-    <section class="py-20 bg-white">
+    <section class="py-20 section-light">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center">
-                    <div class="text-5xl mb-4">🌱</div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Farm Fresh</h3>
-                    <p class="text-gray-600">Sourced directly from local Tamil Nadu farms. Delivered fresh to your doorstep within 24 hours.</p>
+                    <div class="icon-lg mb-4">🌱</div>
+                    <h3 class="heading-subsection">Farm Fresh</h3>
+                    <p class="text-muted">Sourced directly from local Tamil Nadu farms. Delivered fresh to your doorstep within 24 hours.</p>
                 </div>
                 <div class="text-center">
-                    <div class="text-5xl mb-4">💪</div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">High Protein</h3>
-                    <p class="text-gray-600">Packed with natural proteins from premium nuts and fruits. Perfect for muscle building and recovery.</p>
+                    <div class="icon-lg mb-4">💪</div>
+                    <h3 class="heading-subsection">High Protein</h3>
+                    <p class="text-muted">Packed with natural proteins from premium nuts and fruits. Perfect for muscle building and recovery.</p>
                 </div>
                 <div class="text-center">
-                    <div class="text-5xl mb-4">⚖️</div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Calorie Tracked</h3>
-                    <p class="text-gray-600">Every bowl shows exact nutrition info. Perfect for fitness goals and healthy eating plans.</p>
+                    <div class="icon-lg mb-4">⚖️</div>
+                    <h3 class="heading-subsection">Calorie Tracked</h3>
+                    <p class="text-muted">Every bowl shows exact nutrition info. Perfect for fitness goals and healthy eating plans.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="py-16" id="contact">
+    <!-- About Section -->
+    <section class="py-16 section-alt" id="about">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-2">Contact Us</h2>
-                <p class="text-gray-600 text-lg">We'd love to hear from you. Get in touch with us today!</p>
+            <div class="section-header">
+                <h2 class="section-title">About Us</h2>
+                <p class="section-subtitle">Learn more about our mission and why we're passionate about healthy bowls</p>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-12">
-                <!-- Contact Information -->
+            <!-- Mission Section -->
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
                 <div>
-                    <h3 class="text-3xl font-bold text-gray-800 mb-6">Get in Touch</h3>
-                    <div class="space-y-6">
-                        <!-- Phone -->
-                        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
-                            <div class="flex items-start">
-                                <div class="text-3xl mr-4">📞</div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-2">Phone</h3>
-                                    <a href="tel:+919344849652" class="text-green-600 hover:text-green-700 font-semibold">+91 9344849652</a>
-                                    <p class="text-gray-600 text-sm mt-1">Available 9 AM - 8 PM</p>
-                                </div>
-                            </div>
-                        </div>
+                    <h3 class="heading-subsection">Our Mission</h3>
+                    <p class="leading-relaxed mb-4 text-muted">
+                        At Pot protéiné, we believe that healthy eating should be convenient, affordable, and delicious. Our mission is to promote a healthier lifestyle by providing fresh, nutrient-packed protein bowls made from the finest local ingredients.
+                    </p>
+                    <p class="leading-relaxed text-muted">
+                        We work directly with farmers across Tamil Nadu to source the freshest fruits and premium nuts, ensuring every bowl is packed with natural goodness and exceptional quality.
+                    </p>
+                </div>
+                <div class="rounded-2xl p-12 text-center card-gradient">
+                    <div class="icon-lg mb-4">🎯</div>
+                    <p class="font-semibold text-primary-dark">Fresh Fruits & Premium Nuts</p>
+                </div>
+            </div>
 
-                        <!-- WhatsApp -->
-                        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
-                            <div class="flex items-start">
-                                <div class="text-3xl mr-4">💬</div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-2">WhatsApp Order</h3>
-                                    <a href="https://wa.me/919489472765?text=Hi%20Protein%20Pot%20team%2C%20I%20want%20to%20place%20an%20order" target="_blank" class="text-green-600 hover:text-green-700 font-semibold">Chat with us</a>                                    <p class="text-gray-600 text-sm mt-1">Quick Orders & Support</p>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Why Choose Us -->
+            <div class="rounded-2xl p-12 bg-soft">
+                <h2 class="text-3xl font-bold text-center mb-8 text-primary-dark">Why Choose Us?</h2>
+                <div class="grid md:grid-cols-4 gap-6 text-center">
+                    <div>
+                        <div class="icon-md mb-2">🚜</div>
+                        <h3 class="font-bold text-primary-dark">Local Farming</h3>
+                    </div>
+                    <div>
+                        <div class="icon-md mb-2">✅</div>
+                        <h3 class="font-bold text-primary-dark">Quality</h3>
+                    </div>
+                    <div>
+                        <div class="icon-md mb-2">⚡</div>
+                        <h3 class="font-bold text-primary-dark">Energy Packed</h3>
+                    </div>
+                    <div>
+                        <div class="icon-md mb-2">💰</div>
+                        <h3 class="font-bold text-primary-dark">Affordable</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Contact Section -->
+    <section class="py-16 section-light" id="contact">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
 
-                        <!-- Location -->
-                        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-600">
-                            <div class="flex items-start">
-                                <div class="text-3xl mr-4">📍</div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-2">Location</h3>
-                                    <p class="text-gray-600">Coimbatore, Tamil Nadu, India</p>
-                                    <a href="https://maps.google.com/?q=Protein+Pot+Coimbatore" target="_blank" class="text-green-600 hover:text-green-700 font-semibold text-sm mt-1 inline-block">View on Google Maps →</a>
-                                </div>
-                            </div>
-                        </div>
+        <div class="section-header">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-subtitle">We'd love to hear from you. Get in touch with us today!</p>
+        </div>
 
-                        <!-- Email -->
-                        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600">
-                            <div class="flex items-start">
-                                <div class="text-3xl mr-4">✉️</div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-2">Email</h3>
-                                    <a href="mailto:info@proteinpot.com" class="text-green-600 hover:text-green-700 font-semibold">info@proteinpot.com</a>
-                                    <p class="text-gray-600 text-sm mt-1">We'll respond within 24 hours</p>
-                                </div>
-                            </div>
-                        </div>
+        <!-- 2 Column Layout -->
+        <div class="grid lg:grid-cols-2 gap-12">
 
-                        <!-- Instagram -->
-                        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-pink-600">
-                            <div class="flex items-start">
-                                <div class="text-3xl mr-4">📸</div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-2">Follow Us</h3>
-                                    <a href="https://instagram.com/proteinpot" target="_blank" class="text-green-600 hover:text-green-700 font-semibold">@proteinpot</a>
-                                    <p class="text-gray-600 text-sm mt-1">Daily updates & special offers</p>
-                                </div>
+            <!-- LEFT SIDE -->
+            <div>
+
+                <h3 class="heading-subsection mb-6">Get in Touch</h3>
+
+                <!-- Contact Info -->
+                <div class="space-y-6 mb-10">
+
+                    <div class="contact-box">
+                        <div class="flex items-start">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <h3 class="contact-title">Phone</h3>
+                                <a href="tel:+919344849652" class="contact-link">+91 9344849652</a>
+                                <p class="contact-text">Available 9 AM - 8 PM</p>
                             </div>
                         </div>
                     </div>
+
+                    <div class="contact-box border-whatsapp">
+                        <div class="flex items-start">
+                            <div class="contact-icon">💬</div>
+                            <div>
+                                <h3 class="contact-title">WhatsApp</h3>
+                                <a href="https://wa.me/919489472765" class="link-whatsapp">Chat with us</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-box">
+                        <div class="flex items-start">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h3 class="contact-title">Location</h3>
+                                <p class="text-muted">Coimbatore, Tamil Nadu</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- Contact Form -->
-                <div>
-                    <h3 class="text-3xl font-bold text-gray-800 mb-6">Send us a Message</h3>
-                    <form class="space-y-4">
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Full Name</label>
-                            <input type="text" placeholder="Your name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Email Address</label>
-                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Phone Number</label>
-                            <input type="tel" placeholder="+91 XXXXX XXXXX" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Subject</label>
-                            <input type="text" placeholder="What is this about?" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Message</label>
-                            <textarea placeholder="Your message here..." rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600 resize-none" required></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition">Send Message</button>
-                    </form>
+                <!-- Business Hours -->
+                <div class="rounded-lg shadow-md p-6 bg-white hover-card">
+                    <h3 class="text-lg font-bold mb-3 text-primary-dark">Business Hours</h3>
+                    <div class="flex justify-between text-dark">
+                        <span>Sunday - Friday</span>
+                        <span class="font-semibold">6:00 AM - 8:00 AM</span>
+                    </div>
                 </div>
+
             </div>
 
-            <!-- Business Hours Section -->
-            <div class="mt-16 grid md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-lg shadow-md p-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Business Hours</h3>
-                    <div class="space-y-3 text-gray-700">
-                        <div class="flex justify-between">
-                            <span>Monday - Friday</span>
-                            <span class="font-semibold">6:00 AM - 8:00 AM</span>
-                        </div>
-                <div class="bg-white rounded-lg shadow-md p-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Delivery Areas</h3>
-                    <div class="space-y-3 text-gray-700">
+            <!-- RIGHT SIDE -->
+            <div>
+
+                <h3 class="heading-subsection mb-6">Send us a Message</h3>
+
+                <!-- Contact Form -->
+                <form id="contactForm" class="space-y-4">
+
+                    <input type="text" id="contact-name" placeholder="Your name" class="form-input" required>
+
+                    <input type="email" id="contact-email" placeholder="your@email.com" class="form-input" required>
+
+                    <input type="tel" id="contact-phone" placeholder="+91 XXXXX XXXXX" class="form-input" required>
+
+                    <textarea id="contact-message" placeholder="Your message here..." rows="5" class="form-input" required></textarea>
+
+                    <button type="submit" class="btn-primary w-full">
+                        Send Message
+                    </button>
+                </form>
+
+                <!-- Delivery Areas -->
+                <div class="mt-10 rounded-lg shadow-md p-6 bg-white hover-card">
+                    <h3 class="text-lg font-bold mb-3 text-primary-dark">Delivery Areas</h3>
+                    <div class="space-y-2 text-dark">
                         <p>✓ Vadavalli</p>
                         <p>✓ R.S.Puram</p>
                         <p>✓ Ganapathy</p>
@@ -254,54 +255,45 @@
                         <p>✓ Expanding daily! Contact us for your area.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Newsletter Section -->
-    <section class="py-16 bg-gradient-to-r from-green-600 to-orange-500">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-white mb-4">Get Fresh Deals & Updates</h2>
-            <p class="text-lg text-green-50 mb-8">Subscribe to our newsletter for exclusive discounts and new bowl launches</p>
-            <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-lg focus:outline-none">
-                <button class="px-6 py-3 bg-white text-green-600 font-bold rounded-lg hover:bg-gray-100 transition">Subscribe</button>
             </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-12">
+    <footer class="py-12 footer-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 <div>
-                    <h4 class="font-bold text-white mb-4">Protein Pot</h4>
+                    <h4 class="footer-heading">Pot protéiné</h4>
                     <p class="text-sm">Fresh fruits and nuts protein bowls from Tamil Nadu, India.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-white mb-4">Quick Links</h4>
+                    <h4 class="footer-heading">Quick Links</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="menu.html" class="hover:text-green-400">Menu</a></li>
-                        <li><a href="about.html" class="hover:text-green-400">About Us</a></li>
+                        <li><a href="menu.html" class="link-light">Menu</a></li>
+                        <li><a href="#about" class="link-light">About Us</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-white mb-4">Contact</h4>
+                    <h4 class="footer-heading">Contact</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#contact" class="hover:text-green-400">Contact Us</a></li>
-                        <li><a href="https://wa.me/919489472765" target="_blank" class="hover:text-green-400">WhatsApp Order</a></li>
+                        <li><a href="#contact" class="link-light">Contact Us</a></li>
+                        <li><a href="https://wa.me/919489472765" target="_blank" class="link-whatsapp">WhatsApp Order</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-white mb-4">Follow Us</h4>
+                    <h4 class="footer-heading">Follow Us</h4>
                     <div class="flex space-x-4">
-                        <a href="#" class="hover:text-green-400">Instagram</a>
-                        <a href="#" class="hover:text-green-400">Facebook</a>
+                        <a href="#" class="link-light">Instagram</a>
+                        <a href="#" class="link-light">Facebook</a>
                     </div>
                 </div>
             </div>
-            <div class="border-t border-gray-700 pt-8 text-center text-sm">
-                <p>&copy; 2024 Protein Pot. All rights reserved. | Based in Tamil Nadu, India</p>
+            <div class="border-t pt-8 text-center text-sm footer-divider-bottom text-muted-footer">
+                <p>&copy; 2026 Pot protéiné. All rights reserved. | Based in Tamil Nadu, India</p>
             </div>
         </div>
     </footer>
@@ -309,32 +301,30 @@
     <!-- Cart Sidebar Modal -->
     <div id="cart-modal" class="hidden fixed inset-0 z-50">
         <div class="hidden absolute inset-0 bg-black opacity-50" id="cart-overlay"></div>
-        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
-            <div class="flex justify-between items-center p-6 border-b">
-                <h2 class="text-2xl font-bold">Cart</h2>
-                <button id="close-cart" class="text-gray-500 hover:text-gray-700">✕</button>
+        <div class="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl flex flex-col bg-light cart-modal-container">
+            <div class="flex justify-between items-center p-6 border-b cart-header">
+                <h2 class="text-2xl font-bold text-primary-dark">Cart</h2>
+                <button id="close-cart" class="text-muted hover:text-dark transition">✕</button>
             </div>
             <div id="cart-items" class="flex-1 overflow-y-auto p-6">
                 <!-- Cart items will be loaded here -->
             </div>
-            <div class="border-t p-6 space-y-4">
-
-<div class="flex justify-between text-lg font-bold">
-<span>Total:</span>
-<span id="cart-total">₹0</span>
+            <div class="border-t p-6 space-y-4 cart-footer">
+                <div class="flex justify-between text-lg font-bold text-primary-dark">
+                    <span>Total:</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+                <div class="flex justify-between text-md font-semibold text-primary-dark">
+    <span>Total Protein:</span>
+    <span id="cart-protein">0g</span>
 </div>
-
-<div class="space-y-3">
-<a href="checkout.html"
-class="w-full block text-center bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700">
-Proceed to Checkout
-</a>
-
-</div>
-
-</div>
-</div>
-    </div>
+                <div class="space-y-3">
+                    <a href="checkout.html" class="w-full block text-center py-3 rounded-lg font-bold btn btn-primary">
+                        Proceed to Checkout
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/products.js"></script>

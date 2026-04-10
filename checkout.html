@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png">
     <title>Checkout - Protein Pot</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-gray-50">
+<body class="checkout-bg">
     <!-- Navigation -->
-    <nav class="bg-white shadow-md sticky top-0 z-40">
+    <nav class="nav-container sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <a href="index.html" class="flex items-center space-x-2 hover:opacity-70 transition">
-                    <div class="text-3xl font-bold text-orange-600">🥗</div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Protein Pot</h1>
-                        <p class="text-xs text-gray-600">Healthy Fruits & Nuts Energy Bowls</p>
-                    </div>
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg nav-gradient-icon">P</div>
+                    <span class="nav-brand-text">Protein Pot</span>
                 </a>
-                <a href="menu.html" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold transition duration-300">
+                <a href="menu.html" class="back-menu-btn">
                     ← Back to Menu
                 </a>
             </div>
@@ -28,30 +26,30 @@
 
     <!-- Checkout Section -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 class="text-4xl font-bold text-gray-800 mb-8">Delivery Details</h2>
+        <h2 class="checkout-heading">Delivery Details</h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Checkout Form -->
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-lg shadow-md p-8">
+                <div class="form-container">
                     <form id="checkoutForm">
                         <div class="mb-6">
-                            <label for="name" class="block text-gray-700 font-bold mb-2">Full Name *</label>
-                            <input type="text" id="name" name="name" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="Enter your full name">
+                            <label for="name" class="form-label">Full Name *</label>
+                            <input type="text" id="name" name="name" required class="form-input" placeholder="Enter your full name">
                         </div>
 
                         <div class="mb-6">
-                            <label for="phone" class="block text-gray-700 font-bold mb-2">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="Enter 10-digit phone number">
-                            <p class="text-sm text-gray-600 mt-1">Format: 10-digit number</p>
+                            <label for="phone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="form-input" placeholder="Enter 10-digit phone number">
+                            <p class="form-input-info">Format: 10-digit number</p>
                         </div>
 
                         <div class="mb-6">
-                            <label for="address" class="block text-gray-700 font-bold mb-2">Delivery Address *</label>
-                            <textarea id="address" name="address" required rows="4" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="Enter your complete delivery address"></textarea>
+                            <label for="address" class="form-label">Delivery Address *</label>
+                            <textarea id="address" name="address" required rows="4" class="form-input resize-none" placeholder="Enter your complete delivery address"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-bold text-lg transition duration-300">
+                        <button type="submit" class="form-submit-btn">
                             Proceed to Order on WhatsApp
                         </button>
                     </form>
@@ -60,31 +58,30 @@
 
             <!-- Order Summary -->
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Order Summary</h3>
-                    
-                    <div id="orderItemsSummary" class="mb-6 pb-6 border-b-2 max-h-64 overflow-y-auto">
+                <div class="summary-container">
+                    <h3 class="summary-heading">Order Summary</h3>
+                    <div id="orderItemsSummary" class="summary-items">
                         <!-- Items will be loaded here -->
                     </div>
 
-                    <div class="space-y-3 mb-6 pb-6 border-b-2">
-                        <div class="flex justify-between text-gray-700">
+                    <div class="space-y-3 mb-6 pb-6 summary-divider text-dark">
+                        <div class="flex justify-between">
                             <span>Subtotal:</span>
                             <span class="font-semibold">₹<span id="summarySubtotal">0</span></span>
                         </div>
-                        <div class="flex justify-between text-gray-700">
+                        <div class="flex justify-between">
                             <span>Delivery:</span>
-                            <span class="font-semibold text-green-600">FREE</span>
+                            <span class="font-semibold text-primary-light">FREE</span>
                         </div>
-                        <div class="flex justify-between text-gray-700">
+                        <div class="flex justify-between">
                             <span>Tax:</span>
                             <span class="font-semibold">₹<span id="summaryTax">0</span></span>
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold text-gray-800">Total:</span>
-                        <span class="text-3xl font-bold text-orange-600">₹<span id="summaryTotal">0</span></span>
+                    <div class="summary-total">
+                        <span class="summary-total-label">Total:</span>
+                        <span class="summary-total-amount">₹<span id="summaryTotal">0</span></span>
                     </div>
                 </div>
             </div>
@@ -92,10 +89,10 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-12">
+    <footer class="py-12 footer-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="mb-2">&copy; 2026 Protein Pot. All rights reserved.</p>
-            <p class="text-gray-400">Healthy eating, one bowl at a time.</p>
+            <p class="text-muted-footer">Healthy eating, one bowl at a time.</p>
         </div>
     </footer>
 
