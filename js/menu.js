@@ -178,5 +178,125 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderGrid('all');
+    renderAddOns();
     updateCartCount();
 });
+
+// ── Build add-on card ────────────────────────────────────────────────────
+function buildAddOnCard(addon) {
+    return `
+    <div class="addon-card bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border border-soft">
+        <div class="p-4 flex flex-col h-full">
+            <!-- Icon -->
+            <div class="text-4xl mb-2 text-center">${addon.icon}</div>
+            
+            <!-- Name -->
+            <h3 class="font-bold text-primary-dark text-center mb-2">${addon.name}</h3>
+            
+            <!-- Nutrition info -->
+            <div class="flex gap-2 justify-center text-xs mb-3">
+                ${addon.protein ? `<span class="text-gray-600">🥗 ${addon.protein}g protein</span>` : ''}
+                ${addon.calories ? `<span class="text-gray-600">🔥 ${addon.calories} kcal</span>` : ''}
+            </div>
+            
+            <!-- Spacer -->
+            <div class="flex-1"></div>
+            
+            <!-- Price + Button -->
+            <div class="flex items-center justify-between mt-3 gap-2">
+                <span class="price-tag font-bold text-lg text-primary-dark">₹${addon.price}</span>
+                <div class="flex-1 max-w-[120px]" id="addon-action-${addon.id}">
+                    <button class="add-btn text-sm" onclick="handleAddOn('${addon.id}')">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+// ── Render add-ons grid ──────────────────────────────────────────────────
+function renderAddOns() {
+    const addonsGrid = document.getElementById('addons-grid');
+    if (!addonsGrid || !customizationData || !customizationData.fruits) return;
+    
+    addonsGrid.innerHTML = customizationData.fruits
+        .map(addon => buildAddOnCard(addon))
+        .join('');
+    
+    syncAddOnButtons();
+}
+
+// ── Sync add-on qty buttons ──────────────────────────────────────────────
+function syncAddOnButtons() {
+    const cart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
+    if (!customizationData || !customizationData.fruits) return;
+    
+    customizationData.fruits.forEach(addon => {
+        const wrapper = document.getElementById(`addon-action-${addon.id}`);
+        if (!wrapper) return;
+        
+        const cartItem = cart.find(i => i.id === addon.id);
+        if (cartItem) {
+            wrapper.innerHTML = `
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="handleRemoveAddOn('${addon.id}')">−</button>
+                    <span class="qty-display" id="qty-${addon.id}">${cartItem.quantity}</span>
+                    <button class="qty-btn" onclick="handleAddAddOn('${addon.id}')">+</button>
+                </div>`;
+        }
+    });
+}
+
+// ── Add-on cart interactions ─────────────────────────────────────────────
+function handleAddOn(addonId) {
+    handleAddAddOn(addonId);
+}
+
+function handleAddAddOn(addonId) {
+    const addon = customizationData.fruits.find(a => a.id === addonId);
+    if (!addon) return;
+
+    const cart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
+    const cartItem = cart.find(i => i.id === addonId);
+    
+    if (cartItem) {
+        cartItem.quantity++;
+    } else {
+        cart.push({
+            ...addon,
+            quantity: 1,
+            isAddOn: true,
+            details: []
+        });
+    }
+    
+    localStorage.setItem('proteinPotCart', JSON.stringify(cart));
+    syncAddOnButtons();
+    updateCartCount();
+}
+
+function handleRemoveAddOn(addonId) {
+    const cart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
+    const idx = cart.findIndex(i => i.id === addonId);
+    
+    if (idx > -1) {
+        cart[idx].quantity--;
+        if (cart[idx].quantity <= 0) {
+            cart.splice(idx, 1);
+        }
+    }
+    
+    localStorage.setItem('proteinPotCart', JSON.stringify(cart));
+    
+    // Revert to Add button if removed
+    const wrapper = document.getElementById(`addon-action-${addonId}`);
+    if (!wrapper) return;
+    
+    const cartItem = cart.find(i => i.id === addonId);
+    if (!cartItem) {
+        wrapper.innerHTML = `<button class="add-btn text-sm" onclick="handleAddOn('${addonId}')">Add</button>`;
+    } else {
+        syncAddOnButtons();
+    }
+    
+    updateCartCount();
+}

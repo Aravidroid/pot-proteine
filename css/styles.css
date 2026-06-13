@@ -1848,3 +1848,22 @@ textarea::placeholder {
     60%  { transform: scale(1); }
     100% { transform: scale(1); }
 }
+
+/* ==============================
+   ADD-ONS SECTION - ADDON CARDS
+   ============================== */
+
+.addon-card {
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.addon-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.addon-card:focus-within {
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
