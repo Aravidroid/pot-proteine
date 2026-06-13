@@ -49,6 +49,15 @@
                             <textarea id="address" name="address" required rows="4" class="form-input resize-none" placeholder="Enter your complete delivery address"></textarea>
                         </div>
 
+                        <div class="mb-6">
+                            <button type="button" id="getMapsBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">
+                                📍 Get Maps Location Link
+                            </button>
+                            <p id="mapsLinkDisplay" class="mt-3 p-3 bg-blue-50 rounded-lg hidden">
+                                <a id="mapsLink" href="#" target="_blank" class="text-blue-600 hover:text-blue-800 font-semibold break-all">Maps Link</a>
+                            </p>
+                        </div>
+
                         <button type="submit" class="form-submit-btn">
                             Proceed to Order on WhatsApp
                         </button>
@@ -62,6 +71,13 @@
                     <h3 class="summary-heading">Order Summary</h3>
                     <div id="orderItemsSummary" class="summary-items">
                         <!-- Items will be loaded here -->
+                    </div>
+
+                    <div id="mapsLinkSummary" class="mb-6 p-3 bg-blue-50 rounded-lg hidden">
+                        <p class="text-sm font-semibold text-blue-900 mb-2">📍 Delivery Location:</p>
+                        <a id="summaryMapsLink" href="#" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm break-all">
+                            View on Maps
+                        </a>
                     </div>
 
                     <div class="space-y-3 mb-6 pb-6 summary-divider text-dark">

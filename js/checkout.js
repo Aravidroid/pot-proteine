@@ -9,7 +9,13 @@ const checkoutDOM = {
     addressInput: null,
     summaryContainer: null,
     subtotalEl: null,
-    totalEl: null
+    totalEl: null,
+    getMapsBtn: null,
+    mapsLinkDisplay: null,
+    mapsLink: null,
+    mapsLinkSummary: null,
+    summaryMapsLink: null,
+    mapsUrl: null
 };
 
 /**
@@ -23,6 +29,11 @@ function initializeCheckoutDOM() {
     checkoutDOM.summaryContainer = document.getElementById('orderItemsSummary');
     checkoutDOM.subtotalEl = document.getElementById('summarySubtotal');
     checkoutDOM.totalEl = document.getElementById('summaryTotal');
+    checkoutDOM.getMapsBtn = document.getElementById('getMapsBtn');
+    checkoutDOM.mapsLinkDisplay = document.getElementById('mapsLinkDisplay');
+    checkoutDOM.mapsLink = document.getElementById('mapsLink');
+    checkoutDOM.mapsLinkSummary = document.getElementById('mapsLinkSummary');
+    checkoutDOM.summaryMapsLink = document.getElementById('summaryMapsLink');
 }
 
 /**
@@ -69,6 +80,56 @@ function updateCheckoutSummary() {
 }
 
 /**
+ * Generate Google Maps URL from address
+ * @param {string} address - Delivery address
+ * @returns {string} Google Maps URL
+ */
+function generateMapsUrl(address) {
+    const encodedAddress = encodeURIComponent(address);
+    return `https://www.google.com/maps/search/${encodedAddress}`;
+}
+
+/**
+ * Display maps link in form and summary
+ * @param {string} mapsUrl - Google Maps URL
+ */
+function displayMapsLink(mapsUrl) {
+    checkoutDOM.mapsUrl = mapsUrl;
+    
+    // Display in form
+    if (checkoutDOM.mapsLink) {
+        checkoutDOM.mapsLink.href = mapsUrl;
+        checkoutDOM.mapsLink.textContent = 'Click here to view on Google Maps';
+    }
+    if (checkoutDOM.mapsLinkDisplay) {
+        checkoutDOM.mapsLinkDisplay.classList.remove('hidden');
+    }
+    
+    // Display in summary
+    if (checkoutDOM.summaryMapsLink) {
+        checkoutDOM.summaryMapsLink.href = mapsUrl;
+    }
+    if (checkoutDOM.mapsLinkSummary) {
+        checkoutDOM.mapsLinkSummary.classList.remove('hidden');
+    }
+}
+
+/**
+ * Handle get maps link button click
+ */
+function handleGetMapsLink() {
+    const address = checkoutDOM.addressInput.value.trim();
+    
+    if (!address) {
+        alert('Please enter your delivery address first');
+        return;
+    }
+    
+    const mapsUrl = generateMapsUrl(address);
+    displayMapsLink(mapsUrl);
+}
+
+/**
  * Validate checkout form
  * @returns {Object} Validation result {isValid, errors}
  */
@@ -111,6 +172,7 @@ function buildWhatsAppMessage(orderData) {
     
     const totalAmount = getCartTotal();
     const orderNumber = "PP" + Date.now().toString().slice(-6);
+    const mapsLink = checkoutDOM.mapsUrl || generateMapsUrl(orderData.customerAddress);
     
     return `New Order - Pot protéiné
 
@@ -119,6 +181,8 @@ Phone: ${orderData.customerPhone}
 
 Address:
 ${orderData.customerAddress}
+
+📍 Maps Link: ${mapsLink}
 
 Order:
 ${orderSummary}
@@ -206,5 +270,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Attach form submission handler
     if (checkoutDOM.form) {
         checkoutDOM.form.addEventListener('submit', handleCheckoutSubmit);
+    }
+
+    // Attach maps button handler
+    if (checkoutDOM.getMapsBtn) {
+        checkoutDOM.getMapsBtn.addEventListener('click', handleGetMapsLink);
     }
 });
