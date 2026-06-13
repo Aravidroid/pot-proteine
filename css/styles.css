@@ -1598,6 +1598,226 @@ textarea::placeholder {
     }
 }
 
+/* ==============================
+   MENU PAGE - FILTER TABS
+   ============================== */
+
+.filter-tab {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    background: white;
+    color: #555;
+    border-color: #ddd;
+}
+
+.filter-tab.active,
+.filter-tab:hover {
+    background: var(--color-primary, #4caf50);
+    color: white;
+    border-color: var(--color-primary, #4caf50);
+}
+
+/* ==============================
+   MENU PAGE - PRODUCT CARDS
+   ============================== */
+
+.product-card {
+    background: white;
+    border-radius: 1.25rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+}
+
+.product-image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: #f0fdf4;
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ==============================
+   MENU PAGE - BADGES
+   ============================== */
+
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.badge-gain   { background: #fff3cd; color: #856404; }
+.badge-loss   { background: #d1e7dd; color: #155724; }
+.badge-old    { background: #f8d7da; color: #842029; }
+.badge-it     { background: #cfe2ff; color: #084298; }
+.badge-diab   { background: #e2d9f3; color: #432874; }
+.badge-trial  { background: #fef9c3; color: #854d0e; }
+
+.tier-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.price-tag {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #2d6a4f;
+}
+
+/* ==============================
+   MENU PAGE - INGREDIENT PILLS
+   ============================== */
+
+.ingredient-pill {
+    background: #f0fdf4;
+    color: #166534;
+    border-radius: 9999px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* ==============================
+   MENU PAGE - ADD TO CART BUTTON
+   ============================== */
+
+.add-btn {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 0.6rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    background: linear-gradient(135deg, #52b788, #40916c);
+    color: white;
+    border: none;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+.add-btn:hover  { opacity: 0.9; transform: scale(1.02); }
+.add-btn:active { transform: scale(0.98); }
+
+/* ==============================
+   MENU PAGE - QUANTITY CONTROLS
+   ============================== */
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.qty-btn {
+    width: 2rem; 
+    height: 2rem;
+    border-radius: 9999px;
+    background: #40916c;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.qty-display {
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 1.5rem;
+    text-align: center;
+    color: #1b4332;
+}
+
+/* ==============================
+   MENU PAGE - NUTRITION CHIP
+   ============================== */
+
+.nutrition-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f0fdf4;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.6rem;
+}
+
+.nutrition-chip span:first-child {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1b4332;
+}
+
+.nutrition-chip span:last-child {
+    font-size: 0.65rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ==============================
+   MENU PAGE - EMPTY STATE
+   ============================== */
+
+#empty-state { 
+    display: none; 
+}
+
+/* ==============================
+   MENU PAGE - SECTION HEADER
+   ============================== */
+
+.menu-header-line {
+    width: 3rem; 
+    height: 4px;
+    background: linear-gradient(90deg, #52b788, #40916c);
+    border-radius: 2px;
+    margin: 0.5rem auto 0;
+}
+
+/* ==============================
+   MENU PAGE - STICKY FILTER BAR
+   ============================== */
+
+.filter-bar {
+    position: sticky;
+    top: 64px;
+    z-index: 40;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e5e7eb;
+}
+
 .sparkle {
     display: inline-block;
     animation: sparkle 2s infinite ease-in-out;

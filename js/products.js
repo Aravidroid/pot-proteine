@@ -10,39 +10,83 @@ const allProducts = [
         image: 'menu/trial-weight-gain-pot.png',
         protein: 12,
         price: 119,
-        ingredients: ['Banana','Apple','Orange','Guava','Watermelon']
+        ingredients: [
+            'Banana',
+            'Apple',
+            'Orange',
+            'Guava',
+            'Watermelon',
+            'Almonds',
+            'Sunflower Seeds'
+        ]
     },
+
     {
         id: '2',
         name: 'Trial Weight Loss Pot',
         image: 'menu/trial-weight-loss-pot.png',
         protein: 10,
         price: 119,
-        ingredients: ['Apple','Orange','Guava','Papaya','Cucumber']
+        ingredients: [
+            'Apple',
+            'Orange',
+            'Guava',
+            'Papaya',
+            'Cucumber',
+            'Almonds',
+            'Sunflower Seeds'
+        ]
     },
+
     {
         id: '3',
         name: 'Trial Oldage Home Pot',
         image: 'menu/trial-oldage-home-pot.png',
         protein: 8,
         price: 119,
-        ingredients: ['Apple','Guava','Pomegranate','Papaya','Banana']
+        ingredients: [
+            'Apple',
+            'Guava',
+            'Pomegranate',
+            'Papaya',
+            'Banana',
+            'Almonds',
+            'Sunflower Seeds'
+        ]
     },
+
     {
         id: '4',
         name: 'Trial Diabetic Pot',
         image: 'menu/trial-diabetic-pot.png',
         protein: 11,
         price: 119,
-        ingredients: ['Apple','Guava','Orange','Pomegranate','Pear']
+        ingredients: [
+            'Apple',
+            'Guava',
+            'Orange',
+            'Pomegranate',
+            'Pear',
+            'Almonds',
+            'Sunflower Seeds'
+        ]
     },
+
     {
         id: '5',
         name: 'Trial IT Menu Pot',
         image: 'menu/trial-it-menu-pot.png',
         protein: 12,
         price: 119,
-        ingredients: ['Apple','Watermelon','Cucumber','Orange','Muskmelon']
+        ingredients: [
+            'Apple',
+            'Watermelon',
+            'Cucumber',
+            'Orange',
+            'Muskmelon',
+            'Almonds',
+            'Sunflower Seeds'
+        ]
     },
 
     // ===== REGULAR =====
@@ -78,7 +122,6 @@ const allProducts = [
             'Papaya',
             'Cucumber',
             'Almonds',
-            'Cashews',
             'Sunflower Seeds'
         ]
     },
@@ -95,7 +138,9 @@ const allProducts = [
             'Pomegranate',
             'Banana',
             'Pear',
-            'Papaya'
+            'Papaya',
+            'Almonds',
+            'Sunflower Seeds'
         ]
     },
 
@@ -111,7 +156,9 @@ const allProducts = [
             'Cucumber',
             'Orange',
             'Papaya',
-            'Muskmelon'
+            'Muskmelon',
+            'Almonds',
+            'Sunflower Seeds'
         ]
     },
 
@@ -127,7 +174,9 @@ const allProducts = [
             'Cucumber',
             'Orange',
             'Pomegranate',
-            'Pear'
+            'Pear',
+            'Almonds',
+            'Sunflower Seeds'
         ]
     },
 
@@ -146,7 +195,10 @@ const allProducts = [
             'Strawberry',
             'Lychee',
             'Watermelon',
-            'Pear'
+            'Pear',
+            'Almonds',
+            'Cashews',
+            'Sunflower Seeds'
         ]
     },
 
@@ -162,7 +214,10 @@ const allProducts = [
             'Strawberry',
             'Lychee',
             'Papaya',
-            'Watermelon'
+            'Watermelon',
+            'Almonds',
+            'Cashews',
+            'Sunflower Seeds'
         ]
     },
 
@@ -179,7 +234,9 @@ const allProducts = [
             'Dragon Fruit',
             'Apple',
             'Water Apple',
-            'Plum'
+            'Almonds',
+            'Cashews',
+            'Sunflower Seeds'
         ]
     },
 
@@ -195,7 +252,10 @@ const allProducts = [
             'Kiwi',
             'Watermelon',
             'Water Apple',
-            'Orange'
+            'Orange',
+            'Almonds',
+            'Cashews',
+            'Sunflower Seeds'
         ]
     },
 
@@ -213,7 +273,9 @@ const allProducts = [
             'Apple',
             'Cucumber',
             'Blueberry',
-            'Jamun'
+            'Almonds',
+            'Cashews',
+            'Sunflower Seeds'
         ]
     }
 ];
@@ -225,13 +287,12 @@ allProducts.forEach(product => {
     product.ingredients = Array.isArray(product.ingredients) ? product.ingredients : [];
 });
 
-// Customization ingredients
 const customizationData = {
     fruits: [
         { id: 'honey', name: 'Honey', price: 15, protein: 0.3, calories: 64, icon: '🍯' },
         { id: 'dates', name: 'Dates', price: 25, protein: 1.8, calories: 66, icon: '📅' },
-        { id: 'oats', name: 'Oats', price: 20, protein: 2.7, calories: 68, icon: '🌾' },
-        { id: 'peanut-butter', name: 'Peanut Butter', price: 30, protein: 8, calories: 94, icon: '🥜' }
+        { id: 'plum', name: 'Plum', price: 20, protein: 0.5, calories: 30, icon: '🟣' },
+        { id: 'jamun', name: 'Jamun', price: 20, protein: 0.7, calories: 35, icon: '🍇' }
     ]
 };
 
