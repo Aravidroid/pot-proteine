@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png">
+    <title>Checkout - Pot protéiné</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="checkout-bg">
+    <!-- Navigation -->
+    <nav class="nav-container sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2 hover:opacity-70 transition">
+                    <img src="logo.png" alt="Pot protéiné" class="w-10 h-10 rounded-full">
+                    <span class="nav-brand-text">Pot protéiné</span>
+                </a>
+                <a href="menu.html" class="back-menu-btn">
+                    ← Back to Menu
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h2 class="checkout-heading">Delivery Details</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Checkout Form -->
+            <div class="lg:col-span-2">
+                <div class="form-container">
+                    <form id="checkoutForm">
+                        <div class="mb-6">
+                            <label for="name" class="form-label">Full Name *</label>
+                            <input type="text" id="name" name="name" required class="form-input" placeholder="Enter your full name">
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="phone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="form-input" placeholder="Enter 10-digit phone number">
+                            <p class="form-input-info">Format: 10-digit number</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="address" class="form-label">Delivery Address *</label>
+                            <textarea id="address" name="address" required rows="4" class="form-input resize-none" placeholder="Enter your complete delivery address"></textarea>
+                        </div>
+
+                        <button type="submit" class="form-submit-btn">
+                            Proceed to Order on WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="summary-container">
+                    <h3 class="summary-heading">Order Summary</h3>
+                    <div id="orderItemsSummary" class="summary-items">
+                        <!-- Items will be loaded here -->
+                    </div>
+
+                    <div class="space-y-3 mb-6 pb-6 summary-divider text-dark">
+                        <div class="flex justify-between">
+                            <span>Subtotal:</span>
+                            <span class="font-semibold">₹<span id="summarySubtotal">0</span></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Delivery:</span>
+                            <span class="font-semibold text-primary-light">FREE</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-total">
+                        <span class="summary-total-label">Total:</span>
+                        <span class="summary-total-amount">₹<span id="summaryTotal">0</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 footer-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mb-2">&copy; 2026 Pot protéiné. All rights reserved.</p>
+            <p class="text-muted-footer">Healthy eating, one bowl at a time.</p>
+        </div>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>
