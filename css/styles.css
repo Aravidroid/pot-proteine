@@ -4,26 +4,27 @@
     box-sizing: border-box;
 }
 
-/* ==============================
-   🍎 FRUIT SHOP THEME VARIABLES
-   ============================== */
-
 :root {
-    --primary-dark: #14532d;
-    --primary-light: #22c55e;
-    --primary-hover: #16a34a;
 
-    --bg-light: #f0fdf4;
-    --bg-soft: #dcfce7;
-    --bg-alt: #e8f7f3;
+    /* Pot-Protéiné Premium Palette */
 
-    --glass-bg: rgba(255, 255, 255, 0.15);
-    --glass-border: rgba(255, 255, 255, 0.25);
+    --primary-dark: #065f46;
+    --primary-light: #059669;
+    --primary-hover: #047857;
 
-    --text-dark: #1f2937;
+    --bg-light: #faf9f6;
+    --bg-soft: #f4f2ed;
+    --bg-alt: #ffffff;
+
+    --glass-bg: rgba(255,255,255,0.75);
+    --glass-border: rgba(229,231,235,0.8);
+
+    --text-dark: #0f1117;
     --text-light: #ffffff;
     --text-muted: #6b7280;
     --text-light-gray: #9ca3af;
+
+    --gold: #d4a853;
 
     --whatsapp-green: #25d366;
     --whatsapp-hover: #20ba5a;
@@ -31,10 +32,11 @@
     --border-radius: 0.75rem;
     --transition: all 0.3s ease;
 
-    --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
+    --shadow: 0 1px 3px rgba(0,0,0,.06),
+              0 4px 16px rgba(0,0,0,.04);
 
+    --shadow-lg: 0 8px 40px rgba(0,0,0,.08);
+}
 /* ============================== */
 
 html {
@@ -42,11 +44,10 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--text-dark);
     line-height: 1.6;
-    background: linear-gradient(135deg, var(--bg-light), var(--bg-soft));
-    animation: pageFade 0.5s ease;
+    background: var(--bg-light);
 }
 
 /* ==============================
@@ -754,14 +755,6 @@ a:focus-visible {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.hero-title {
-    color: #000000;
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 24px;
-    line-height: 1.2;
 }
 
 @media (min-width: 768px) {
@@ -1866,4 +1859,92 @@ textarea::placeholder {
 
 .addon-card:focus-within {
     box-shadow: 0 0 0 3px var(--primary-light);
+}
+/* =====================================
+   PREMIUM HERO (Pot-Protéiné Style)
+   ===================================== */
+
+.hero-section{
+    background:#faf9f6;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.12;
+    pointer-events:none;
+}
+
+.blob-1{
+    width:600px;
+    height:600px;
+    background:#059669;
+    top:-100px;
+    right:-100px;
+}
+
+.blob-2{
+    width:400px;
+    height:400px;
+    background:#6366f1;
+    bottom:-50px;
+    left:-50px;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}
+
+.featured-bowl-img{
+    animation:float 4s ease-in-out infinite;
+}
+
+.font-serif{
+    font-family:'Playfair Display', serif;
+}
+
+/* Premium CTA Buttons */
+
+.hero-section a.bg-emerald-600{
+    transition:all .3s ease;
+}
+
+.hero-section a.bg-emerald-600:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(5,150,105,.25);
+}
+
+/* Floating Cards */
+
+.hero-section .shadow-lg,
+.hero-section .shadow-2xl{
+    transition:all .3s ease;
+}
+
+.hero-section .shadow-2xl:hover{
+    transform:translateY(-6px);
+}
+
+/* Mobile */
+
+@media(max-width:1024px){
+
+    .blob-1{
+        width:350px;
+        height:350px;
+    }
+
+    .blob-2{
+        width:250px;
+        height:250px;
+    }
+
 }
