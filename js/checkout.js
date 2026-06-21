@@ -238,12 +238,8 @@ Phone: ${orderData.customerPhone}
 Address:
 ${orderData.customerAddress}
 
-📍 GPS Location:
+📍 Delivery Location:
 ${mapsLink}
-
-Coordinates:
-${checkoutDOM.latitude || 'N/A'},
-${checkoutDOM.longitude || 'N/A'}
 
 Order:
 ${orderSummary}
