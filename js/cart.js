@@ -218,9 +218,12 @@ function showCartNotification() {
  * @returns {number} Total price
  */
 function getCartTotal() {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-}
+    const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
 
+    return cart.reduce((sum, item) => {
+        return sum + (item.price * item.quantity);
+    }, 0);
+} 
 /**
  * Clear cart with confirmation
  */

@@ -15,7 +15,10 @@ const checkoutDOM = {
     mapsLink: null,
     mapsLinkSummary: null,
     summaryMapsLink: null,
-    mapsUrl: null
+
+    mapsUrl: null,
+    latitude: null,
+    longitude: null
 };
 
 /**
@@ -118,15 +121,64 @@ function displayMapsLink(mapsUrl) {
  * Handle get maps link button click
  */
 function handleGetMapsLink() {
-    const address = checkoutDOM.addressInput.value.trim();
-    
-    if (!address) {
-        alert('Please enter your delivery address first');
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by this browser.");
         return;
     }
-    
-    const mapsUrl = generateMapsUrl(address);
-    displayMapsLink(mapsUrl);
+
+    checkoutDOM.getMapsBtn.textContent = "Getting Location...";
+    checkoutDOM.getMapsBtn.disabled = true;
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            checkoutDOM.latitude = latitude;
+            checkoutDOM.longitude = longitude;
+
+            const mapsUrl =
+                `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+            displayMapsLink(mapsUrl);
+
+            checkoutDOM.getMapsBtn.textContent =
+                "Location Captured ✓";
+        },
+
+        (error) => {
+            console.error(error);
+
+            let message = "Unable to get location.";
+
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    message = "Location permission denied.";
+                    break;
+
+                case error.POSITION_UNAVAILABLE:
+                    message = "Location unavailable.";
+                    break;
+
+                case error.TIMEOUT:
+                    message = "Location request timed out.";
+                    break;
+            }
+
+            alert(message);
+
+            checkoutDOM.getMapsBtn.textContent =
+                "Use My Current Location";
+
+            checkoutDOM.getMapsBtn.disabled = false;
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
 }
 
 /**
@@ -151,6 +203,10 @@ function validateCheckoutForm() {
         errors.push('Delivery address is required');
     }
 
+    if (!checkoutDOM.mapsUrl) {
+    errors.push('Please share your GPS location');
+    }
+
     return {
         isValid: errors.length === 0,
         errors
@@ -172,7 +228,7 @@ function buildWhatsAppMessage(orderData) {
     
     const totalAmount = getCartTotal();
     const orderNumber = "PP" + Date.now().toString().slice(-6);
-    const mapsLink = checkoutDOM.mapsUrl || generateMapsUrl(orderData.customerAddress);
+    const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
     
     return `New Order - Pot protéiné
 
@@ -182,7 +238,12 @@ Phone: ${orderData.customerPhone}
 Address:
 ${orderData.customerAddress}
 
-📍 Maps Link: ${mapsLink}
+📍 GPS Location:
+${mapsLink}
+
+Coordinates:
+${checkoutDOM.latitude || 'N/A'},
+${checkoutDOM.longitude || 'N/A'}
 
 Order:
 ${orderSummary}
@@ -205,14 +266,20 @@ function sendViaWhatsApp(orderData) {
     const totalAmount = getCartTotal();
     
     const orderConfirmation = {
-        orderNumber: "PP" + Date.now().toString().slice(-6),
-        amount: totalAmount,
-        timestamp: new Date().toISOString(),
-        customerName: orderData.customerName,
-        customerPhone: orderData.customerPhone,
-        customerAddress: orderData.customerAddress,
-        items: cart
-    };
+    orderNumber: "PP" + Date.now().toString().slice(-6),
+    amount: totalAmount,
+    timestamp: new Date().toISOString(),
+
+    customerName: orderData.customerName,
+    customerPhone: orderData.customerPhone,
+    customerAddress: orderData.customerAddress,
+
+    latitude: checkoutDOM.latitude,
+    longitude: checkoutDOM.longitude,
+    mapsUrl: checkoutDOM.mapsUrl,
+
+    items: cart
+};
     
     localStorage.setItem('orderConfirmation', JSON.stringify(orderConfirmation));
     
@@ -261,18 +328,36 @@ function handleCheckoutSubmit(e) {
  * Initialize checkout page
  */
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize DOM cache
     initializeCheckoutDOM();
-
-    // Load order summary
     loadOrderSummary();
 
-    // Attach form submission handler
+    // Auto-capture location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                checkoutDOM.latitude = position.coords.latitude;
+                checkoutDOM.longitude = position.coords.longitude;
+
+                const mapsUrl =
+                    `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+
+                displayMapsLink(mapsUrl);
+
+                if (checkoutDOM.getMapsBtn) {
+                    checkoutDOM.getMapsBtn.textContent =
+                        "Location Captured ✓";
+                }
+            },
+            (error) => {
+                console.log("Location not granted:", error);
+            }
+        );
+    }
+
     if (checkoutDOM.form) {
         checkoutDOM.form.addEventListener('submit', handleCheckoutSubmit);
     }
 
-    // Attach maps button handler
     if (checkoutDOM.getMapsBtn) {
         checkoutDOM.getMapsBtn.addEventListener('click', handleGetMapsLink);
     }
