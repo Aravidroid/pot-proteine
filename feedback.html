@@ -63,12 +63,9 @@
     <!-- ── Hero Banner Section ── -->
     <section class="relative pt-12 pb-8 overflow-hidden bg-gradient-to-b from-emerald-50/60 to-[#faf9f6]">
         <div class="max-w-3xl mx-auto px-4 text-center">
-            <h1 class="font-serif text-3xl md:text-5xl font-bold text-gray-900 mb-3">
-                Help Us Perfect Your <span class="text-emerald-600 italic">Protein Bowls</span>
+            <h1 class="font-serif text-3xl md:text-3xl font-bold text-gray-900 mb-3">
+                Share your quick thoughts to help us serve you better!
             </h1>
-            <p class="text-gray-600 text-sm md:text-base max-w-xl mx-auto">
-                Share your quick thoughts on fruit freshness, taste, and delivery to help us serve you better!
-            </p>
         </div>
     </section>
 
@@ -98,20 +95,6 @@
                     </div>
                     <div id="star-rating-label" class="text-sm font-medium text-gray-400">Tap a star to rate</div>
                 </div>
-
-                <!-- Taste Quick Pills -->
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Taste highlights (Select all that apply)</label>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="chip-pill taste-chip" data-value="Loved the Sweetness">🍯 Loved Sweetness</span>
-                        <span class="chip-pill taste-chip" data-value="High Protein Feeling">💪 High Protein Feeling</span>
-                        <span class="chip-pill taste-chip" data-value="Great Post-Workout">🏋️ Great Post-Workout</span>
-                        <span class="chip-pill taste-chip" data-value="A Bit Too Sweet">🍯 A Bit Too Sweet</span>
-                        <span class="chip-pill taste-chip" data-value="More Nuts Needed">🥜 More Nuts Needed</span>
-                    </div>
-                </div>
-
-                <div id="q1-error" class="text-red-500 text-xs font-semibold hidden"></div>
             </div>
 
             <!-- ── QUESTION 2: Fruit Freshness ── -->
@@ -124,16 +107,14 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="quiz-option-card freshness-card" data-value="Super Fresh & Crunchy">
-                        <div class="quiz-icon-bg">🍓</div>
+                    <div class="quiz-option-card freshness-card" data-value="Super Fresh">
                         <div>
-                            <div class="font-semibold text-gray-900">Super Fresh & Crunchy</div>
-                            <div class="text-xs text-gray-500">Crispy nuts, vibrant fresh fruit</div>
+                            <div class="font-semibold text-gray-900">Super Fresh</div>
+                            <div class="text-xs text-gray-500">Vibrant fresh fruit</div>
                         </div>
                     </div>
 
                     <div class="quiz-option-card freshness-card" data-value="Good Quality">
-                        <div class="quiz-icon-bg">🍎</div>
                         <div>
                             <div class="font-semibold text-gray-900">Good Quality</div>
                             <div class="text-xs text-gray-500">Tasty and well-balanced</div>
@@ -141,7 +122,6 @@
                     </div>
 
                     <div class="quiz-option-card freshness-card" data-value="Average">
-                        <div class="quiz-icon-bg">🍌</div>
                         <div>
                             <div class="font-semibold text-gray-900">Average</div>
                             <div class="text-xs text-gray-500">Could be slightly fresher</div>
@@ -149,7 +129,6 @@
                     </div>
 
                     <div class="quiz-option-card freshness-card" data-value="Needs Improvement">
-                        <div class="quiz-icon-bg">📦</div>
                         <div>
                             <div class="font-semibold text-gray-900">Needs Improvement</div>
                             <div class="text-xs text-gray-500">Soft nuts or soggy fruits</div>
@@ -171,7 +150,6 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="quiz-option-card portion-card" data-value="Perfect & Super Filling">
-                        <div class="quiz-icon-bg">🥣</div>
                         <div>
                             <div class="font-semibold text-gray-900">Perfect & Super Filling</div>
                             <div class="text-xs text-gray-500">Generous portion for the price</div>
@@ -179,7 +157,6 @@
                     </div>
 
                     <div class="quiz-option-card portion-card" data-value="Right Amount & Good Value">
-                        <div class="quiz-icon-bg">⚖️</div>
                         <div>
                             <div class="font-semibold text-gray-900">Right Amount & Good Value</div>
                             <div class="text-xs text-gray-500">Balanced meal size</div>
@@ -187,7 +164,6 @@
                     </div>
 
                     <div class="quiz-option-card portion-card" data-value="Would Prefer Larger Portion">
-                        <div class="quiz-icon-bg">🍲</div>
                         <div>
                             <div class="font-semibold text-gray-900">Would Prefer Larger Portion</div>
                             <div class="text-xs text-gray-500">Want a bigger size option</div>
@@ -195,7 +171,6 @@
                     </div>
 
                     <div class="quiz-option-card portion-card" data-value="A Bit Too Large">
-                        <div class="quiz-icon-bg">🤏</div>
                         <div>
                             <div class="font-semibold text-gray-900">A Bit Too Large</div>
                             <div class="text-xs text-gray-500">Couldn't finish in one sitting</div>
@@ -217,7 +192,6 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="quiz-option-card sweetness-card" data-value="Perfectly Balanced">
-                        <div class="quiz-icon-bg">🍯</div>
                         <div>
                             <div class="font-semibold text-gray-900">Perfectly Balanced</div>
                             <div class="text-xs text-gray-500">Ideal fruit & honey sweetness</div>
@@ -225,7 +199,6 @@
                     </div>
 
                     <div class="quiz-option-card sweetness-card" data-value="Just Right Sweetness">
-                        <div class="quiz-icon-bg">🍏</div>
                         <div>
                             <div class="font-semibold text-gray-900">Just Right Sweetness</div>
                             <div class="text-xs text-gray-500">Mild sweetness, natural flavor</div>
@@ -233,7 +206,6 @@
                     </div>
 
                     <div class="quiz-option-card sweetness-card" data-value="Too Sweet for Me">
-                        <div class="quiz-icon-bg">🚫</div>
                         <div>
                             <div class="font-semibold text-gray-900">Too Sweet for Me</div>
                             <div class="text-xs text-gray-500">Prefer less sweet/honey</div>
@@ -241,7 +213,6 @@
                     </div>
 
                     <div class="quiz-option-card sweetness-card" data-value="Want More Toppings">
-                        <div class="quiz-icon-bg">🥜</div>
                         <div>
                             <div class="font-semibold text-gray-900">Want More Toppings</div>
                             <div class="text-xs text-gray-500">Need extra nuts & seeds</div>
@@ -321,8 +292,46 @@
                 </p>
             </div>
 
+            <!-- ── Option 3: Tag Us & Get Featured + WhatsApp Direct Support ── -->
+            <div class="max-w-md mx-auto space-y-4 pt-2">
+                <!-- Instagram Card -->
+                <div class="bg-gradient-to-r from-purple-50 via-pink-50 to-amber-50 border border-pink-200/80 rounded-2xl p-5 text-center shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center justify-center gap-2 text-pink-600 font-bold text-base mb-1">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                        <span>Tag Us & Get Featured!</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-3">
+                        Snap & share your bowl story on Instagram! Tag <strong class="text-gray-900">@pot_proteine</strong> to get featured on our official page 📸
+                    </p>
+                    <a href="https://www.instagram.com/pot_proteine/" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-semibold shadow hover:opacity-95 transition">
+                        Follow @pot_proteine on Instagram →
+                    </a>
+                </div>
+
+                <!-- WhatsApp Card -->
+                <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4 flex items-center justify-between text-left gap-3 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-[#25D366] text-white rounded-full flex items-center justify-center text-xl flex-shrink-0 shadow">
+                            💬
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-gray-900">Direct WhatsApp Support</div>
+                            <div class="text-[11px] text-gray-500">Need help or daily pre-orders?</div>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/917871974777?text=Hi%20Pot%20prot%C3%A9in%C3%A9!%20I%20have%20a%20question%20about%20my%20order"
+                       target="_blank" rel="noopener noreferrer"
+                       class="px-3.5 py-2 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold whitespace-nowrap shadow transition">
+                        Chat with us
+                    </a>
+                </div>
+            </div>
+
             <!-- Redirect CTA -->
-            <div class="pt-4">
+            <div class="pt-2">
                 <a href="menu.html" class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-full font-semibold transition-all transform hover:-translate-y-0.5 shadow-lg text-sm md:text-base">
                     Explore Our Menu →
                 </a>
