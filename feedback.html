@@ -74,26 +74,51 @@
 
     <!-- ── Quiz Container ── -->
     <main class="flex-grow max-w-3xl w-full mx-auto px-4 pb-16">
-        
-        <!-- Progress Bar & Indicator -->
-        <div class="mb-6">
-            <div class="flex justify-between items-center text-xs font-semibold text-gray-500 mb-2">
-                <span>Quiz Progress</span>
-                <span id="step-indicator" class="text-emerald-700 font-bold">Step 1 of 4</span>
-            </div>
-            <div class="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
-                <div id="progress-bar-fill" class="h-full bg-emerald-600 progress-fill" style="width: 25%;"></div>
-            </div>
-        </div>
 
-        <!-- Quiz Card Box -->
-        <div id="quiz-step-container" class="quiz-card p-6 md:p-10 relative overflow-hidden">
+        <!-- All Questions Form Container -->
+        <div id="quiz-form-container" class="space-y-8">
 
-            <!-- ── STEP 1: Fruit Freshness & Nut Crunchiness ── -->
-            <div id="step-1" class="quiz-step space-y-6">
+            <!-- ── QUESTION 1: Taste & Flavor Profile ── -->
+            <div id="q1-card" class="quiz-card p-6 md:p-8 space-y-6">
                 <div>
                     <h2 class="text-xl md:text-2xl font-serif font-bold text-gray-900 mb-2">
-                        1. How fresh were the fruits & crunchy were the nuts in your order?
+                        1. How would you rate the overall taste & flavor profile?
+                    </h2>
+                    <p class="text-xs md:text-sm text-gray-500">Tap stars to rate your satisfaction.</p>
+                </div>
+
+                <!-- Interactive Star Rating -->
+                <div class="text-center py-4 bg-emerald-50/50 rounded-2xl border border-emerald-100">
+                    <div class="flex justify-center items-center gap-3 mb-2">
+                        <button class="star-btn" data-star="1">★</button>
+                        <button class="star-btn" data-star="2">★</button>
+                        <button class="star-btn" data-star="3">★</button>
+                        <button class="star-btn" data-star="4">★</button>
+                        <button class="star-btn" data-star="5">★</button>
+                    </div>
+                    <div id="star-rating-label" class="text-sm font-medium text-gray-400">Tap a star to rate</div>
+                </div>
+
+                <!-- Taste Quick Pills -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Taste highlights (Select all that apply)</label>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="chip-pill taste-chip" data-value="Loved the Sweetness">🍯 Loved Sweetness</span>
+                        <span class="chip-pill taste-chip" data-value="High Protein Feeling">💪 High Protein Feeling</span>
+                        <span class="chip-pill taste-chip" data-value="Great Post-Workout">🏋️ Great Post-Workout</span>
+                        <span class="chip-pill taste-chip" data-value="A Bit Too Sweet">🍯 A Bit Too Sweet</span>
+                        <span class="chip-pill taste-chip" data-value="More Nuts Needed">🥜 More Nuts Needed</span>
+                    </div>
+                </div>
+
+                <div id="q1-error" class="text-red-500 text-xs font-semibold hidden"></div>
+            </div>
+
+            <!-- ── QUESTION 2: Fruit Freshness ── -->
+            <div id="q2-card" class="quiz-card p-6 md:p-8 space-y-6">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-serif font-bold text-gray-900 mb-2">
+                        2. How fresh were the fruits in your order?
                     </h2>
                     <p class="text-xs md:text-sm text-gray-500">Select the option that best describes your experience.</p>
                 </div>
@@ -132,93 +157,106 @@
                     </div>
                 </div>
 
-                <!-- Quick Tags -->
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">What stood out most? (Optional)</label>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="chip-pill freshness-chip" data-value="Juicy Berries">🍓 Juicy Berries</span>
-                        <span class="chip-pill freshness-chip" data-value="Super Crunchy Almonds">🌰 Super Crunchy Almonds</span>
-                        <span class="chip-pill freshness-chip" data-value="Generous Portion">⚖️ Generous Portion</span>
-                        <span class="chip-pill freshness-chip" data-value="Chilled Temperature">❄️ Chilled Temperature</span>
-                    </div>
-                </div>
-
-                <div id="step-1-error" class="text-red-500 text-xs font-semibold hidden"></div>
+                <div id="q2-error" class="text-red-500 text-xs font-semibold hidden"></div>
             </div>
 
-            <!-- ── STEP 2: Taste & Protein Satisfaction ── -->
-            <div id="step-2" class="quiz-step hidden space-y-6">
+            <!-- ── QUESTION 3: Portion Size & Value ── -->
+            <div id="q3-card" class="quiz-card p-6 md:p-8 space-y-6">
                 <div>
                     <h2 class="text-xl md:text-2xl font-serif font-bold text-gray-900 mb-2">
-                        2. How would you rate the overall taste & flavor profile?
+                        3. How satisfied were you with the portion size & value for money?
                     </h2>
-                    <p class="text-xs md:text-sm text-gray-500">Tap stars to rate your satisfaction.</p>
+                    <p class="text-xs md:text-sm text-gray-500">Tell us if the meal quantity met your hunger and expectations.</p>
                 </div>
 
-                <!-- Interactive Star Rating -->
-                <div class="text-center py-4 bg-emerald-50/50 rounded-2xl border border-emerald-100">
-                    <div class="flex justify-center items-center gap-3 mb-2">
-                        <button class="star-btn" data-star="1">★</button>
-                        <button class="star-btn" data-star="2">★</button>
-                        <button class="star-btn" data-star="3">★</button>
-                        <button class="star-btn" data-star="4">★</button>
-                        <button class="star-btn" data-star="5">★</button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="quiz-option-card portion-card" data-value="Perfect & Super Filling">
+                        <div class="quiz-icon-bg">🥣</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Perfect & Super Filling</div>
+                            <div class="text-xs text-gray-500">Generous portion for the price</div>
+                        </div>
                     </div>
-                    <div id="star-rating-label" class="text-sm font-medium text-gray-400">Tap a star to rate</div>
-                </div>
 
-                <!-- Taste Quick Pills -->
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Taste highlights (Select all that apply)</label>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="chip-pill taste-chip" data-value="Loved the Sweetness">🍯 Loved Sweetness</span>
-                        <span class="chip-pill taste-chip" data-value="High Protein Feeling">💪 High Protein Feeling</span>
-                        <span class="chip-pill taste-chip" data-value="Great Post-Workout">🏋️ Great Post-Workout</span>
-                        <span class="chip-pill taste-chip" data-value="A Bit Too Sweet">🍯 A Bit Too Sweet</span>
-                        <span class="chip-pill taste-chip" data-value="More Nuts Needed">🥜 More Nuts Needed</span>
+                    <div class="quiz-option-card portion-card" data-value="Right Amount & Good Value">
+                        <div class="quiz-icon-bg">⚖️</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Right Amount & Good Value</div>
+                            <div class="text-xs text-gray-500">Balanced meal size</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-option-card portion-card" data-value="Would Prefer Larger Portion">
+                        <div class="quiz-icon-bg">🍲</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Would Prefer Larger Portion</div>
+                            <div class="text-xs text-gray-500">Want a bigger size option</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-option-card portion-card" data-value="A Bit Too Large">
+                        <div class="quiz-icon-bg">🤏</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">A Bit Too Large</div>
+                            <div class="text-xs text-gray-500">Couldn't finish in one sitting</div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="step-2-error" class="text-red-500 text-xs font-semibold hidden"></div>
+                <div id="q3-error" class="text-red-500 text-xs font-semibold hidden"></div>
             </div>
 
-            <!-- ── STEP 3: Packaging & Delivery ── -->
-            <div id="step-3" class="quiz-step hidden space-y-6">
+            <!-- ── QUESTION 4: Sweetness & Flavor Balance ── -->
+            <div id="q4-card" class="quiz-card p-6 md:p-8 space-y-6">
                 <div>
                     <h2 class="text-xl md:text-2xl font-serif font-bold text-gray-900 mb-2">
-                        3. How was the packaging & temperature condition?
+                        4. How was the sweetness and topping balance in your bowl?
                     </h2>
-                    <p class="text-xs md:text-sm text-gray-500">We want your meal arriving at peak freshness.</p>
+                    <p class="text-xs md:text-sm text-gray-500">We want your bowl customized to your preference.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="quiz-option-card packaging-card flex-col text-center py-6" data-value="Perfect Cold Retention & Sealed">
-                        <div class="quiz-icon-bg mb-2 mx-auto">🧊</div>
-                        <div class="font-semibold text-gray-900 text-sm">Perfect & Cold</div>
-                        <div class="text-xs text-gray-500 mt-1">Well sealed, chilled temperature</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="quiz-option-card sweetness-card" data-value="Perfectly Balanced">
+                        <div class="quiz-icon-bg">🍯</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Perfectly Balanced</div>
+                            <div class="text-xs text-gray-500">Ideal fruit & honey sweetness</div>
+                        </div>
                     </div>
 
-                    <div class="quiz-option-card packaging-card flex-col text-center py-6" data-value="Good & Clean Packaging">
-                        <div class="quiz-icon-bg mb-2 mx-auto">📦</div>
-                        <div class="font-semibold text-gray-900 text-sm">Good & Clean</div>
-                        <div class="text-xs text-gray-500 mt-1">Neat delivery bowl</div>
+                    <div class="quiz-option-card sweetness-card" data-value="Just Right Sweetness">
+                        <div class="quiz-icon-bg">🍏</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Just Right Sweetness</div>
+                            <div class="text-xs text-gray-500">Mild sweetness, natural flavor</div>
+                        </div>
                     </div>
 
-                    <div class="quiz-option-card packaging-card flex-col text-center py-6" data-value="Needs Insulation Improvement">
-                        <div class="quiz-icon-bg mb-2 mx-auto">🚚</div>
-                        <div class="font-semibold text-gray-900 text-sm">Needs Improvement</div>
-                        <div class="text-xs text-gray-500 mt-1">Arrived lukewarm or messy</div>
+                    <div class="quiz-option-card sweetness-card" data-value="Too Sweet for Me">
+                        <div class="quiz-icon-bg">🚫</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Too Sweet for Me</div>
+                            <div class="text-xs text-gray-500">Prefer less sweet/honey</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-option-card sweetness-card" data-value="Want More Toppings">
+                        <div class="quiz-icon-bg">🥜</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Want More Toppings</div>
+                            <div class="text-xs text-gray-500">Need extra nuts & seeds</div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="step-3-error" class="text-red-500 text-xs font-semibold hidden"></div>
+                <div id="q4-error" class="text-red-500 text-xs font-semibold hidden"></div>
             </div>
 
-            <!-- ── STEP 4: Recommendation Score & Optional One-Line Feedback ── -->
-            <div id="step-4" class="quiz-step hidden space-y-6">
+            <!-- ── QUESTION 5: Recommendation & Optional Feedback ── -->
+            <div id="q5-card" class="quiz-card p-6 md:p-8 space-y-6">
                 <div>
                     <h2 class="text-xl md:text-2xl font-serif font-bold text-gray-900 mb-2">
-                        4. How likely are you to recommend Pot protéiné to a friend?
+                        5. How likely are you to recommend Pot protéiné to a friend?
                     </h2>
                     <p class="text-xs md:text-sm text-gray-500">On a scale from 1 (Not likely) to 10 (Extremely likely).</p>
                 </div>
@@ -253,47 +291,44 @@
                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 text-sm outline-none transition">
                 </div>
 
-                <div id="step-4-error" class="text-red-500 text-xs font-semibold hidden"></div>
+                <div id="q5-error" class="text-red-500 text-xs font-semibold hidden"></div>
             </div>
 
-            <!-- ── STEP 5: THANK YOU SCREEN (Completed) ── -->
-            <div id="step-5" class="quiz-step hidden text-center py-6 space-y-6 relative">
-                
-                <div id="confetti-container" class="confetti-container"></div>
-
-                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-md animate-bounce">
-                    🎉
-                </div>
-
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-2">
-                        Thank You For Helping Us Grow!
-                    </h2>
-                    <p class="text-sm text-gray-600 max-w-md mx-auto">
-                        Your feedback drives our fresh daily quality and helps us continuously craft better protein bowls for you.
-                    </p>
-                </div>
-
-                <!-- Redirect CTA -->
-                <div class="pt-4">
-                    <a href="menu.html" class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-full font-semibold transition-all transform hover:-translate-y-0.5 shadow-lg text-sm">
-                        Explore Our Menu →
-                    </a>
-                </div>
-            </div>
-
-            <!-- Quiz Footer Controls (Steps 1-4) -->
-            <div id="quiz-footer" class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
-                <button id="prev-btn" class="px-5 py-2.5 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-semibold transition invisible">
-                    ← Back
-                </button>
-
-                <button id="next-btn" class="px-7 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-                    Next →
+            <!-- Single Submit Button -->
+            <div class="text-center pt-4">
+                <button id="submit-feedback-btn" class="w-full md:w-auto px-10 py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-base font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                    Submit Feedback 🎉
                 </button>
             </div>
 
         </div>
+
+        <!-- ── THANK YOU SCREEN (Hidden until submitted) ── -->
+        <div id="thank-you-screen" class="quiz-card p-8 md:p-12 text-center py-10 space-y-6 relative hidden">
+            
+            <div id="confetti-container" class="confetti-container"></div>
+
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-4xl mx-auto shadow-md animate-bounce">
+                🎉
+            </div>
+
+            <div>
+                <h2 class="text-2xl md:text-4xl font-serif font-bold text-gray-900 mb-3">
+                    Thank You For Helping Us Grow!
+                </h2>
+                <p class="text-sm md:text-base text-gray-600 max-w-md mx-auto">
+                    Your feedback drives our fresh daily quality and helps us continuously craft better protein bowls for you.
+                </p>
+            </div>
+
+            <!-- Redirect CTA -->
+            <div class="pt-4">
+                <a href="menu.html" class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-full font-semibold transition-all transform hover:-translate-y-0.5 shadow-lg text-sm md:text-base">
+                    Explore Our Menu →
+                </a>
+            </div>
+        </div>
+
     </main>
 
     <!-- ── Footer Section ── -->

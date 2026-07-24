@@ -1,69 +1,25 @@
 /**
- * Pot protéiné - Feedback Quiz Interactive Controller
+ * Pot protéiné - Single-Page Feedback Quiz Controller
  */
 document.addEventListener('DOMContentLoaded', () => {
-    let currentStep = 1;
-    const totalSteps = 4; // Step 5 is the Reward Screen
 
     // State object
     const feedbackData = {
-        freshness: '',
-        freshnessTags: [],
         tasteRating: 0,
         tasteTags: [],
-        packaging: '',
+        freshness: '',
+        portion: '',
+        sweetness: '',
         nps: null,
         oneLineFeedback: ''
     };
 
     // DOM Elements
-    const progressBarFill = document.getElementById('progress-bar-fill');
-    const stepIndicator = document.getElementById('step-indicator');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const quizFooter = document.getElementById('quiz-footer');
-    const quizStepContainer = document.getElementById('quiz-step-container');
+    const quizFormContainer = document.getElementById('quiz-form-container');
+    const thankYouScreen = document.getElementById('thank-you-screen');
+    const submitBtn = document.getElementById('submit-feedback-btn');
 
-    // Steps
-    const steps = {
-        1: document.getElementById('step-1'),
-        2: document.getElementById('step-2'),
-        3: document.getElementById('step-3'),
-        4: document.getElementById('step-4'),
-        5: document.getElementById('step-5')
-    };
-
-    // Initialize UI
-    updateStepUI();
-
-    // ── STEP 1: Freshness Card Selection ──
-    const freshnessCards = document.querySelectorAll('.freshness-card');
-    freshnessCards.forEach(card => {
-        card.addEventListener('click', () => {
-            freshnessCards.forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            feedbackData.freshness = card.dataset.value;
-            clearError('step-1-error');
-        });
-    });
-
-    // Freshness Tag Chips (Multi-select)
-    const freshnessChips = document.querySelectorAll('.freshness-chip');
-    freshnessChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            chip.classList.toggle('selected');
-            const value = chip.dataset.value;
-            if (chip.classList.contains('selected')) {
-                if (!feedbackData.freshnessTags.includes(value)) {
-                    feedbackData.freshnessTags.push(value);
-                }
-            } else {
-                feedbackData.freshnessTags = feedbackData.freshnessTags.filter(t => t !== value);
-            }
-        });
-    });
-
-    // ── STEP 2: Taste & Protein Rating (Stars) ──
+    // ── QUESTION 1: Taste & Rating ──
     const stars = document.querySelectorAll('.star-btn');
     const starLabel = document.getElementById('star-rating-label');
     const ratingLabels = {
@@ -90,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             starLabel.textContent = ratingLabels[feedbackData.tasteRating];
             starLabel.classList.remove('text-gray-400');
             starLabel.classList.add('text-emerald-700', 'font-semibold');
-            clearError('step-2-error');
+            clearError('q1-error');
         });
     });
 
@@ -121,71 +77,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ── STEP 3: Packaging Card Selection ──
-    const packagingCards = document.querySelectorAll('.packaging-card');
-    packagingCards.forEach(card => {
+    // ── QUESTION 2: Fruit Freshness ──
+    const freshnessCards = document.querySelectorAll('.freshness-card');
+    freshnessCards.forEach(card => {
         card.addEventListener('click', () => {
-            packagingCards.forEach(c => c.classList.remove('selected'));
+            freshnessCards.forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
-            feedbackData.packaging = card.dataset.value;
-            clearError('step-3-error');
+            feedbackData.freshness = card.dataset.value;
+            clearError('q2-error');
         });
     });
 
-    // ── STEP 4: NPS Rating Scale (1-10) ──
+    // ── QUESTION 3: Portion Size & Value ──
+    const portionCards = document.querySelectorAll('.portion-card');
+    portionCards.forEach(card => {
+        card.addEventListener('click', () => {
+            portionCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            feedbackData.portion = card.dataset.value;
+            clearError('q3-error');
+        });
+    });
+
+    // ── QUESTION 4: Sweetness & Flavor Balance ──
+    const sweetnessCards = document.querySelectorAll('.sweetness-card');
+    sweetnessCards.forEach(card => {
+        card.addEventListener('click', () => {
+            sweetnessCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            feedbackData.sweetness = card.dataset.value;
+            clearError('q4-error');
+        });
+    });
+
+    // ── QUESTION 5: NPS Rating Scale (1-10) ──
     const npsBtns = document.querySelectorAll('.nps-btn');
     npsBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             npsBtns.forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             feedbackData.nps = parseInt(btn.dataset.score);
-            clearError('step-4-error');
+            clearError('q5-error');
         });
     });
 
-    // ── NAVIGATION CONTROLS ──
-    nextBtn.addEventListener('click', () => {
-        if (validateStep(currentStep)) {
-            if (currentStep < totalSteps) {
-                currentStep++;
-                updateStepUI();
-            } else if (currentStep === totalSteps) {
-                // Submit feedback
-                submitFeedback();
-            }
+    // ── SUBMIT FEEDBACK ──
+    submitBtn.addEventListener('click', () => {
+        if (validateAll()) {
+            submitFeedback();
         }
     });
 
-    prevBtn.addEventListener('click', () => {
-        if (currentStep > 1) {
-            currentStep--;
-            updateStepUI();
-        }
-    });
-
-    function validateStep(step) {
+    function validateAll() {
         let isValid = true;
+        let firstErrorCard = null;
 
-        if (step === 1) {
-            if (!feedbackData.freshness) {
-                showError('step-1-error', 'Please select how fresh your bowl was!');
-                isValid = false;
-            }
-        } else if (step === 2) {
-            if (feedbackData.tasteRating === 0) {
-                showError('step-2-error', 'Please select a star rating for taste!');
-                isValid = false;
-            }
-        } else if (step === 3) {
-            if (!feedbackData.packaging) {
-                showError('step-3-error', 'Please rate your packaging & delivery experience!');
-                isValid = false;
-            }
-        } else if (step === 4) {
-            if (feedbackData.nps === null) {
-                showError('step-4-error', 'Please select a score from 1 to 10!');
-                isValid = false;
-            }
+        // Q1 validation
+        if (feedbackData.tasteRating === 0) {
+            showError('q1-error', 'Please select a star rating for taste!');
+            if (!firstErrorCard) firstErrorCard = document.getElementById('q1-card');
+            isValid = false;
+        }
+
+        // Q2 validation
+        if (!feedbackData.freshness) {
+            showError('q2-error', 'Please select how fresh your fruit bowl was!');
+            if (!firstErrorCard) firstErrorCard = document.getElementById('q2-card');
+            isValid = false;
+        }
+
+        // Q3 validation
+        if (!feedbackData.portion) {
+            showError('q3-error', 'Please select your portion size satisfaction!');
+            if (!firstErrorCard) firstErrorCard = document.getElementById('q3-card');
+            isValid = false;
+        }
+
+        // Q4 validation
+        if (!feedbackData.sweetness) {
+            showError('q4-error', 'Please select your sweetness preference!');
+            if (!firstErrorCard) firstErrorCard = document.getElementById('q4-card');
+            isValid = false;
+        }
+
+        // Q5 validation
+        if (feedbackData.nps === null) {
+            showError('q5-error', 'Please select a score from 1 to 10!');
+            if (!firstErrorCard) firstErrorCard = document.getElementById('q5-card');
+            isValid = false;
+        }
+
+        // Scroll to first error card if invalid
+        if (!isValid && firstErrorCard) {
+            firstErrorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         return isValid;
@@ -207,52 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function updateStepUI() {
-        // Show current step, hide others
-        Object.keys(steps).forEach(s => {
-            const stepNum = parseInt(s);
-            if (stepNum === currentStep) {
-                steps[stepNum].classList.remove('hidden');
-                steps[stepNum].classList.add('quiz-step');
-            } else {
-                steps[stepNum].classList.add('hidden');
-                steps[stepNum].classList.remove('quiz-step');
-            }
-        });
-
-        // Update progress bar
-        if (currentStep <= totalSteps) {
-            const percent = (currentStep / totalSteps) * 100;
-            progressBarFill.style.width = `${percent}%`;
-            stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
-            quizFooter.classList.remove('hidden');
-        } else {
-            // Reward screen
-            progressBarFill.style.width = '100%';
-            stepIndicator.textContent = 'Completed 🎉';
-            quizFooter.classList.add('hidden');
-        }
-
-        // Prev Button state
-        if (currentStep === 1) {
-            prevBtn.classList.add('invisible');
-        } else {
-            prevBtn.classList.remove('invisible');
-        }
-
-        // Next Button label
-        if (currentStep === totalSteps) {
-            nextBtn.innerHTML = `Submit Feedback 🎉`;
-        } else {
-            nextBtn.innerHTML = `Next →`;
-        }
-
-        // Scroll smooth to top of card container
-        quizStepContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
     function submitFeedback() {
-        // Grab optional one-line feedback text
+        // Grab optional feedback
         const oneLineInput = document.getElementById('one-line-feedback');
         if (oneLineInput) {
             feedbackData.oneLineFeedback = oneLineInput.value.trim();
@@ -269,29 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('LocalStorage error:', e);
         }
 
-        // Move to Reward Step
-        currentStep = 5;
-        updateStepUI();
+        // Hide form and show Thank You screen
+        quizFormContainer.classList.add('hidden');
+        thankYouScreen.classList.remove('hidden');
+        thankYouScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
         triggerConfetti();
-    }
-
-    // ── REWARD SCREEN: COPY PROMO CODE ──
-    const copyCouponBtn = document.getElementById('copy-coupon-btn');
-    const couponCode = document.getElementById('coupon-code');
-    const copyToast = document.getElementById('copy-toast');
-
-    if (copyCouponBtn) {
-        copyCouponBtn.addEventListener('click', () => {
-            const codeText = couponCode.textContent.trim();
-            navigator.clipboard.writeText(codeText).then(() => {
-                copyToast.classList.remove('hidden');
-                setTimeout(() => {
-                    copyToast.classList.add('hidden');
-                }, 3000);
-            }).catch(err => {
-                console.error('Clipboard copy failed', err);
-            });
-        });
     }
 
     // ── CONFETTI ANIMATION ──
