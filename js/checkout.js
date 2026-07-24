@@ -214,6 +214,20 @@ function validateCheckoutForm() {
 }
 
 /**
+ * Generate a readable and unique order number: PP + DDMMYY + - + HHMM
+ * @returns {string} Order number string
+ */
+function generateOrderNumber() {
+    const now = new Date();
+    const yy = String(now.getFullYear()).slice(-2);
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    return `PP${dd}${mm}${yy}-${hh}${min}`;
+}
+
+/**
  * Build WhatsApp message for order
  * @param {Object} orderData - Order information
  * @returns {string} WhatsApp message text
@@ -224,15 +238,18 @@ function buildWhatsAppMessage(orderData) {
     let orderSummary = '';
     cart.forEach(item => {
         orderSummary += `${item.name} x${item.quantity} - ₹${item.price * item.quantity}\n`;
+        if (item.details && item.details.length > 0) {
+            orderSummary += `   Ingredients: ${item.details.join(', ')}\n`;
+        }
     });
     
     const totalAmount = getCartTotal();
-    const orderNumber = "PP" + Date.now().toString().slice(-6);
+    const orderNumber = orderData.orderNumber;
     const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
     
     return `New Order - Pot protéiné
 
-Customer: ${orderData.customerName}
+Name: ${orderData.customerName}
 Phone: ${orderData.customerPhone}
 
 Address:
@@ -253,6 +270,9 @@ Order Number: #${orderNumber}`;
  * @param {Object} orderData - Order information
  */
 function sendViaWhatsApp(orderData) {
+    const orderNumber = generateOrderNumber();
+    orderData.orderNumber = orderNumber;
+
     const message = buildWhatsAppMessage(orderData);
     const whatsappNumber = '917871974777';
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -262,7 +282,7 @@ function sendViaWhatsApp(orderData) {
     const totalAmount = getCartTotal();
     
     const orderConfirmation = {
-    orderNumber: "PP" + Date.now().toString().slice(-6),
+    orderNumber: orderNumber,
     amount: totalAmount,
     timestamp: new Date().toISOString(),
 
