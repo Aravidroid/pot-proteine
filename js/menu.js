@@ -76,33 +76,6 @@ function buildCard(p) {
             ${p.calories ? `<div class="nutrition-chip"><span>${p.calories}</span><span>kcal</span></div>` : ''}
            </div>` : '';
 
-    const pills = p.ingredients
-        .map(i => {
-            const name = typeof i === 'object' && i !== null ? (i.weight ? `${i.name} (${i.weight})` : i.name) : i;
-            return `<span class="ingredient-pill">${name}</span>`;
-        })
-        .join('');
-
-    const ingredientCount = p.ingredients ? p.ingredients.length : 0;
-    let ingredientsHTML = '';
-    if (ingredientCount > 0) {
-        ingredientsHTML = `
-        <div class="mb-3">
-            <button type="button" 
-                    onclick="toggleIngredients('${p.id}')" 
-                    class="w-full flex items-center justify-between text-xs font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 px-3 py-2 rounded-lg border border-gray-200 transition-colors duration-200">
-                <span class="flex items-center gap-1.5 font-semibold text-primary-dark">
-                    <span>🥗</span> 
-                    <span id="ing-btn-text-${p.id}">View Ingredients (${ingredientCount})</span>
-                </span>
-                <span id="ing-chevron-${p.id}" class="text-xs transition-transform duration-200 inline-block">▼</span>
-            </button>
-            <div id="ingredients-${p.id}" class="hidden mt-2.5 flex flex-wrap gap-1.5 transition-all duration-300">
-                ${pills}
-            </div>
-        </div>`;
-    }
-
     let planSelectorHTML = '';
     if (p.plans && p.plans.length > 0) {
         planSelectorHTML = `
@@ -119,7 +92,7 @@ function buildCard(p) {
 
     return `
     <div class="product-card" data-category="${p.category}" data-id="${p.id}">
-        <div class="product-image-wrap">
+        <div class="product-image-wrap cursor-pointer" onclick="openProductModal('${p.id}')" title="Click to view full details">
             <img class="product-image" src="${p.image || DEFAULT_PRODUCT_IMAGE}" alt="${p.name}">
         </div>
 
@@ -131,13 +104,15 @@ function buildCard(p) {
             </div>
 
             <!-- Name -->
-            <h3 class="font-bold text-primary-dark text-base mb-3 leading-snug">${p.name}</h3>
+            <h3 class="font-bold text-primary-dark text-base mb-3 leading-snug cursor-pointer hover:text-green-600 transition" onclick="openProductModal('${p.id}')">${p.name}</h3>
+
+            <!-- Quick View button -->
+            <button onclick="openProductModal('${p.id}')" class="text-xs font-semibold text-green-700 hover:text-green-800 mb-3 text-left flex items-center gap-1">
+                <span>🔍 Quick View & Details</span>
+            </button>
 
             <!-- Nutrition (if available) -->
             ${nutritionHTML}
-
-            <!-- Collapsible Ingredients -->
-            ${ingredientsHTML}
 
             <!-- Optional Plan Selector -->
             ${planSelectorHTML}
@@ -155,6 +130,164 @@ function buildCard(p) {
         </div>
     </div>`;
 }
+
+// ── Product Details Modal Popup ──────────────────────────────────────────
+function openProductModal(productId) {
+    const modal = document.getElementById('product-details-modal');
+    const content = document.getElementById('product-modal-content');
+    if (!modal || !content) return;
+
+    const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
+    const p = products.find(prod => prod.id === productId);
+    if (!p) return;
+
+    const parsed = parseProduct(p);
+    const meta = categoryMeta[parsed.category] || { label: parsed.category, badgeClass: '', icon: '🥗' };
+
+    const ingredientCount = p.ingredients ? p.ingredients.length : 0;
+
+    // Format ingredients
+    let ingredientsListHTML = '';
+    if (p.ingredients && p.ingredients.length > 0) {
+        ingredientsListHTML = p.ingredients.map(i => {
+            if (typeof i === 'object' && i !== null) {
+                return `
+                <div class="p-3 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-between">
+                    <span class="font-semibold text-gray-800 text-xs sm:text-sm">🥗 ${i.name}</span>
+                    <div class="flex items-center gap-1.5 text-xs text-gray-600">
+                        ${i.weight ? `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded font-medium text-[11px]">${i.weight}</span>` : ''}
+                        ${i.macro ? `<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-medium text-[11px]">${i.macro}</span>` : ''}
+                    </div>
+                </div>`;
+            } else {
+                return `
+                <div class="p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-xs font-semibold text-gray-700 flex items-center gap-1.5"> ${i}
+                </div>`;
+            }
+        }).join('');
+    }
+
+    // Format plan selector HTML if plans exist
+    let plansHTML = '';
+    if (p.plans && p.plans.length > 0) {
+        plansHTML = `
+        <div class="my-4 p-4 bg-green-50/70 border border-green-200 rounded-xl">
+            <label for="modal-plan-select-${p.id}" class="block text-xs font-bold text-green-900 mb-1.5">Choose Subscription Plan:</label>
+            <select id="modal-plan-select-${p.id}" onchange="updateModalPlanPrice('${p.id}')" class="w-full text-sm p-2.5 border border-green-300 rounded-lg bg-white text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm">
+                ${p.plans.map(plan => `<option value="${plan.id}" data-price="${plan.price}">${plan.name} (${plan.duration}) - ₹${plan.price}</option>`).join('')}
+            </select>
+            <p class="text-xs text-green-700 mt-2 font-medium flex items-center gap-1">
+                <span>🥦</span> 5 fresh super-fruits selected daily from pool
+            </p>
+        </div>`;
+    }
+
+    content.innerHTML = `
+        <div class="relative">
+            <div class="w-full h-52 sm:h-60 bg-gradient-to-br from-green-50 via-emerald-100 to-teal-50 flex items-center justify-center p-6 relative overflow-hidden">
+                <img src="${p.image || DEFAULT_PRODUCT_IMAGE}" alt="${p.name}" class="max-h-full max-w-full object-contain drop-shadow-lg transform hover:scale-105 transition duration-300">
+                <div class="absolute bottom-3 left-4 flex gap-2">
+                    <span class="badge ${meta.badgeClass} shadow-sm">${meta.icon} ${meta.label}</span>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">${p.name}</h2>
+                <div class="flex items-center gap-3 text-sm text-gray-600 mb-4">
+                    <span class="text-xl font-bold text-primary-dark" id="modal-price-${p.id}">₹${p.price}</span>
+                    ${p.protein ? `<span class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">💪 ${p.protein}g Protein</span>` : ''}
+                    ${p.calories ? `<span class="bg-orange-50 text-orange-700 px-2.5 py-1 rounded-full text-xs font-semibold">🔥 ${p.calories} kcal</span>` : ''}
+                </div>
+
+                ${plansHTML}
+
+                ${p.benefits ? `
+                <div class="my-4 p-3.5 bg-green-50/80 border border-green-200/80 rounded-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-green-800 mb-1 flex items-center gap-1.5">
+                        <span>✨</span> What Makes It Special?
+                    </h3>
+                    <p class="text-xs text-gray-700 leading-relaxed font-medium">
+                        ${p.benefits}
+                    </p>
+                </div>` : ''}
+
+                <div class="my-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Included Ingredients (${ingredientCount})</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+                        ${ingredientsListHTML}
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t flex items-center gap-3">
+                    <button onclick="handleAddFromModal('${p.id}'); closeProductModal();" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        <span>🛒 Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function updateModalPlanPrice(productId) {
+    const selectEl = document.getElementById(`modal-plan-select-${productId}`);
+    const priceEl = document.getElementById(`modal-price-${productId}`);
+    if (!selectEl || !priceEl) return;
+    const selectedOption = selectEl.options[selectEl.selectedIndex];
+    const price = selectedOption.dataset.price;
+    if (price) {
+        priceEl.textContent = `₹${price}`;
+    }
+}
+
+function handleAddFromModal(productId) {
+    const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    let itemToAdd = { ...product };
+    if (product.plans && product.plans.length > 0) {
+        const selectEl = document.getElementById(`modal-plan-select-${productId}`);
+        const chosenPlanId = selectEl ? selectEl.value : product.plans[0].id;
+        const chosenPlan = product.plans.find(pl => pl.id === chosenPlanId) || product.plans[0];
+
+        itemToAdd = {
+            ...product,
+            id: `${product.id}-${chosenPlan.id}`,
+            name: `${product.name} (${chosenPlan.name})`,
+            price: chosenPlan.price,
+            planName: chosenPlan.name,
+            duration: chosenPlan.duration,
+            days: chosenPlan.days
+        };
+    }
+
+    if (typeof addToCart === 'function') {
+        addToCart(itemToAdd);
+    } else {
+        const cart  = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
+        const idx   = cart.findIndex(i => i.id === itemToAdd.id);
+        if (idx > -1) { cart[idx].quantity++; }
+        else          { cart.push({ ...itemToAdd, quantity: 1, details: itemToAdd.ingredients }); }
+        localStorage.setItem('proteinPotCart', JSON.stringify(cart));
+    }
+    syncQtyButtons();
+    updateCartCount();
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('product-details-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeProductModal();
+});
 
 // ── Render grid ──────────────────────────────────────────────────────────
 function renderGrid(filter = 'all') {

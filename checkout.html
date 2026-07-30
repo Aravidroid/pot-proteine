@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body class="checkout-bg">
     <!-- Navigation -->
     <nav class="nav-container sticky top-0 z-50 shadow-md">
@@ -27,19 +29,21 @@
     <!-- Checkout Section -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h2 class="checkout-heading">Delivery Details</h2>
-<!-- Thank You Banner -->
-<div class="thank-you-card relative mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-5 text-center overflow-hidden">
-     <h3 class="text-xl font-bold text-green-800 mb-2 flex items-center justify-center">
-        <span class="heart-beat">💚</span>
-        <span>
-            Thanks for Choosing Pot protéiné!
-            <span class="sparkle">✨</span>
-        </span>
-    </h3>
-    <p class="text-green-700">
-        Your healthy fruit pots are just one step away. Complete your delivery details below and we'll prepare your order fresh for you.
-    </p>
-</div>
+        <!-- Thank You Banner -->
+        <div
+            class="thank-you-card relative mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-5 text-center overflow-hidden">
+            <h3 class="text-xl font-bold text-green-800 mb-2 flex items-center justify-center">
+                <span class="heart-beat">💚</span>
+                <span>
+                    Thanks for Choosing Pot protéiné!
+                    <span class="sparkle">✨</span>
+                </span>
+            </h3>
+            <p class="text-green-700">
+                Your healthy fruit pots are just one step away. Complete your delivery details below and we'll prepare
+                your order fresh for you.
+            </p>
+        </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Checkout Form -->
@@ -48,35 +52,40 @@
                     <form id="checkoutForm">
                         <div class="mb-6">
                             <label for="name" class="form-label">Full Name *</label>
-                            <input type="text" id="name" name="name" required class="form-input" placeholder="Enter your full name">
+                            <input type="text" id="name" name="name" required class="form-input"
+                                placeholder="Enter your full name">
                         </div>
 
                         <div class="mb-6">
                             <label for="phone" class="form-label">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="form-input" placeholder="Enter 10-digit phone number">
+                            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="form-input"
+                                placeholder="Enter 10-digit phone number">
                             <p class="form-input-info">Format: 10-digit number</p>
                         </div>
 
                         <div class="mb-6">
                             <label for="address" class="form-label">Delivery Address *</label>
-                            <textarea id="address" name="address" required rows="4" class="form-input resize-none" placeholder="Enter your complete delivery address"></textarea>
+                            <textarea id="address" name="address" required rows="4" class="form-input resize-none"
+                                placeholder="Enter your complete delivery address"></textarea>
                         </div>
 
                         <div class="mb-6">
-                            <button type="button" id="getMapsBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">
+                            <button type="button" id="getMapsBtn"
+                                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">
                                 📍 Use My Current Location
                             </button>
                             <p id="mapsLinkDisplay" class="mt-3 p-3 bg-blue-50 rounded-lg hidden">
-                                <a id="mapsLink" href="#" target="_blank" class="text-blue-600 hover:text-blue-800 font-semibold break-all">View Location</a>
+                                <a id="mapsLink" href="#" target="_blank"
+                                    class="text-blue-600 hover:text-blue-800 font-semibold break-all">View Location</a>
                             </p>
                         </div>
 
                         <button type="submit" class="form-submit-btn">
                             Proceed to Order on WhatsApp
                         </button>
-                    <p class="text-center text-sm text-gray-500 mt-4">
-    🌱 Every pot is freshly prepared on the day of delivery.
-</p>    
+                        <p class="text-center text-sm text-gray-500 mt-4">
+                            🌱 Every pot is freshly prepared on the day of delivery.
+                        </p>
                     </form>
                 </div>
             </div>
@@ -91,7 +100,8 @@
 
                     <div id="mapsLinkSummary" class="mb-6 p-3 bg-blue-50 rounded-lg hidden">
                         <p class="text-sm font-semibold text-blue-900 mb-2">📍 Delivery Location:</p>
-                        <a id="summaryMapsLink" href="#" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm break-all">
+                        <a id="summaryMapsLink" href="#" target="_blank"
+                            class="text-blue-600 hover:text-blue-800 text-sm break-all">
                             View on Maps
                         </a>
                     </div>
@@ -120,11 +130,12 @@
     <footer class="py-12 footer-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="mb-2">&copy; 2026 Pot protéiné. All rights reserved.</p>
-            <p class="text-muted-footer">Healthy eating, one bowl at a time.</p>
+            <p class="text-muted-footer">Healthy eating, one Box at a time.</p>
         </div>
     </footer>
 
     <script src="js/cart.js"></script>
     <script src="js/checkout.js"></script>
 </body>
+
 </html>

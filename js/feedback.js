@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Q2 validation
         if (!feedbackData.freshness) {
-            showError('q2-error', 'Please select how fresh your fruit bowl was!');
+            showError('q2-error', 'Please select how fresh your fruit Box was!');
             if (!firstErrorCard) firstErrorCard = document.getElementById('q2-card');
             isValid = false;
         }

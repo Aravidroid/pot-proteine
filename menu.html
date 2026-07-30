@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body class="bg-light">
 
     <!-- ── Navigation (identical to index.html) ── -->
@@ -31,14 +33,15 @@
                     <button id="cart-btn" class="nav-link relative">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         <span id="cart-count"
-                              class="absolute -top-2 -right-2 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center bg-primary-light">0</span>
+                            class="absolute -top-2 -right-2 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center bg-primary-light">0</span>
                     </button>
                     <button id="mobile-menu-btn" class="md:hidden nav-link">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
@@ -48,11 +51,11 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden border-t bg-light border-soft">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.html"        class="block px-3 py-2 rounded nav-link">Home</a>
-                <a href="menu.html"         class="block px-3 py-2 rounded nav-link">Menu</a>
-                <a href="index.html#about"  class="block px-3 py-2 rounded nav-link">About</a>
+                <a href="index.html" class="block px-3 py-2 rounded nav-link">Home</a>
+                <a href="menu.html" class="block px-3 py-2 rounded nav-link">Menu</a>
+                <a href="index.html#about" class="block px-3 py-2 rounded nav-link">About</a>
                 <a href="index.html#contact" class="block px-3 py-2 rounded nav-link">Contact</a>
-                <a href="feedback.html"     class="block px-3 py-2 rounded nav-link">Feedback Quiz</a>
+                <a href="feedback.html" class="block px-3 py-2 rounded nav-link">Feedback Quiz</a>
             </div>
         </div>
     </nav>
@@ -74,21 +77,22 @@
     <section class="py-12 section-light min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-<!-- Header -->
-<div class="text-center mb-10">
-    <h1 class="section-title">Our Menu</h1>
-    <div class="menu-header-line"></div>
+            <!-- Header -->
+            <div class="text-center mb-10">
+                <h1 class="section-title">Our Menu</h1>
+                <div class="menu-header-line"></div>
 
-    <p class="section-subtitle mt-3">
-        Fresh, handpicked protein bowls crafted for your health goal.
-        Every pot made to order each morning.
-    </p>
+                <p class="section-subtitle mt-3">
+                    Fresh, handpicked protein Boxs crafted for your health goal.
+                    Every pot made to order each morning.
+                </p>
 
-    <p class="section-subtitle mt-4 text-green-700">
-        🎁 <strong>First-Time Customer Offer</strong><br>
-        Trial Pots are available exclusively for first-time customers and contain the same premium ingredients as our Supreme Pots at a special introductory price.
-    </p>
-</div>
+                <p class="section-subtitle mt-4 text-green-700">
+                    🎁 <strong>First-Time Customer Offer</strong><br>
+                    Trial Pots are available exclusively for first-time customers and contain the same premium
+                    ingredients as our Supreme Pots at a special introductory price.
+                </p>
+            </div>
 
             <!-- Tier legend -->
             <div class="flex flex-wrap justify-center gap-4 mb-8 text-sm text-gray-500">
@@ -115,14 +119,14 @@
 
     <!-- WhatsApp float -->
     <a href="https://wa.me/917871974777" class="whatsapp-float" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
-             alt="WhatsApp" style="width:28px;height:28px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:28px;height:28px;">
     </a>
 
     <!-- ── Cart Sidebar (identical to index.html) ── -->
     <div id="cart-modal" class="hidden fixed inset-0 z-50">
         <div class="hidden absolute inset-0 bg-black opacity-50" id="cart-overlay"></div>
-        <div class="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl flex flex-col bg-light cart-modal-container">
+        <div
+            class="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl flex flex-col bg-light cart-modal-container">
             <div class="flex justify-between items-center p-6 border-b cart-header">
                 <h2 class="text-2xl font-bold text-primary-dark">Cart</h2>
                 <button id="close-cart" class="text-muted hover:text-dark transition">✕</button>
@@ -137,10 +141,25 @@
                     <span>Total Protein:</span>
                     <span id="cart-protein">0g</span>
                 </div>
-                <a href="checkout.html"
-                   class="w-full block text-center py-3 rounded-lg font-bold btn btn-primary">
+                <a href="checkout.html" class="w-full block text-center py-3 rounded-lg font-bold btn btn-primary">
                     Proceed to Checkout
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Product Details Modal ── -->
+    <div id="product-details-modal"
+        class="hidden fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 sm:p-6">
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeProductModal()"></div>
+        <div
+            class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden z-10 my-8 transform transition-all border border-gray-100">
+            <button onclick="closeProductModal()"
+                class="absolute top-3 right-3 z-20 bg-white/90 hover:bg-white text-gray-700 hover:text-black w-9 h-9 rounded-full flex items-center justify-center shadow-md transition font-bold text-lg">
+                ✕
+            </button>
+            <div id="product-modal-content">
+                <!-- Dynamically populated -->
             </div>
         </div>
     </div>
@@ -152,4 +171,5 @@
     <script src="js/menu.js"></script>
 
 </body>
+
 </html>

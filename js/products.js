@@ -11,6 +11,7 @@ const gymMenuProducts = [
         image: 'menu/regular-weight-gain-pot.png',
         price: 149,
         isPopular: true,
+        benefits: "Higher energy fruits with dates and nuts provide more calories, healthy fats, and natural carbohydrates to support increased energy intake.",
         ingredients: [
             'Green Apple',
             'Banana',
@@ -32,6 +33,7 @@ const gymMenuProducts = [
         image: 'menu/regular-weight-loss-pot.png',
         price: 149,
         isPopular: true,
+        benefits: "Lower calorie, high-fiber fruits and cucumber help increase meal volume while keeping calorie intake relatively lower.",
         ingredients: [
             'Green Apple',
             'Papaya',
@@ -54,6 +56,7 @@ const gymMenuProducts = [
         image: 'menu/supreme-weight-gain-pot.png',
         price: 199,
         isPopular: false,
+        benefits: "Adds avocado and premium fruits to increase healthy fats, calorie density, and micronutrient variety.",
         ingredients: [
             'Avocado',
             'Dragon fruit',
@@ -80,6 +83,7 @@ const gymMenuProducts = [
         image: 'menu/supreme-weight-loss-pot.png',
         price: 199,
         isPopular: true,
+        benefits: "Packed with premium fruits rich in fiber and antioxidants for a nutrient dense, lower calorie fruit Box meal.",
         ingredients: [
             'Dragon fruit',
             'Kiwi',
@@ -111,6 +115,7 @@ const gymMenuProducts = [
             { id: 'weekly', name: 'Weekly Pack', duration: '6 Days/wk', days: 6, price: 414 },
             { id: 'monthly', name: 'Monthly Pack', duration: '26 Days/mo', days: 26, price: 1794 }
         ],
+        benefits: "A convenient daily fruit Box for working professionals and students, providing a variety of fruits to help increase daily intake of vitamins, minerals, and dietary fiber.",
         ingredients: [
             'Apple',
             'Orange',
@@ -135,41 +140,42 @@ const gymMenuProducts = [
         image: 'menu/diabetic-menu-pot.png',
         price: 69,
         isPopular: false,
+        benefits: "Features fruits and vegetables selected for a relatively lower glycemic impact, making it a more blood sugar–conscious fruit option when eaten in appropriate portions.",
         ingredients: [
-            { 
-                name: 'Raspberry', 
-                weight: '50gm', 
-                macro: '4gm' 
+            {
+                name: 'Raspberry',
+                weight: '50gm',
+                macro: '4gm'
             },
-            { 
+            {
                 name: 'Avocado',
-                weight: '50gm', 
-                macro: '0.7gm' 
+                weight: '50gm',
+                macro: '0.7gm'
             },
-            { 
-                name: 'Dragon fruit', 
-                weight: '80gm', 
-                macro: '8gm' 
+            {
+                name: 'Dragon fruit',
+                weight: '80gm',
+                macro: '8gm'
             },
-            { 
-                name: 'Strawberry', 
-                weight: '40gm', 
-                macro: '5gm' 
+            {
+                name: 'Strawberry',
+                weight: '40gm',
+                macro: '5gm'
             },
-            { 
-                name: 'Pomelo', 
-                weight: '50gm', 
-                macro: '6gm' 
+            {
+                name: 'Pomelo',
+                weight: '50gm',
+                macro: '6gm'
             },
-            { 
-                name: 'Cucumber', 
-                weight: '40gm', 
-                macro: '2gm' 
+            {
+                name: 'Cucumber',
+                weight: '40gm',
+                macro: '2gm'
             },
-            { 
-                name: 'Kiwi', 
-                weight: '30gm', 
-                macro: '9gm' 
+            {
+                name: 'Kiwi',
+                weight: '30gm',
+                macro: '9gm'
             }
         ]
     }
