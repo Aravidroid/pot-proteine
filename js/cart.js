@@ -151,7 +151,7 @@ function updateCartDisplay() {
             <div class="flex justify-between items-start mb-2">
                 <div>
                     <p class="font-semibold text-gray-800">${item.name}</p>
-                    <p class="text-xs text-gray-600">${details.join(', ')}</p>
+                    <p class="text-xs text-gray-600">${details.map(i => typeof i === 'object' && i !== null ? (i.name || i) : i).join(', ')}</p>
                 </div>
                 <button onclick="removeFromCart(${index})"
                     class="text-red-500 hover:text-red-700 text-lg">×</button>

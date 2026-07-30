@@ -64,7 +64,7 @@ function loadFeaturedProducts() {
                 </div>
                 <div class="featured-content">
                     <h3 class="featured-name">${product.name}</h3>
-                    <p class="featured-desc">${product.description || product.ingredients.join(', ')}</p>
+                    <p class="featured-desc">${product.description || product.ingredients.map(i => typeof i === 'object' && i !== null ? i.name : i).join(', ')}</p>
                     <div class="nutrition-grid">
                         <div class="nutrition-item nutrition-protein">
                             <span class="nutrition-value">${product.protein}g</span>
@@ -115,7 +115,7 @@ function createProductCard(product) {
             </div>
             <div class="p-4">
                 <h3 class="text-lg font-bold text-gray-800 mb-2">${product.name}</h3>
-                <p class="text-sm text-gray-600 mb-2">${product.ingredients.join(', ')}</p>
+                <p class="text-sm text-gray-600 mb-2">${product.ingredients.map(i => typeof i === 'object' && i !== null ? i.name : i).join(', ')}</p>
                 <div class="grid grid-cols-3 gap-2 mb-4 text-xs text-center">
                     <div class="bg-green-50 p-2 rounded">
                         <p class="font-bold text-green-600">${product.protein}g</p>
