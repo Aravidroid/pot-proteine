@@ -289,8 +289,11 @@ function renderMobileFloatingCartBar() {
 
     if (totalCount === 0) {
         if (barEl) barEl.classList.add('hidden-bar');
+        document.body.classList.remove('has-mobile-cart');
         return;
     }
+
+    document.body.classList.add('has-mobile-cart');
 
     if (!barEl) {
         barEl = document.createElement('div');
