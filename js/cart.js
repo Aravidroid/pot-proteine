@@ -118,7 +118,7 @@ function updateCartDisplay() {
         cartDOM.itemsContainer.innerHTML = `
             <div class="text-center py-12">
                 <p class="text-gray-600 text-lg mb-4">🛒 Your cart is empty</p>
-                <p class="text-gray-500 text-sm mb-6">Add delicious protein Boxs to get started</p>
+                <p class="text-gray-500 text-sm mb-6">Add delicious protein boxs to get started</p>
                 <a href="menu.html" class="inline-block bg-primary-light text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-hover transition">
                     Browse Menu
                 </a>
@@ -195,9 +195,26 @@ function updateCartDisplay() {
 /**
  * Toggle cart modal
  */
-function toggleCartModal() {
-    if (!cartDOM.modal) return;
-    cartDOM.modal.classList.toggle('hidden');
+function toggleCartModal(e) {
+    if (e && typeof e.preventDefault === 'function') {
+        e.preventDefault();
+    }
+
+    // Dynamic fallback lookup to guarantee elements exist
+    const modal = cartDOM.modal || document.getElementById('cart-modal');
+    const overlay = cartDOM.overlay || document.getElementById('cart-overlay');
+
+    if (!modal) {
+        console.warn('[Cart] cart-modal element not found in DOM');
+        return;
+    }
+
+    modal.classList.toggle('hidden');
+
+    if (overlay) {
+        overlay.classList.remove('hidden');
+    }
+
     updateCartDisplay();
 }
 

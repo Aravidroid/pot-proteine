@@ -184,7 +184,11 @@ body {
    ============================== */
 
 #cart-modal {
-    animation: slideIn 0.3s ease;
+    transition: opacity 0.25s ease;
+}
+
+.cart-modal-container {
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideIn {
@@ -198,15 +202,11 @@ body {
 }
 
 #cart-modal.hidden {
-    display: none;
+    display: none !important;
 }
 
 #cart-overlay {
     display: block;
-}
-
-#cart-modal.hidden #cart-overlay {
-    display: none;
 }
 
 /* ==============================
@@ -1566,21 +1566,33 @@ textarea::placeholder {
 
 .whatsapp-float {
     position: fixed;
-    bottom: 20px;
+    bottom: 24px;
     left: 20px;
     background-color: #25D366;
-    color: white;
-    font-size: 24px;
-    padding: 15px;
+    color: #ffffff;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
     z-index: 999;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .whatsapp-float:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+@media (max-width: 767px) {
+    .whatsapp-float {
+        bottom: 80px;
+        left: 16px;
+        width: 48px;
+        height: 48px;
+    }
 }
 
 .thank-you-card {

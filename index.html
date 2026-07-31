@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="logo.png">
-    <title>Pot protéiné - Fresh Fruits & Nuts Protein Boxs</title>
+    <title>Pot protéine - Fresh Fruits & Nuts Protein boxs</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +28,7 @@
                     <div class="flex items-center gap-2">
                         <img src="logo.jpeg" alt="Protein Pot Logo" class="w-12 h-12 object-cover rounded-full">
                     </div>
-                    <span class="nav-brand">Pot protéiné</span>
+                    <span class="nav-brand">Pot protéine</span>
                 </div>
 
                 <div class="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button id="cart-btn" class="nav-link relative">
+                    <button id="cart-btn" onclick="toggleCartModal()" class="nav-link relative" aria-label="Open Cart">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
@@ -131,27 +131,36 @@
                         </p>
                     </div>
 
-                    <!-- Stats -->
-                    <div class="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
+                    <!-- Stats / Core Guarantees -->
+                    <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t border-gray-200">
 
                         <div>
-                            <div class="text-3xl font-bold text-gray-900">100%</div>
-                            <div class="text-sm text-gray-500 mt-1">
-                                Fresh Ingredients
+                            <div
+                                class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-1.5">
+                                <span>🧼</span> <span>100%</span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-gray-600 mt-1 font-medium">
+                                Hygienic Preparation
                             </div>
                         </div>
 
                         <div>
-                            <div class="text-3xl font-bold text-gray-900">High</div>
-                            <div class="text-sm text-gray-500 mt-1">
-                                Protein Content
+                            <div
+                                class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-1.5">
+                                <span>📦</span> <span>Premium</span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-gray-600 mt-1 font-medium">
+                                Packing Presentation
                             </div>
                         </div>
 
                         <div>
-                            <div class="text-3xl font-bold text-gray-900">1 Day</div>
-                            <div class="text-sm text-gray-500 mt-1">
-                                Pre-Order Notice
+                            <div
+                                class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-1.5">
+                                <span>⏰</span> <span>On-Time</span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-gray-600 mt-1 font-medium">
+                                Guaranteed Delivery
                             </div>
                         </div>
 
@@ -228,48 +237,62 @@
     <section class="py-20 section-light">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="section-title">Why Choose Pot protéiné?</h2>
+                <h2 class="section-title">Why Choose Pot protéine?</h2>
                 <div class="menu-header-line"></div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300">
-                    <div class="icon-lg mb-4 text-3xl">🥗</div>
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center">
+                        <img src="why images/Hygienic Standards.png" alt="Hygienic Standards" class="max-w-full max-h-full object-contain">
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-base mb-2">Hygienic Standards</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Prepared in food-grade, sanitized kitchens adhering strictly to food safety and hygiene protocols.</p>
+                </div>
+
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center">
+                        <img src="why images/Packing Presentation Quality.png" alt="Packing Presentation Quality" class="max-w-full max-h-full object-contain">
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-base mb-2">Packing Presentation Quality</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Elegantly packaged in sealed boxes designed to arrive fresh, spill-proof, and visually appealing.</p>
+                </div>
+
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center">
+                        <img src="why images/On-Time Delivery.png" alt="On-Time Delivery" class="max-w-full max-h-full object-contain">
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-base mb-2">On-Time Delivery</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Punctual doorstep delivery guaranteed so your daily nutrition routine stays seamlessly on schedule.</p>
+                </div>
+
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center">
+                        <img src="why images/fresh on demand.jpeg" alt="Fresh on Demand" class="max-w-full max-h-full object-contain rounded-lg">
+                    </div>
                     <h3 class="font-bold text-gray-900 text-base mb-2">Fresh on Demand</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed">Prepared fresh when you order for maximum taste and
-                        quality.</p>
+                    <p class="text-xs text-gray-600 leading-relaxed">Prepared fresh upon order with handpicked fruits and premium nuts for peak taste and quality.</p>
                 </div>
 
                 <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300">
-                    <div class="icon-lg mb-4 text-3xl">⚡</div>
-                    <h3 class="font-bold text-gray-900 text-base mb-2">Built for Busy Lives</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed">Healthy meals made convenient for work, college,
-                        and life on the go.</p>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300">
-                    <div class="icon-lg mb-4 text-3xl">✨</div>
-                    <h3 class="font-bold text-gray-900 text-base mb-2">Healthy Made Easy</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed">Enjoy nutritious eating without the hassle of meal
-                        preparation.</p>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300">
-                    <div class="icon-lg mb-4 text-3xl">🔍</div>
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center">
+                        <img src="why images/Know what you eat.png" alt="Know What You Eat" class="max-w-full max-h-full object-contain">
+                    </div>
                     <h3 class="font-bold text-gray-900 text-base mb-2">Know What You Eat</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed">Transparent ingredients and nutrition so you can
-                        make informed choices.</p>
+                    <p class="text-xs text-gray-600 leading-relaxed">Transparent ingredients and complete macro nutrition details so you can make informed choices with confidence.</p>
                 </div>
 
                 <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300">
-                    <div class="icon-lg mb-4 text-3xl">⭐</div>
-                    <h3 class="font-bold text-gray-900 text-base mb-2">Excellence in Every Bite</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed">Thoughtfully prepared for a consistently premium
-                        experience in every bite.</p>
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center">
+                        <img src="why images/busy lives.jpeg" alt="Built for Busy Lives" class="max-w-full max-h-full object-contain">
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-base mb-2">Built for Busy Lives</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Nutritious protein meals made convenient for work, workout, and life on the go without preparation hassle.</p>
                 </div>
             </div>
         </div>
@@ -278,50 +301,90 @@
     <!-- About Section -->
     <section class="py-16 section-alt" id="about">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="section-header">
+            <div class="section-header text-center mb-12">
                 <h2 class="section-title">About Us</h2>
-                <p class="section-subtitle">Learn more about our mission and why we're passionate about healthy Boxs</p>
+                <p class="section-subtitle">Our Mission & Vision for a Healthier Future</p>
             </div>
 
-            <!-- Mission Section -->
-            <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
-                <div>
-                    <h3 class="heading-subsection">Our Mission</h3>
-                    <p class="leading-relaxed mb-4 text-muted">
-                        At Pot protéiné, we believe that healthy eating should be convenient, affordable, and delicious.
-                        Our mission is to promote a healthier lifestyle by providing fresh, nutrient-packed protein Boxs
-                        made from the finest local ingredients.
-                    </p>
-                    <p class="leading-relaxed text-muted">
-                        We work directly with farmers across Tamil Nadu to source the freshest fruits and premium nuts,
-                        ensuring every Box is packed with natural goodness and exceptional quality.
-                    </p>
-                </div>
-                <div class="rounded-2xl p-12 text-center card-gradient">
-                    <div class="icon-lg mb-4">🎯</div>
-                    <p class="font-semibold text-primary-dark">Fresh Fruits & Premium Nuts</p>
-                </div>
-            </div>
+            <!-- Mission & Vision Grid -->
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+                <!-- Our Mission Card -->
+                <div
+                    class="bg-[#FCFDFC] p-8 sm:p-10 lg:p-12 rounded-3xl shadow-sm border border-gray-100 h-full flex flex-col justify-between hover:shadow-xl transition-all duration-300">
+                    <div>
+                        <div class="mb-6">
+                            <h3 class="text-[36px] font-[700] text-gray-900 tracking-tight leading-tight mb-3">Our
+                                Mission</h3>
+                            <div class="w-12 h-1 bg-green-500 rounded-full"></div>
+                        </div>
 
-            <!-- Why Choose Us -->
-            <div class="rounded-2xl p-12 bg-soft">
-                <h2 class="text-3xl font-bold text-center mb-8 text-primary-dark">Why Choose Us?</h2>
-                <div class="grid md:grid-cols-4 gap-6 text-center">
-                    <div>
-                        <div class="icon-md mb-2">🚜</div>
-                        <h3 class="font-bold text-primary-dark">Local Farming</h3>
+                        <ul class="space-y-5 text-[18px] font-[500] leading-[1.7] text-gray-700">
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-green-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>We believe customers deserve to know exactly what they eat, with transparent
+                                    ingredients and nutritional information in every meal.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-green-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>Every meal is freshly prepared upon order to ensure maximum freshness, taste,
+                                    nutrition, and quality.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-green-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>We make healthy eating convenient for busy lifestyles without compromising on
+                                    taste or nutrition.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-green-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>We strive to deliver the same premium quality and exceptional experience with
+                                    every order.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-green-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>We aim to inspire healthier communities by making nutritious food more accessible
+                                    and encouraging better eating habits.</span>
+                            </li>
+                        </ul>
                     </div>
+                </div>
+
+                <!-- Our Vision Card -->
+                <div
+                    class="bg-[#FCFDFC] p-8 sm:p-10 lg:p-12 rounded-3xl shadow-sm border border-gray-100 h-full flex flex-col justify-between hover:shadow-xl transition-all duration-300">
                     <div>
-                        <div class="icon-md mb-2">✅</div>
-                        <h3 class="font-bold text-primary-dark">Quality</h3>
-                    </div>
-                    <div>
-                        <div class="icon-md mb-2">⚡</div>
-                        <h3 class="font-bold text-primary-dark">Energy Packed</h3>
-                    </div>
-                    <div>
-                        <div class="icon-md mb-2">💰</div>
-                        <h3 class="font-bold text-primary-dark">Affordable</h3>
+                        <div class="mb-6">
+                            <h3 class="text-[36px] font-[700] text-gray-900 tracking-tight leading-tight mb-3">Our
+                                Vision</h3>
+                            <div class="w-12 h-1 bg-emerald-500 rounded-full"></div>
+                        </div>
+
+                        <ul class="space-y-5 text-[18px] font-[500] leading-[1.7] text-gray-700">
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-emerald-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>To expand across multiple locations and international markets, making premium,
+                                    nutritious food accessible to more people.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-emerald-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>To redefine convenience food, proving that fast meals can also be fresh,
+                                    nutritious, and delicious.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-emerald-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>To set the benchmark for transparency, empowering every customer to make informed
+                                    food choices with confidence.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-emerald-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>To make wholesome nutrition more accessible, helping communities embrace healthier
+                                    eating every day.</span>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <span class="text-emerald-600 font-bold text-lg shrink-0 leading-none mt-1">★</span>
+                                <span>To build a community around wellness, where nutritious food supports healthier,
+                                    happier lifestyles.</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -432,8 +495,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 <div>
-                    <h4 class="footer-heading">Pot protéiné</h4>
-                    <p class="text-sm">Fresh fruits and nuts protein Boxs from Tamil Nadu, India.</p>
+                    <h4 class="footer-heading">Pot protéine</h4>
+                    <p class="text-sm">Fresh fruits and nuts protein boxs from Tamil Nadu, India.</p>
                 </div>
                 <div>
                     <h4 class="footer-heading">Quick Links</h4>
@@ -459,21 +522,24 @@
                 </div>
             </div>
             <div class="border-t pt-8 text-center text-sm footer-divider-bottom text-muted-footer">
-                <p>&copy; 2026 Pot protéiné. All rights reserved. | Based in Tamil Nadu, India</p>
+                <p>&copy; 2026 Pot protéine. All rights reserved. | Based in Tamil Nadu, India</p>
             </div>
         </div>
     </footer>
-    <a href="https://wa.me/917871974777" class="whatsapp-float" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:28px;height:28px;">
+    <a href="https://wa.me/917871974777" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+            <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l.399.636-1.156 4.225 4.316-1.131.584.537z" />
+        </svg>
     </a>
     <!-- Cart Sidebar Modal -->
     <div id="cart-modal" class="hidden fixed inset-0 z-50">
-        <div class="hidden absolute inset-0 bg-black opacity-50" id="cart-overlay"></div>
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-xs" id="cart-overlay"></div>
         <div
             class="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl flex flex-col bg-light cart-modal-container">
             <div class="flex justify-between items-center p-6 border-b cart-header">
                 <h2 class="text-2xl font-bold text-primary-dark">Cart</h2>
-                <button id="close-cart" class="text-muted hover:text-dark transition">✕</button>
+                <button id="close-cart" onclick="toggleCartModal()" class="text-muted hover:text-dark transition text-xl font-bold p-1">✕</button>
             </div>
             <div id="cart-items" class="flex-1 overflow-y-auto p-6">
                 <!-- Cart items will be loaded here -->

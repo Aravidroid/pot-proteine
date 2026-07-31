@@ -1,5 +1,5 @@
 /**
- * Pot protéiné - Single-Page Feedback Quiz Controller
+ * Pot protéine - Single-Page Feedback Quiz Controller
  */
 document.addEventListener('DOMContentLoaded', () => {
 

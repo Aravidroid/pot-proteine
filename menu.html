@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="logo.png">
-    <title>Menu - Pot protéiné</title>
+    <title>Menu - Pot protéine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -22,7 +22,7 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-2">
                     <img src="logo.jpeg" alt="Protein Pot Logo" class="w-12 h-12 object-cover rounded-full">
-                    <span class="nav-brand">Pot protéiné</span>
+                    <span class="nav-brand">Pot protéine</span>
                 </div>
 
                 <div class="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button id="cart-btn" class="nav-link relative">
+                    <button id="cart-btn" onclick="toggleCartModal()" class="nav-link relative" aria-label="Open Cart">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -87,7 +87,7 @@
                 <div class="menu-header-line"></div>
 
                 <p class="section-subtitle mt-3">
-                    Fresh, handpicked protein Boxs crafted for your health goal.
+                    Fresh, handpicked protein boxs crafted for your health goal.
                     Every pot made to order each morning.
                 </p>
 
@@ -122,18 +122,21 @@
     </section>
 
     <!-- WhatsApp float -->
-    <a href="https://wa.me/917871974777" class="whatsapp-float" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:28px;height:28px;">
+    <a href="https://wa.me/917871974777" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+            <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l.399.636-1.156 4.225 4.316-1.131.584.537z" />
+        </svg>
     </a>
 
     <!-- ── Cart Sidebar (identical to index.html) ── -->
     <div id="cart-modal" class="hidden fixed inset-0 z-50">
-        <div class="hidden absolute inset-0 bg-black opacity-50" id="cart-overlay"></div>
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-xs" id="cart-overlay"></div>
         <div
             class="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl flex flex-col bg-light cart-modal-container">
             <div class="flex justify-between items-center p-6 border-b cart-header">
                 <h2 class="text-2xl font-bold text-primary-dark">Cart</h2>
-                <button id="close-cart" class="text-muted hover:text-dark transition">✕</button>
+                <button id="close-cart" onclick="toggleCartModal()" class="text-muted hover:text-dark transition text-xl font-bold p-1">✕</button>
             </div>
             <div id="cart-items" class="flex-1 overflow-y-auto p-6"></div>
             <div class="border-t p-6 space-y-4 cart-footer">

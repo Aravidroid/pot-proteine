@@ -1,4 +1,4 @@
-// Pot protéiné - Checkout Page Management
+// Pot protéine - Checkout Page Management
 // Handles form submission and order summary display
 
 // Cache DOM elements
@@ -247,7 +247,7 @@ function buildWhatsAppMessage(orderData) {
     const orderNumber = orderData.orderNumber;
     const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
 
-    return `New Order - Pot protéiné
+    return `New Order - Pot protéine
 
 Name: ${orderData.customerName}
 Phone: ${orderData.customerPhone}
