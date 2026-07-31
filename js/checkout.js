@@ -54,7 +54,7 @@ function loadOrderSummary() {
     // Display cart items
     if (checkoutDOM.summaryContainer) {
         checkoutDOM.summaryContainer.innerHTML = '';
-        
+
         let htmlBuilder = '';
         cart.forEach(item => {
             const itemTotal = item.price * item.quantity;
@@ -63,7 +63,7 @@ function loadOrderSummary() {
                 <span class="font-semibold">₹${itemTotal}</span>
             </div>`;
         });
-        
+
         checkoutDOM.summaryContainer.innerHTML = htmlBuilder;
     }
 
@@ -98,7 +98,7 @@ function generateMapsUrl(address) {
  */
 function displayMapsLink(mapsUrl) {
     checkoutDOM.mapsUrl = mapsUrl;
-    
+
     // Display in form
     if (checkoutDOM.mapsLink) {
         checkoutDOM.mapsLink.href = mapsUrl;
@@ -107,7 +107,7 @@ function displayMapsLink(mapsUrl) {
     if (checkoutDOM.mapsLinkDisplay) {
         checkoutDOM.mapsLinkDisplay.classList.remove('hidden');
     }
-    
+
     // Display in summary
     if (checkoutDOM.summaryMapsLink) {
         checkoutDOM.summaryMapsLink.href = mapsUrl;
@@ -204,7 +204,7 @@ function validateCheckoutForm() {
     }
 
     if (!checkoutDOM.mapsUrl) {
-    errors.push('Please share your GPS location');
+        errors.push('Please share your GPS location');
     }
 
     return {
@@ -234,7 +234,7 @@ function generateOrderNumber() {
  */
 function buildWhatsAppMessage(orderData) {
     const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
-    
+
     let orderSummary = '';
     cart.forEach(item => {
         orderSummary += `${item.name} x${item.quantity} - ₹${item.price * item.quantity}\n`;
@@ -242,11 +242,11 @@ function buildWhatsAppMessage(orderData) {
             orderSummary += `   Ingredients: ${item.details.join(', ')}\n`;
         }
     });
-    
+
     const totalAmount = getCartTotal();
     const orderNumber = orderData.orderNumber;
     const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
-    
+
     return `New Order - Pot protéiné
 
 Name: ${orderData.customerName}
@@ -276,38 +276,171 @@ function sendViaWhatsApp(orderData) {
     const message = buildWhatsAppMessage(orderData);
     const whatsappNumber = '917871974777';
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    
+
     // Save order to localStorage before redirecting
     const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
     const totalAmount = getCartTotal();
-    
+
     const orderConfirmation = {
-    orderNumber: orderNumber,
-    amount: totalAmount,
-    timestamp: new Date().toISOString(),
+        orderNumber: orderNumber,
+        amount: totalAmount,
+        timestamp: new Date().toISOString(),
 
-    customerName: orderData.customerName,
-    customerPhone: orderData.customerPhone,
-    customerAddress: orderData.customerAddress,
+        customerName: orderData.customerName,
+        customerPhone: orderData.customerPhone,
+        customerAddress: orderData.customerAddress,
 
-    latitude: checkoutDOM.latitude,
-    longitude: checkoutDOM.longitude,
-    mapsUrl: checkoutDOM.mapsUrl,
+        latitude: checkoutDOM.latitude,
+        longitude: checkoutDOM.longitude,
+        mapsUrl: checkoutDOM.mapsUrl,
 
-    items: cart
-};
-    
+        items: cart
+    };
+
     localStorage.setItem('orderConfirmation', JSON.stringify(orderConfirmation));
-    
+
     // Open WhatsApp
     window.open(whatsappURL, '_blank');
-    
+
     // Redirect to home page after a brief delay
     setTimeout(() => {
         localStorage.removeItem('proteinPotCart');
         localStorage.removeItem('orderDetails');
         window.location.href = 'index.html';
     }, 1500);
+}
+
+/**
+ * Handle UPI QR Checkout Flow
+ */
+async function processUPIPayment(orderDetails) {
+    const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+    const submitBtn = document.getElementById('submitOrderBtn');
+
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Generating UPI QR...';
+    }
+
+    try {
+        const orderData = {
+            customerName: orderDetails.name,
+            customerPhone: orderDetails.phone,
+            customerAddress: orderDetails.address,
+            mapsUrl: checkoutDOM.mapsUrl || '',
+            items: cart
+        };
+
+        const result = await window.UPIPayment.createPayment(orderData);
+
+        // Show Modal and populate details
+        const upiModal = document.getElementById('upiModal');
+        const upiModalAmount = document.getElementById('upiModalAmount');
+        const upiModalOrderId = document.getElementById('upiModalOrderId');
+        const upiQrCodeImg = document.getElementById('upiQrCodeImg');
+        const qrLoadingSpinner = document.getElementById('qrLoadingSpinner');
+        const upiDirectPayLink = document.getElementById('upiDirectPayLink');
+        const upiTimer = document.getElementById('upiTimer');
+        const upiExpiredOverlay = document.getElementById('upiExpiredOverlay');
+
+        upiModalAmount.textContent = result.amount;
+        upiModalOrderId.textContent = result.orderId;
+        upiQrCodeImg.src = result.qrCodeDataUrl;
+        upiDirectPayLink.href = result.upiUri;
+
+        qrLoadingSpinner.classList.add('hidden');
+        upiQrCodeImg.classList.remove('hidden');
+        upiExpiredOverlay.classList.add('hidden');
+
+        upiModal.classList.remove('hidden');
+
+        // Update instruction amount
+        const upiInstructionAmount = document.getElementById('upiInstructionAmount');
+        if (upiInstructionAmount) upiInstructionAmount.textContent = result.amount;
+
+        const merchantVpaDisplay = document.getElementById('merchantVpaDisplay');
+        if (merchantVpaDisplay) merchantVpaDisplay.textContent = result.merchantUpi;
+
+        // Connect "I Have Paid — Submit Order on WhatsApp" button
+        const confirmBtn = document.getElementById('confirmUpiPaymentBtn');
+        if (confirmBtn) {
+            confirmBtn.onclick = () => {
+                // Build order confirmation receipt for WhatsApp
+                const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+                let orderSummaryText = '';
+                cart.forEach(item => {
+                    orderSummaryText += `${item.name} x${item.quantity} - ₹${item.price * item.quantity}\n`;
+                });
+
+                const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
+
+                const waMessage = `New Order - Paid via UPI QR
+
+Name: ${orderDetails.name}
+Phone: ${orderDetails.phone}
+Address: ${orderDetails.address}
+
+📍 Delivery Location:
+${mapsLink}
+
+Order Summary:
+${orderSummaryText}
+Total Amount: ₹${result.amount}
+Payment VPA: ${result.merchantUpi}
+Order ID: #${result.orderId}
+
+(Please verify payment of ₹${result.amount} on your UPI app)`;
+
+                const whatsappNumber = '917871974777';
+                const waURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMessage)}`;
+
+                // Show success modal
+                handlePaymentSuccess({
+                    orderId: result.orderId,
+                    amount: result.amount,
+                    paymentDetails: {
+                        paymentId: 'UPI-DYNAMIC',
+                        utr: 'N/A'
+                    }
+                });
+
+                // Open WhatsApp
+                window.open(waURL, '_blank');
+            };
+        }
+
+    } catch (err) {
+        alert('Could not initialize UPI payment: ' + err.message);
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Proceed to UPI QR Payment';
+        }
+    }
+}
+
+/**
+ * Handle successful payment callback
+ */
+function handlePaymentSuccess(statusData) {
+    const upiModal = document.getElementById('upiModal');
+    const successModal = document.getElementById('paymentSuccessModal');
+
+    if (upiModal) upiModal.classList.add('hidden');
+
+    document.getElementById('successOrderId').textContent = statusData.orderId;
+    document.getElementById('successAmount').textContent = `₹${statusData.amount}`;
+    document.getElementById('successPaymentId').textContent = statusData.paymentDetails?.paymentId || 'PAY-UPI';
+    document.getElementById('successUtr').textContent = statusData.paymentDetails?.utr || 'N/A';
+
+    if (successModal) successModal.classList.remove('hidden');
+
+    // Clear cart & saved details
+    localStorage.removeItem('proteinPotCart');
+    localStorage.removeItem('orderDetails');
+
+    // Update summary count if cart module exists
+    if (typeof updateCartCount === 'function') updateCartCount();
 }
 
 /**
@@ -322,6 +455,8 @@ function handleCheckoutSubmit(e) {
         return;
     }
 
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'upi';
+
     // Save order details
     const orderDetails = {
         name: checkoutDOM.nameInput.value.trim(),
@@ -331,13 +466,17 @@ function handleCheckoutSubmit(e) {
     };
 
     localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
-    
-    // Send directly to WhatsApp
-    sendViaWhatsApp({
-        customerName: orderDetails.name,
-        customerPhone: orderDetails.phone,
-        customerAddress: orderDetails.address
-    });
+
+    if (selectedMethod === 'upi') {
+        processUPIPayment(orderDetails);
+    } else {
+        // Send directly to WhatsApp
+        sendViaWhatsApp({
+            customerName: orderDetails.name,
+            customerPhone: orderDetails.phone,
+            customerAddress: orderDetails.address
+        });
+    }
 }
 
 /**
@@ -376,5 +515,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (checkoutDOM.getMapsBtn) {
         checkoutDOM.getMapsBtn.addEventListener('click', handleGetMapsLink);
+    }
+
+    // Modal Close Buttons
+    const closeUpiModalBtn = document.getElementById('closeUpiModalBtn');
+    if (closeUpiModalBtn) {
+        closeUpiModalBtn.addEventListener('click', () => {
+            document.getElementById('upiModal')?.classList.add('hidden');
+            if (window.UPIPayment) window.UPIPayment.stopStatusPolling();
+        });
+    }
+
+    const finishOrderBtn = document.getElementById('finishOrderBtn');
+    if (finishOrderBtn) {
+        finishOrderBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
     }
 });

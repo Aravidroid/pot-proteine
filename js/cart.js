@@ -31,9 +31,11 @@ function initializeCartDOM() {
  * Update cart count badge
  */
 function updateCartCount() {
-    if (!cartDOM.count) return;
-    const count = cart.reduce((total, item) => total + item.quantity, 0);
-    cartDOM.count.textContent = count;
+    if (cartDOM.count) {
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        cartDOM.count.textContent = count;
+    }
+    renderMobileFloatingCartBar();
 }
 
 /**
@@ -237,6 +239,70 @@ function clearCart() {
 }
 
 /**
+function updateCartSummary() {
+    let total = 0;
+    let totalProtein = 0;
+
+    cart.forEach(item => {
+        total += Number(item.price || 0) * item.quantity;
+        totalProtein += Number(item.protein || 0) * item.quantity;
+    });
+
+    const cartTotalEl = document.getElementById("cart-total");
+    if (cartTotalEl) cartTotalEl.innerText = `₹${total}`;
+
+    const proteinEl = document.getElementById("cart-protein");
+    if (proteinEl) {
+        proteinEl.innerText = `${totalProtein}g`;
+    }
+
+    renderMobileFloatingCartBar();
+}
+
+/**
+ * Render Sticky Mobile Floating Cart Bar
+ */
+function renderMobileFloatingCartBar() {
+    // Don't render on checkout page itself
+    if (window.location.pathname.endsWith('checkout.html')) return;
+
+    let barEl = document.getElementById('mobileFloatingCartBar');
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalAmount = cart.reduce((sum, item) => sum + (Number(item.price || 0) * item.quantity), 0);
+
+    if (totalCount === 0) {
+        if (barEl) barEl.classList.add('hidden-bar');
+        return;
+    }
+
+    if (!barEl) {
+        barEl = document.createElement('div');
+        barEl.id = 'mobileFloatingCartBar';
+        barEl.className = 'mobile-floating-cart-bar';
+        document.body.appendChild(barEl);
+    }
+
+    barEl.innerHTML = `
+        <div class="flex items-center gap-3">
+            <div class="relative flex items-center justify-center w-10 h-10 bg-white/10 rounded-full">
+                <span class="text-xl">🛒</span>
+                <span class="absolute -top-1 -right-1 bg-emerald-400 text-emerald-950 font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center border-2 border-emerald-900">${totalCount}</span>
+            </div>
+            <div>
+                <span class="block text-xs opacity-80 uppercase tracking-wider font-semibold">Cart Total</span>
+                <span class="text-lg font-extrabold text-white">₹${totalAmount}</span>
+            </div>
+        </div>
+        <a href="checkout.html" class="mobile-floating-checkout-btn">
+            <span>Checkout</span>
+            <span class="text-base">→</span>
+        </a>
+    `;
+
+    barEl.classList.remove('hidden-bar');
+}
+
+/**
  * Initialize cart system on page load
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -246,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load cart state
     updateCartCount();
     updateCartDisplay();
+    renderMobileFloatingCartBar();
 
     // Attach event listeners
     const cartBtn = document.getElementById('cart-btn');
@@ -268,19 +335,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-function updateCartSummary() {
-    let total = 0;
-    let totalProtein = 0;
-
-    cart.forEach(item => {
-        total += Number(item.price || 0) * item.quantity;
-        totalProtein += Number(item.protein || 0) * item.quantity;
-    });
-
-    document.getElementById("cart-total").innerText = `₹${total}`;
-    const proteinEl = document.getElementById("cart-protein");
-    if (proteinEl) {
-        proteinEl.innerText = `${totalProtein}g`;
-    }
-}
