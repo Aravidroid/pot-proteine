@@ -1595,7 +1595,7 @@ textarea::placeholder {
     }
 
     body.has-mobile-cart .whatsapp-float {
-        bottom: 84px !important;
+        bottom: 105px !important;
         left: 16px !important;
     }
 }

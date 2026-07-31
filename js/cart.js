@@ -147,36 +147,37 @@ function updateCartDisplay() {
         const details = Array.isArray(item.details) ? item.details : [];
         const itemTotal = Number(item.price || 0) * item.quantity;
         totalPrice += itemTotal;
+        const itemImg = item.image || CART_DEFAULT_PRODUCT_IMAGE;
 
         htmlBuilder += `
-        <div class="border-b pb-4 mb-4 last:border-b-0">
-            <div class="flex justify-between items-start mb-2">
-                <div>
-                    <p class="font-semibold text-gray-800">${item.name}</p>
-                    <p class="text-xs text-gray-600">${details.map(i => typeof i === 'object' && i !== null ? (i.name || i) : i).join(', ')}</p>
+        <div class="border-b pb-4 mb-4 last:border-b-0 border-gray-100">
+            <div class="flex items-center gap-3">
+                <img src="${itemImg}" 
+                     alt="${item.name}" 
+                     class="w-16 h-16 object-cover rounded-xl border border-gray-200 shadow-sm shrink-0 bg-gray-50"
+                     onerror="this.src='logo.png'">
+                <div class="flex-1 min-w-0">
+                    <div class="flex justify-between items-start">
+                        <p class="font-bold text-gray-900 text-sm truncate">${item.name}</p>
+                        <button onclick="removeFromCart(${index})"
+                            class="text-red-500 hover:text-red-700 text-lg font-bold p-1 leading-none ml-2">×</button>
+                    </div>
+                    ${details.length > 0 ? `<p class="text-xs text-gray-500 line-clamp-1 mt-0.5">${details.map(i => typeof i === 'object' && i !== null ? (i.name || i) : i).join(', ')}</p>` : ''}
+                    <div class="text-xs font-semibold text-emerald-700 mt-1">
+                        ${(protein * item.quantity).toFixed(1)}g Protein | ${(calories * item.quantity).toFixed(0)} Cal
+                    </div>
                 </div>
-                <button onclick="removeFromCart(${index})"
-                    class="text-red-500 hover:text-red-700 text-lg">×</button>
             </div>
 
-            <div class="flex justify-between items-center mb-2">
+            <div class="flex justify-between items-center mt-3 pt-1">
                 <div class="flex items-center gap-2">
                     <button onclick="updateItemQuantity(${index}, ${item.quantity - 1})"
-                        class="px-2 py-1 bg-gray-200 rounded">−</button>
-                    <input type="number" value="${item.quantity}" min="1"
-                        onchange="updateItemQuantity(${index}, parseInt(this.value))"
-                        class="w-12 text-center border border-gray-300 rounded py-1">
+                        class="w-7 h-7 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-bold text-sm transition">−</button>
+                    <span class="w-8 text-center font-bold text-sm text-gray-900">${item.quantity}</span>
                     <button onclick="updateItemQuantity(${index}, ${item.quantity + 1})"
-                        class="px-2 py-1 bg-gray-200 rounded">+</button>
+                        class="w-7 h-7 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-bold text-sm transition">+</button>
                 </div>
-                <span class="font-semibold text-gray-800">₹${itemTotal}</span>
-            </div>
-
-            <div class="text-xs text-gray-600">
-                <p>
-                    Protein: ${(protein * item.quantity).toFixed(1)}g |
-                    Calories: ${(calories * item.quantity).toFixed(0)}
-                </p>
+                <span class="font-extrabold text-gray-900 text-base">₹${itemTotal}</span>
             </div>
         </div>
         `;
@@ -302,8 +303,12 @@ function renderMobileFloatingCartBar() {
         document.body.appendChild(barEl);
     }
 
+    barEl.onclick = (e) => {
+        toggleCartModal(e);
+    };
+
     barEl.innerHTML = `
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 cursor-pointer">
             <div class="relative flex items-center justify-center w-10 h-10 bg-white/10 rounded-full">
                 <span class="text-xl">🛒</span>
                 <span class="absolute -top-1 -right-1 bg-emerald-400 text-emerald-950 font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center border-2 border-emerald-900">${totalCount}</span>
@@ -313,10 +318,10 @@ function renderMobileFloatingCartBar() {
                 <span class="text-lg font-extrabold text-white">₹${totalAmount}</span>
             </div>
         </div>
-        <a href="checkout.html" class="mobile-floating-checkout-btn">
-            <span>Checkout</span>
+        <button type="button" class="mobile-floating-checkout-btn">
+            <span>View Cart</span>
             <span class="text-base">→</span>
-        </a>
+        </button>
     `;
 
     barEl.classList.remove('hidden-bar');

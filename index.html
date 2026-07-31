@@ -130,42 +130,6 @@
                             Every order must be booked at least one day prior to ensure maximum freshness.
                         </p>
                     </div>
-
-                    <!-- Stats / Core Guarantees -->
-                    <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t border-gray-200">
-
-                        <div>
-                            <div
-                                class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-1.5">
-                                <span>🧼</span> <span>100%</span>
-                            </div>
-                            <div class="text-xs sm:text-sm text-gray-600 mt-1 font-medium">
-                                Hygienic Preparation
-                            </div>
-                        </div>
-
-                        <div>
-                            <div
-                                class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-1.5">
-                                <span>📦</span> <span>Premium</span>
-                            </div>
-                            <div class="text-xs sm:text-sm text-gray-600 mt-1 font-medium">
-                                Packing Presentation
-                            </div>
-                        </div>
-
-                        <div>
-                            <div
-                                class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-1.5">
-                                <span>⏰</span> <span>On-Time</span>
-                            </div>
-                            <div class="text-xs sm:text-sm text-gray-600 mt-1 font-medium">
-                                Guaranteed Delivery
-                            </div>
-                        </div>
-
-                    </div>
-
                 </div>
 
                 <!-- Right Content -->
@@ -552,10 +516,13 @@
                     <span>Total Protein:</span>
                     <span id="cart-protein">0g</span>
                 </div>
-                <div class="space-y-3">
-                    <a href="checkout.html" class="w-full block text-center py-3 rounded-lg font-bold btn btn-primary">
+                <div class="space-y-2.5">
+                    <a href="checkout.html" class="w-full block text-center py-3 rounded-xl font-bold btn btn-primary shadow-md hover:shadow-lg transition">
                         Proceed to Checkout
                     </a>
+                    <button type="button" onclick="toggleCartModal()" class="w-full block text-center py-2.5 rounded-xl font-semibold text-gray-700 hover:text-gray-900 border border-gray-200 hover:bg-gray-100 transition text-sm">
+                        ← Continue Shopping
+                    </button>
                 </div>
             </div>
         </div>

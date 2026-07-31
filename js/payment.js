@@ -5,7 +5,7 @@
 
 const UPIPayment = {
     // Configurable Merchant Details
-    merchantUpi: 'aravindyt67-2@oksbi',
+    merchantUpi: 'tnsanjayk55-2@oksbi',
     merchantName: 'Pot Proteine',
 
     /**
