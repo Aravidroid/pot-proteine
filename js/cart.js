@@ -166,7 +166,7 @@ function updateCartDisplay() {
                             class="text-red-500 hover:text-red-700 text-lg font-bold p-1 leading-none ml-2">×</button>
                     </div>
                     ${details.length > 0 ? `<p class="text-xs text-gray-500 line-clamp-1 mt-0.5">${details.map(i => typeof i === 'object' && i !== null ? (i.name || i) : i).join(', ')}</p>` : ''}
-                    <div class="text-xs font-semibold text-emerald-700 mt-1">
+                    <div class="text-xs font-semibold text-[#7a1c6a] mt-1">
                         ${(protein * item.quantity).toFixed(1)}g Protein | ${(calories * item.quantity).toFixed(0)} Cal
                     </div>
                 </div>

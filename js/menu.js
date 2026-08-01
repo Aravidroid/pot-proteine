@@ -80,13 +80,10 @@ function buildCard(p) {
     if (p.plans && p.plans.length > 0) {
         planSelectorHTML = `
         <div class="mb-3">
-            <label for="plan-select-${p.id}" class="block text-xs font-semibold text-gray-700 mb-1 font-sans">Choose Plan Duration:</label>
-            <select id="plan-select-${p.id}" onchange="updatePlanPrice('${p.id}')" class="w-full text-xs p-2 border border-gray-300 rounded bg-white text-gray-800 font-semibold focus:outline-none focus:ring-1 focus:ring-green-500 shadow-sm">
+            <label for="plan-select-${p.id}" class="block text-xs font-bold text-[#2a0c2b] mb-1">Choose Plan Duration:</label>
+            <select id="plan-select-${p.id}" onchange="updatePlanPrice('${p.id}')" class="w-full text-xs p-2 border border-pink-200 rounded-xl bg-white text-[#2a0c2b] font-semibold focus:outline-none focus:ring-1 focus:ring-[#3b113c] shadow-xs">
                 ${p.plans.map(plan => `<option value="${plan.id}" data-price="${plan.price}">${plan.name} (${plan.duration}) - ₹${plan.price}</option>`).join('')}
             </select>
-            <p class="text-[11px] text-green-700 mt-1.5 font-medium flex items-center gap-1">
-                <span>🥦</span> 5 fresh super-fruits selected daily from pool
-            </p>
         </div>`;
     }
 

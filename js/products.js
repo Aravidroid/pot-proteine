@@ -190,12 +190,22 @@ const deliveryPolicy = {
     distanceSurcharge: "Above 10 KM - delivery fee will be recharged."
 };
 
-// Data Normalization
+// Data Normalization & Default Plan Duration Assignment
 gymMenuProducts.forEach(product => {
     product.image = product.image || DEFAULT_PRODUCT_IMAGE;
     product.protein = Number(product.protein || 0);
     product.calories = Number(product.calories || 0);
     product.ingredients = Array.isArray(product.ingredients) ? product.ingredients : [];
+
+    // Ensure every Pot has Daily, Weekly, and Monthly plan duration options
+    if (!product.plans || product.plans.length === 0) {
+        const base = Number(product.price || 0);
+        product.plans = [
+            { id: 'daily', name: 'Daily Pack', duration: '1 Day', days: 1, price: base },
+            { id: 'weekly', name: 'Weekly Pack', duration: '6 Days/wk', days: 6, price: base * 6 },
+            { id: 'monthly', name: 'Monthly Pack', duration: '26 Days/mo', days: 26, price: base * 26 }
+        ];
+    }
 });
 
 

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Inter:wght@400;500;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -6,36 +8,34 @@
 
 :root {
 
-    /* Pot-Protéiné Premium Palette */
+    /* Pot-Protéiné VitaFruits Palette */
 
-    --primary-dark: #065f46;
-    --primary-light: #059669;
-    --primary-hover: #047857;
+    --primary-dark: #3b113c;
+    --primary-light: #7a1c6a;
+    --primary-hover: #5e1352;
 
-    --bg-light: #faf9f6;
-    --bg-soft: #f4f2ed;
+    --bg-light: #faf3f5;
+    --bg-soft: #f5e9ed;
     --bg-alt: #ffffff;
 
-    --glass-bg: rgba(255, 255, 255, 0.75);
-    --glass-border: rgba(229, 231, 235, 0.8);
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(245, 233, 237, 0.8);
 
-    --text-dark: #0f1117;
+    --text-dark: #2a0c2b;
     --text-light: #ffffff;
-    --text-muted: #6b7280;
-    --text-light-gray: #9ca3af;
+    --text-muted: #7a6877;
+    --text-light-gray: #a392a0;
 
     --gold: #d4a853;
 
     --whatsapp-green: #25d366;
     --whatsapp-hover: #20ba5a;
 
-    --border-radius: 0.75rem;
+    --border-radius: 1.25rem;
     --transition: all 0.3s ease;
 
-    --shadow: 0 1px 3px rgba(0, 0, 0, .06),
-        0 4px 16px rgba(0, 0, 0, .04);
-
-    --shadow-lg: 0 8px 40px rgba(0, 0, 0, .08);
+    --shadow: 0 4px 20px rgba(59, 17, 60, 0.06);
+    --shadow-lg: 0 12px 40px rgba(59, 17, 60, 0.12);
 }
 
 /* ============================== */
@@ -45,10 +45,63 @@ html {
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     color: var(--text-dark);
     line-height: 1.6;
     background: var(--bg-light);
+}
+
+/* ==============================
+   VITAFRUITS SIGNATURE COMPONENTS
+   ============================== */
+
+.btn-pill-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #ffffff;
+    color: #3b113c;
+    border: 1px solid #e9d5e4;
+    padding: 0.6rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.btn-pill-arrow .arrow-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 9999px;
+    background: #3b113c;
+    color: #ffffff;
+    font-size: 0.75rem;
+    transition: var(--transition);
+}
+
+.btn-pill-arrow:hover {
+    background: #3b113c;
+    color: #ffffff;
+    border-color: #3b113c;
+}
+
+.btn-pill-arrow:hover .arrow-badge {
+    background: #ffffff;
+    color: #3b113c;
+}
+
+.card-plum {
+    background: #3b113c !important;
+    color: #ffffff !important;
+}
+
+.card-plum * {
+    color: #ffffff !important;
 }
 
 /* ==============================
@@ -1068,14 +1121,14 @@ a:focus-visible {
     font-weight: 700;
     border-radius: 0.5rem;
     transition: all var(--transition);
-    background: #22c55e;
-    color: var(--text-dark);
+    background: #3b113c;
+    color: white;
     cursor: pointer;
     border: none;
 }
 
 .form-submit-btn:hover {
-    background: #16a34a;
+    background: #5e1352;
     transform: translateY(-2px);
 }
 
@@ -1629,21 +1682,21 @@ textarea::placeholder {
 .filter-tab {
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.875rem;
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s;
+    border: 1.5px solid #e9d5e4;
+    transition: all 0.2s ease;
     background: white;
-    color: #555;
-    border-color: #ddd;
+    color: #7a6877;
 }
 
 .filter-tab.active,
 .filter-tab:hover {
-    background: var(--color-primary, #4caf50);
+    background: #3b113c;
     color: white;
-    border-color: var(--color-primary, #4caf50);
+    border-color: #3b113c;
+    box-shadow: 0 4px 14px rgba(59, 17, 60, 0.15);
 }
 
 /* ==============================
@@ -1694,13 +1747,18 @@ textarea::placeholder {
 }
 
 .badge-gain {
-    background: #fff3cd;
-    color: #856404;
+    background: #fdf0f3;
+    color: #7a1c6a;
 }
 
 .badge-loss {
-    background: #d1e7dd;
-    color: #155724;
+    background: #f5e9ed;
+    color: #3b113c;
+}
+
+.badge-workday {
+    background: #e0f2fe;
+    color: #0369a1;
 }
 
 .badge-old {
@@ -1719,8 +1777,8 @@ textarea::placeholder {
 }
 
 .badge-trial {
-    background: #fef9c3;
-    color: #854d0e;
+    background: #fef08a;
+    color: #3b113c;
 }
 
 .tier-label {
@@ -1757,19 +1815,20 @@ textarea::placeholder {
 
 .add-btn {
     width: 100%;
-    padding: 0.6rem;
-    border-radius: 0.6rem;
+    padding: 0.6rem 1rem;
+    border-radius: 9999px;
     font-weight: 700;
     font-size: 0.875rem;
     cursor: pointer;
-    background: linear-gradient(135deg, #52b788, #40916c);
+    background: linear-gradient(135deg, #7a1c6a, #3b113c);
     color: white;
     border: none;
     transition: opacity 0.2s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(59, 17, 60, 0.2);
 }
 
 .add-btn:hover {
-    opacity: 0.9;
+    opacity: 0.95;
     transform: scale(1.02);
 }
 
@@ -1792,7 +1851,7 @@ textarea::placeholder {
     width: 2rem;
     height: 2rem;
     border-radius: 9999px;
-    background: #40916c;
+    background: #3b113c;
     color: white;
     font-size: 1rem;
     font-weight: 700;
@@ -1853,7 +1912,7 @@ textarea::placeholder {
 .menu-header-line {
     width: 3rem;
     height: 4px;
-    background: linear-gradient(90deg, #52b788, #40916c);
+    background: linear-gradient(90deg, #7a1c6a, #3b113c);
     border-radius: 2px;
     margin: 0.5rem auto 0;
 }
