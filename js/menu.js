@@ -71,25 +71,33 @@ function buildCard(p) {
     const tierLabel = p.tier.charAt(0).toUpperCase() + p.tier.slice(1);
 
     const nutritionHTML = (p.protein || p.calories)
-        ? `<div class="flex gap-2 mb-3">
-            ${p.protein  ? `<div class="nutrition-chip"><span>${p.protein}g</span><span>Protein</span></div>` : ''}
-            ${p.calories ? `<div class="nutrition-chip"><span>${p.calories}</span><span>kcal</span></div>` : ''}
+        ? `<div class="flex flex-wrap gap-2 mb-3">
+            ${p.protein  ? `<span class="nutrition-chip nutrition-chip-protein">💪 ${p.protein}g Protein</span>` : ''}
+            ${p.calories ? `<span class="nutrition-chip nutrition-chip-cal">🔥 ${p.calories} kcal</span>` : ''}
            </div>` : '';
+
+    // Ingredient pills preview
+    const ingPreview = Array.isArray(p.ingredients) ? p.ingredients.slice(0, 4).map(i => {
+        const name = typeof i === 'object' && i !== null ? i.name : i;
+        return `<span class="ingredient-pill">${name}</span>`;
+    }).join('') : '';
+
+    const ingHTML = ingPreview ? `<div class="flex flex-wrap gap-1.5 mb-3">${ingPreview}<span class="ingredient-pill text-gray-500 bg-gray-100">+more</span></div>` : '';
 
     let planSelectorHTML = '';
     if (p.plans && p.plans.length > 0) {
         planSelectorHTML = `
-        <div class="mb-3">
-            <label for="plan-select-${p.id}" class="block text-xs font-bold text-[#2a0c2b] mb-1">Choose Plan Duration:</label>
-            <select id="plan-select-${p.id}" onchange="updatePlanPrice('${p.id}')" class="w-full text-xs p-2 border border-pink-200 rounded-xl bg-white text-[#2a0c2b] font-semibold focus:outline-none focus:ring-1 focus:ring-[#3b113c] shadow-xs">
+        <div class="mb-3 bg-[#faf3f5] p-2.5 rounded-2xl border border-pink-100/80">
+            <label for="plan-select-${p.id}" class="block text-xs font-bold text-[#2a0c2b] mb-1.5">Choose Plan Duration:</label>
+            <select id="plan-select-${p.id}" onchange="updatePlanPrice('${p.id}')" class="w-full text-xs p-2 border border-pink-200 rounded-xl bg-white text-[#2a0c2b] font-bold focus:outline-none focus:ring-2 focus:ring-[#3b113c] shadow-xs cursor-pointer">
                 ${p.plans.map(plan => `<option value="${plan.id}" data-price="${plan.price}">${plan.name} (${plan.duration}) - ₹${plan.price}</option>`).join('')}
             </select>
         </div>`;
     }
 
     return `
-    <div class="product-card" data-category="${p.category}" data-id="${p.id}">
-        <div class="product-image-wrap cursor-pointer" onclick="openProductModal('${p.id}')" title="Click to view full details">
+    <div class="product-card bg-white rounded-[28px] border border-pink-100/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col" data-category="${p.category}" data-id="${p.id}">
+        <div class="product-image-wrap cursor-pointer relative" onclick="openProductModal('${p.id}')" title="Click to view full details">
             <img class="product-image" src="${p.image || DEFAULT_PRODUCT_IMAGE}" alt="${p.name}">
         </div>
 
@@ -101,25 +109,28 @@ function buildCard(p) {
             </div>
 
             <!-- Name -->
-            <h3 class="font-bold text-gray-900 text-base mb-3 leading-snug cursor-pointer hover:text-green-600 transition" onclick="openProductModal('${p.id}')">${p.name}</h3>
+            <h3 class="font-extrabold text-[#2a0c2b] text-base mb-2 leading-snug cursor-pointer hover:text-[#7a1c6a] transition" onclick="openProductModal('${p.id}')">${p.name}</h3>
 
-            <!-- Quick View button -->
-            <button onclick="openProductModal('${p.id}')" class="text-xs font-semibold text-green-700 hover:text-green-800 mb-3 text-left flex items-center gap-1">
-                <span>🔍 Quick View & Details</span>
-            </button>
-
-            <!-- Nutrition (if available) -->
+            <!-- Nutrition Macro Badges -->
             ${nutritionHTML}
 
-            <!-- Optional Plan Selector -->
+            <!-- Ingredient Tags Preview -->
+            ${ingHTML}
+
+            <!-- Quick View button -->
+            <button onclick="openProductModal('${p.id}')" class="text-xs font-bold text-[#7a1c6a] hover:text-[#3b113c] mb-3 text-left flex items-center gap-1">
+                <span>🔍 Quick View & Ingredients</span>
+            </button>
+
+            <!-- Plan Duration Selector -->
             ${planSelectorHTML}
 
             <!-- Spacer pushes price+btn to bottom -->
             <div class="flex-1"></div>
 
             <!-- Price + Add -->
-            <div class="flex items-center justify-between mt-3 gap-3">
-                <span class="price-tag" id="price-tag-${p.id}">₹${p.price}</span>
+            <div class="flex items-center justify-between mt-3 gap-3 pt-2 border-t border-pink-100/60">
+                <span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${p.id}">₹${p.price}</span>
                 <div class="flex-1 max-w-[160px]" id="action-${p.id}">
                     <button class="add-btn" onclick="handleAdd('${p.id}')">Add to Cart</button>
                 </div>

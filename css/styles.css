@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 * {
     margin: 0;
@@ -21,9 +21,9 @@
     --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(245, 233, 237, 0.8);
 
-    --text-dark: #2a0c2b;
+    --text-dark: #1a071c;
     --text-light: #ffffff;
-    --text-muted: #7a6877;
+    --text-muted: #614d5e;
     --text-light-gray: #a392a0;
 
     --gold: #d4a853;
@@ -32,7 +32,7 @@
     --whatsapp-hover: #20ba5a;
 
     --border-radius: 1.25rem;
-    --transition: all 0.3s ease;
+    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
     --shadow: 0 4px 20px rgba(59, 17, 60, 0.06);
     --shadow-lg: 0 12px 40px rgba(59, 17, 60, 0.12);
@@ -45,10 +45,17 @@ html {
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     color: var(--text-dark);
     line-height: 1.6;
     background: var(--bg-light);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .section-title, .nav-brand, .price-tag, .heading-section, .heading-subsection {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    color: #1a071c;
+    letter-spacing: -0.02em;
 }
 
 /* ==============================
@@ -1679,16 +1686,37 @@ textarea::placeholder {
    MENU PAGE - FILTER TABS
    ============================== */
 
+#filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding: 0.25rem 0.5rem;
+    scrollbar-width: none;
+}
+
+#filter-tabs::-webkit-scrollbar {
+    display: none;
+}
+
 .filter-tab {
-    padding: 0.5rem 1.25rem;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    padding: 0.55rem 1.35rem;
     border-radius: 9999px;
     font-weight: 700;
     font-size: 0.875rem;
     cursor: pointer;
     border: 1.5px solid #e9d5e4;
-    transition: all 0.2s ease;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
     background: white;
-    color: #7a6877;
+    color: #614d5e;
+}
+
+.filter-tab:active {
+    transform: scale(0.92) !important;
 }
 
 .filter-tab.active,
@@ -1696,7 +1724,7 @@ textarea::placeholder {
     background: #3b113c;
     color: white;
     border-color: #3b113c;
-    box-shadow: 0 4px 14px rgba(59, 17, 60, 0.15);
+    box-shadow: 0 6px 18px rgba(59, 17, 60, 0.2);
 }
 
 /* ==============================
@@ -1876,25 +1904,25 @@ textarea::placeholder {
    ============================== */
 
 .nutrition-chip {
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
     align-items: center;
-    background: #f0fdf4;
-    border-radius: 0.5rem;
-    padding: 0.3rem 0.6rem;
-}
-
-.nutrition-chip span:first-child {
-    font-size: 0.875rem;
+    gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 9999px;
     font-weight: 700;
-    color: #1b4332;
+    font-size: 0.75rem;
 }
 
-.nutrition-chip span:last-child {
-    font-size: 0.75rem;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+.nutrition-chip-protein {
+    background: #fdf0f3;
+    color: #7a1c6a;
+    border: 1px solid #f5e9ed;
+}
+
+.nutrition-chip-cal {
+    background: #fef08a;
+    color: #3b113c;
+    border: 1px solid #fef08a;
 }
 
 /* ==============================

@@ -314,16 +314,16 @@ function renderMobileFloatingCartBar() {
         <div class="flex items-center gap-3 cursor-pointer">
             <div class="relative flex items-center justify-center w-10 h-10 bg-white/10 rounded-full">
                 <span class="text-xl">🛒</span>
-                <span class="absolute -top-1 -right-1 bg-emerald-400 text-emerald-950 font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center border-2 border-emerald-900">${totalCount}</span>
+                <span class="absolute -top-1 -right-1 bg-[#fef08a] text-[#3b113c] font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-xs">${totalCount}</span>
             </div>
             <div>
-                <span class="block text-xs opacity-80 uppercase tracking-wider font-semibold">Cart Total</span>
+                <span class="block text-xs text-pink-200 uppercase tracking-wider font-bold">Cart Total</span>
                 <span class="text-lg font-extrabold text-white">₹${totalAmount}</span>
             </div>
         </div>
-        <button type="button" class="mobile-floating-checkout-btn">
+        <button type="button" class="bg-white text-[#3b113c] px-5 py-2.5 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition-transform">
             <span>View Cart</span>
-            <span class="text-base">→</span>
+            <span class="text-sm">→</span>
         </button>
     `;
 

@@ -10,6 +10,8 @@ const gymMenuProducts = [
         category: 'Regular Box',
         image: 'menu/regular-weight-gain-pot.png',
         price: 149,
+        protein: 18,
+        calories: 420,
         isPopular: true,
         benefits: "Higher energy fruits with dates and nuts provide more calories, healthy fats, and natural carbohydrates to support increased energy intake.",
         ingredients: [
@@ -32,6 +34,8 @@ const gymMenuProducts = [
         category: 'Regular Box',
         image: 'menu/regular-weight-loss-pot.png',
         price: 149,
+        protein: 14,
+        calories: 280,
         isPopular: true,
         benefits: "Lower calorie, high-fiber fruits and cucumber help increase meal volume while keeping calorie intake relatively lower.",
         ingredients: [
@@ -55,6 +59,8 @@ const gymMenuProducts = [
         category: 'Supreme Box',
         image: 'menu/supreme-weight-gain-pot.png',
         price: 199,
+        protein: 26,
+        calories: 540,
         isPopular: false,
         benefits: "Adds avocado and premium fruits to increase healthy fats, calorie density, and micronutrient variety.",
         ingredients: [
@@ -82,6 +88,8 @@ const gymMenuProducts = [
         category: 'Supreme Box',
         image: 'menu/supreme-weight-loss-pot.png',
         price: 199,
+        protein: 20,
+        calories: 340,
         isPopular: true,
         benefits: "Packed with premium fruits rich in fiber and antioxidants for a nutrient dense, lower calorie fruit Box meal.",
         ingredients: [
@@ -109,6 +117,8 @@ const gymMenuProducts = [
         category: 'Healthy Workday',
         image: 'menu/healthy-workday-pot.png',
         price: 69,
+        protein: 15,
+        calories: 310,
         isPopular: true,
         plans: [
             { id: 'daily', name: 'Daily Pack', duration: '1 Day', days: 1, price: 69 },
@@ -139,6 +149,8 @@ const gymMenuProducts = [
         category: 'Diabetic Box',
         image: 'menu/diabetic-menu-pot.png',
         price: 69,
+        protein: 16,
+        calories: 240,
         isPopular: false,
         benefits: "Features fruits and vegetables selected for a relatively lower glycemic impact, making it a more blood sugar–conscious fruit option when eaten in appropriate portions.",
         ingredients: [
