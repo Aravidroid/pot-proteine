@@ -104,7 +104,7 @@ function buildCard(p) {
             </div>
 
             <!-- Name -->
-            <h3 class="font-bold text-primary-dark text-base mb-3 leading-snug cursor-pointer hover:text-green-600 transition" onclick="openProductModal('${p.id}')">${p.name}</h3>
+            <h3 class="font-bold text-gray-900 text-base mb-3 leading-snug cursor-pointer hover:text-green-600 transition" onclick="openProductModal('${p.id}')">${p.name}</h3>
 
             <!-- Quick View button -->
             <button onclick="openProductModal('${p.id}')" class="text-xs font-semibold text-green-700 hover:text-green-800 mb-3 text-left flex items-center gap-1">
@@ -194,7 +194,7 @@ function openProductModal(productId) {
             <div class="p-6">
                 <h2 class="text-2xl font-bold text-gray-900 mb-2">${p.name}</h2>
                 <div class="flex items-center gap-3 text-sm text-gray-600 mb-4">
-                    <span class="text-xl font-bold text-primary-dark" id="modal-price-${p.id}">₹${p.price}</span>
+                    <span class="text-xl font-bold text-gray-900" id="modal-price-${p.id}">₹${p.price}</span>
                     ${p.protein ? `<span class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">💪 ${p.protein}g Protein</span>` : ''}
                     ${p.calories ? `<span class="bg-orange-50 text-orange-700 px-2.5 py-1 rounded-full text-xs font-semibold">🔥 ${p.calories} kcal</span>` : ''}
                 </div>
@@ -308,18 +308,39 @@ function renderGrid(filter = 'all') {
     }
 }
 
+// ── Helper to get active cart ─────────────────────────────────────────────
+function getCartItems() {
+    if (typeof cart !== 'undefined' && Array.isArray(cart)) {
+        return cart;
+    }
+    return JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
+}
+
 // ── Qty button sync ──────────────────────────────────────────────────────
 function syncQtyButtons() {
-    const cart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
-    cart.forEach(item => {
-        const wrapper = document.getElementById(`action-${item.id}`);
+    const currentCart = getCartItems();
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+        const productId = card.dataset.id;
+        if (!productId) return;
+
+        const wrapper = document.getElementById(`action-${productId}`);
         if (!wrapper) return;
-        wrapper.innerHTML = `
-            <div class="qty-controls">
-                <button class="qty-btn" onclick="handleRemove('${item.id}')">−</button>
-                <span class="qty-display" id="qty-${item.id}">${item.quantity}</span>
-                <button class="qty-btn" onclick="handleAdd('${item.id}')">+</button>
-            </div>`;
+
+        const cartItem = currentCart.find(item => item.id === productId || item.id.startsWith(`${productId}-`));
+
+        if (cartItem && cartItem.quantity > 0) {
+            wrapper.innerHTML = `
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="handleRemove('${cartItem.id}')" aria-label="Decrease quantity">−</button>
+                    <span class="qty-display" id="qty-${productId}">${cartItem.quantity}</span>
+                    <button class="qty-btn" onclick="handleAdd('${productId}')" aria-label="Increase quantity">+</button>
+                </div>`;
+        } else {
+            wrapper.innerHTML = `
+                <button class="add-btn" onclick="handleAdd('${productId}')">Add to Cart</button>`;
+        }
     });
 }
 
@@ -346,45 +367,42 @@ function handleAdd(id) {
         };
     }
 
-    // Use existing cart.js addToCart if available, else fallback
     if (typeof addToCart === 'function') {
         addToCart(itemToAdd);
     } else {
-        const cart  = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
-        const idx   = cart.findIndex(i => i.id === itemToAdd.id);
-        if (idx > -1) { cart[idx].quantity++; }
-        else          { cart.push({ ...itemToAdd, quantity: 1, details: itemToAdd.ingredients }); }
-        localStorage.setItem('proteinPotCart', JSON.stringify(cart));
+        const currentCart = getCartItems();
+        const idx = currentCart.findIndex(i => i.id === itemToAdd.id);
+        if (idx > -1) {
+            currentCart[idx].quantity++;
+        } else {
+            currentCart.push({ ...itemToAdd, quantity: 1, details: itemToAdd.ingredients });
+        }
+        localStorage.setItem('proteinPotCart', JSON.stringify(currentCart));
     }
+
     syncQtyButtons();
     updateCartCount();
 }
 
 function handleRemove(id) {
-    const currentCart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
-    const itemIndex = currentCart.findIndex(i => i.id === id);
-
-    if (typeof updateItemQuantity === 'function' && itemIndex > -1) {
-        updateItemQuantity(itemIndex, currentCart[itemIndex].quantity - 1);
-    } else {
-        let cart = currentCart;
-        const idx = cart.findIndex(i => i.id === id);
-        if (idx > -1) {
-            cart[idx].quantity--;
-            if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+    if (typeof cart !== 'undefined' && Array.isArray(cart)) {
+        const itemIndex = cart.findIndex(i => i.id === id);
+        if (itemIndex > -1) {
+            updateItemQuantity(itemIndex, cart[itemIndex].quantity - 1);
         }
-        localStorage.setItem('proteinPotCart', JSON.stringify(cart));
+    } else {
+        const currentCart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
+        const itemIndex = currentCart.findIndex(i => i.id === id);
+        if (itemIndex > -1) {
+            currentCart[itemIndex].quantity--;
+            if (currentCart[itemIndex].quantity <= 0) {
+                currentCart.splice(itemIndex, 1);
+            }
+            localStorage.setItem('proteinPotCart', JSON.stringify(currentCart));
+        }
     }
 
-    // If qty hits 0, revert to Add button
-    const cart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
-    const item = cart.find(i => i.id === id);
-    const wrapper = document.getElementById(`action-${id}`);
-    if (!item && wrapper) {
-        wrapper.innerHTML = `<button class="add-btn" onclick="handleAdd('${id}')">Add to Cart</button>`;
-    } else {
-        syncQtyButtons();
-    }
+    syncQtyButtons();
     updateCartCount();
 }
 

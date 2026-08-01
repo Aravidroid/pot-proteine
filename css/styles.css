@@ -596,14 +596,14 @@ a:focus-visible {
 .heading-section {
     font-size: 2.25rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--text-dark);
     margin-bottom: 8px;
 }
 
 .heading-subsection {
     font-size: 1.875rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--text-dark);
     margin-bottom: 16px;
 }
 
@@ -834,7 +834,7 @@ a:focus-visible {
 .section-title {
     font-size: 2.25rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--text-dark);
     margin-bottom: 8px;
 }
 
@@ -872,7 +872,7 @@ a:focus-visible {
 .info-grid-item {
     padding: 8px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 0.75rem;
     text-align: center;
 }
 
@@ -1019,7 +1019,7 @@ a:focus-visible {
 }
 
 .checkout-heading {
-    color: var(--primary-dark);
+    color: var(--text-dark);
     font-weight: 700;
     font-size: 2.25rem;
     margin-bottom: 32px;
@@ -1090,7 +1090,7 @@ a:focus-visible {
 }
 
 .summary-heading {
-    color: var(--primary-dark);
+    color: var(--text-dark);
     font-weight: 700;
     font-size: 1.5rem;
     margin-bottom: 24px;
@@ -1117,7 +1117,7 @@ a:focus-visible {
 .summary-total-label {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--text-dark);
 }
 
 .summary-total-amount {
@@ -1136,7 +1136,7 @@ a:focus-visible {
 }
 
 .nav-brand-text {
-    color: var(--primary-dark);
+    color: var(--text-dark);
     font-size: 1.25rem;
     font-weight: 700;
 }
@@ -1259,7 +1259,7 @@ a:focus-visible {
 .nav-brand {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--text-dark);
 }
 
 .nav-link {
@@ -1687,7 +1687,7 @@ textarea::placeholder {
     display: inline-block;
     padding: 0.2rem 0.65rem;
     border-radius: 9999px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -1724,7 +1724,7 @@ textarea::placeholder {
 }
 
 .tier-label {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1732,9 +1732,9 @@ textarea::placeholder {
 }
 
 .price-tag {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    color: #2d6a4f;
+    color: var(--text-dark);
 }
 
 /* ==============================
@@ -1746,7 +1746,7 @@ textarea::placeholder {
     color: #166534;
     border-radius: 9999px;
     padding: 0.2rem 0.6rem;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -1794,7 +1794,7 @@ textarea::placeholder {
     border-radius: 9999px;
     background: #40916c;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -1826,13 +1826,13 @@ textarea::placeholder {
 }
 
 .nutrition-chip span:first-child {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 700;
     color: #1b4332;
 }
 
 .nutrition-chip span:last-child {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     color: #6b7280;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -1890,7 +1890,7 @@ textarea::placeholder {
 
 .heart-beat {
     display: inline-block;
-    font-size: 1.8rem;
+    font-size: 1.875rem;
     /* Bigger heart */
     margin-right: 6px;
     animation: heartbeat 1.5s infinite;
@@ -2119,7 +2119,7 @@ textarea::placeholder {
 
 /* Star Rating */
 .star-btn {
-    font-size: 2rem;
+    font-size: 1.875rem;
     color: #d1d5db;
     transition: color 0.15s ease, transform 0.15s ease;
     cursor: pointer;

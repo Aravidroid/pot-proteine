@@ -36,6 +36,9 @@ function updateCartCount() {
         cartDOM.count.textContent = count;
     }
     renderMobileFloatingCartBar();
+    if (typeof syncQtyButtons === 'function') {
+        syncQtyButtons();
+    }
 }
 
 /**

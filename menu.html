@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body class="bg-light">
+<body class="bg-[#FAF8F5] text-gray-900">
 
     <!-- ── Navigation (identical to index.html) ── -->
     <nav class="nav-container sticky top-0 z-50 shadow-md">
@@ -37,7 +37,8 @@
                     <button id="cart-btn" onclick="toggleCartModal()" class="nav-link relative" aria-label="Open Cart">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
                         </svg>
                         <span id="cart-count"
                             class="absolute -top-2 -right-2 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center bg-primary-light">0</span>
@@ -64,45 +65,62 @@
         </div>
     </nav>
 
-    <!-- ── Filter bar ── -->
-    <div class="filter-bar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 overflow-x-auto">
-            <div class="flex gap-2 min-w-max" id="filter-tabs">
-                <button class="filter-tab active" data-filter="all">All</button>
-                <button class="filter-tab" data-filter="weight-gain">Weight Gain</button>
-                <button class="filter-tab" data-filter="weight-loss">Weight Loss</button>
-                <button class="filter-tab" data-filter="healthy-workday">Healthy Workday</button>
-                <button class="filter-tab" data-filter="diabetic">Diabetic</button>
-            </div>
-        </div>
-    </div>
-
     <!-- ── Menu Section ── -->
-    <section class="py-12 section-light min-h-screen">
+    <section class="py-10 bg-[#FAF8F5] min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <!-- Header -->
-            <div class="text-center mb-10">
-                <h1 class="section-title">Our Menu</h1>
+            <div class="text-center mb-8">
+                <h1 class="section-title text-gray-900">Our Menu</h1>
                 <div class="menu-header-line"></div>
 
-                <p class="section-subtitle mt-3">
-                    Fresh, handpicked protein boxs crafted for your health goal.
+                <p class="section-subtitle mt-3 max-w-xl mx-auto text-gray-600">
+                    Fresh, handpicked protein boxes crafted for your health goal.
                     Every pot made to order each morning.
                 </p>
 
-                <p class="section-subtitle mt-4 text-green-700">
-                    🎁 <strong>First-Time Customer Offer</strong><br>
-                    Trial Pots are available exclusively for first-time customers and contain the same premium
-                    ingredients as our Supreme Pots at a special introductory price.
-                </p>
+                <!-- First Time Customer Offer Card -->
+                <div class="bg-green-50 border border-green-200 rounded-3xl p-6 sm:p-8 shadow-md max-w-3xl mx-auto text-center mt-6">
+                    <span class="inline-flex items-center px-4 py-2 rounded-full bg-yellow-100 text-yellow-800 font-semibold text-sm">
+                        🎁 Try your first Protein Pot for just ₹119
+                    </span>
+
+                    <h3 class="text-base sm:text-lg font-bold mt-4 text-gray-900">
+                        Same premium ingredients. Perfect for trying us before subscribing.
+                    </h3>
+                </div>
             </div>
 
-            <!-- Tier legend -->
-            <div class="flex flex-wrap justify-center gap-4 mb-8 text-sm text-gray-500">
-                <span>🥗 <strong>Regular</strong> – ₹149 &nbsp;·&nbsp; Everyday essentials</span>
-                <span>⭐ <strong>Supreme</strong> – ₹199 &nbsp;·&nbsp; Premium fruits</span>
-                <span>🧪 <strong>Trial</strong> – ₹119 &nbsp;·&nbsp; Try before you subscribe</span>
+            <!-- Tier Legend Pills -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8 text-xs sm:text-sm font-medium">
+                <div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-200 shadow-sm">
+                    <span>🥗 <strong class="text-gray-900">Regular</strong></span>
+                    <span class="bg-gray-100 text-gray-800 font-bold px-2 py-0.5 rounded-full text-xs">₹149</span>
+                    <span class="text-gray-500 hidden sm:inline">• Everyday essentials</span>
+                </div>
+                <div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-200 shadow-sm">
+                    <span>⭐ <strong class="text-gray-900">Supreme</strong></span>
+                    <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full text-xs">₹199</span>
+                    <span class="text-gray-500 hidden sm:inline">• Premium fruits</span>
+                </div>
+                <div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-200 shadow-sm">
+                    <span>🧪 <strong class="text-gray-900">Trial</strong></span>
+                    <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded-full text-xs">₹119</span>
+                    <span class="text-gray-500 hidden sm:inline">• Try before you subscribe</span>
+                </div>
+            </div>
+
+            <!-- Category Filter bar -->
+            <div class="filter-bar sticky top-16 z-30 bg-white/95 backdrop-blur-md py-3 border-y border-gray-200 mb-8 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto flex justify-center">
+                    <div class="flex gap-2 overflow-x-auto py-1 max-w-full" id="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="weight-gain">Weight Gain</button>
+                        <button class="filter-tab" data-filter="weight-loss">Weight Loss</button>
+                        <button class="filter-tab" data-filter="healthy-workday">Healthy Workday</button>
+                        <button class="filter-tab" data-filter="diabetic">Diabetic</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Grid -->
@@ -115,8 +133,6 @@
                 <div class="text-5xl mb-4">🥗</div>
                 <p class="text-lg font-semibold">No pots found for this filter.</p>
             </div>
-
-
 
         </div>
     </section>
