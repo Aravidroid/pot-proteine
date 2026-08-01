@@ -480,11 +480,49 @@ function handleCheckoutSubmit(e) {
 }
 
 /**
+ * Setup payment method toggle listener to update button text and card styling dynamically
+ */
+function setupPaymentMethodToggle() {
+    const submitBtn = document.getElementById('submitOrderBtn');
+    const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+
+    function updatePaymentState() {
+        const selected = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+        paymentRadios.forEach(radio => {
+            const card = radio.closest('.payment-method-card');
+            if (card) {
+                if (radio.checked) {
+                    card.className = 'payment-method-card flex items-center p-4 border-2 border-[#3b113c] bg-[#faf3f5] rounded-2xl cursor-pointer transition shadow-xs';
+                } else {
+                    card.className = 'payment-method-card flex items-center p-4 border border-pink-200 bg-white rounded-2xl cursor-pointer hover:bg-[#faf3f5] transition';
+                }
+            }
+        });
+
+        if (submitBtn) {
+            if (selected === 'whatsapp') {
+                submitBtn.textContent = 'Order via WhatsApp 💬';
+            } else {
+                submitBtn.textContent = 'Proceed to UPI QR Payment 📱';
+            }
+        }
+    }
+
+    paymentRadios.forEach(radio => {
+        radio.addEventListener('change', updatePaymentState);
+    });
+
+    updatePaymentState();
+}
+
+/**
  * Initialize checkout page
  */
 document.addEventListener('DOMContentLoaded', () => {
     initializeCheckoutDOM();
     loadOrderSummary();
+    setupPaymentMethodToggle();
 
     // Auto-capture location
     if (navigator.geolocation) {
