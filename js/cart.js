@@ -203,6 +203,8 @@ function updateCartDisplay() {
     updateCartSummary();
 }
 
+let lastToggleTimestamp = 0;
+
 /**
  * Toggle cart modal
  */
@@ -211,7 +213,14 @@ function toggleCartModal(e) {
         e.preventDefault();
     }
 
-    // Dynamic fallback lookup to guarantee elements exist
+    // Debounce rapid duplicate invocations (e.g. inline onclick + addEventListener firing simultaneously)
+    const now = Date.now();
+    if (now - lastToggleTimestamp < 250) {
+        return;
+    }
+    lastToggleTimestamp = now;
+
+    // Dynamic lookup to guarantee elements exist
     const modal = cartDOM.modal || document.getElementById('cart-modal');
     const overlay = cartDOM.overlay || document.getElementById('cart-overlay');
 
@@ -220,10 +229,23 @@ function toggleCartModal(e) {
         return;
     }
 
-    modal.classList.toggle('hidden');
+    cartDOM.modal = modal;
+    cartDOM.overlay = overlay;
 
-    if (overlay) {
-        overlay.classList.remove('hidden');
+    const isCurrentlyHidden = modal.classList.contains('hidden');
+
+    if (isCurrentlyHidden) {
+        modal.classList.remove('hidden');
+        if (overlay) {
+            overlay.classList.remove('hidden');
+        }
+        document.body.classList.add('overflow-hidden');
+    } else {
+        modal.classList.add('hidden');
+        if (overlay) {
+            overlay.classList.add('hidden');
+        }
+        document.body.classList.remove('overflow-hidden');
     }
 
     updateCartDisplay();
@@ -349,23 +371,21 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartDisplay();
     renderMobileFloatingCartBar();
 
-    // Attach event listeners
-    const cartBtn = document.getElementById('cart-btn');
-    if (cartBtn) {
-        cartBtn.addEventListener('click', toggleCartModal);
-    }
-
-    const closeCartBtn = document.getElementById('close-cart');
-    if (closeCartBtn) {
-        closeCartBtn.addEventListener('click', toggleCartModal);
-    }
-
-    // Close modal by clicking overlay
+    // Close modal by clicking overlay or modal container background
     const cartOverlay = document.getElementById('cart-overlay');
-    if (cartOverlay && cartOverlay.parentElement) {
-        cartOverlay.parentElement.addEventListener('click', (e) => {
-            if (e.target.id === 'cart-modal' || e.target.id === 'cart-overlay') {
-                toggleCartModal();
+    const cartModal = document.getElementById('cart-modal');
+    
+    if (cartOverlay) {
+        cartOverlay.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleCartModal(e);
+        });
+    }
+
+    if (cartModal) {
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                toggleCartModal(e);
             }
         });
     }
