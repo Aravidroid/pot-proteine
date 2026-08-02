@@ -4,8 +4,8 @@
   "description": "Healthy eating, one Box at a time. Fresh prepared fruit pots & boxes.",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#faf9f6",
-  "theme_color": "#065f46",
+  "background_color": "#faf3f5",
+  "theme_color": "#3b113c",
   "orientation": "portrait",
   "icons": [
     {

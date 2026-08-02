@@ -33,7 +33,14 @@ function initializeCartDOM() {
 function updateCartCount() {
     if (cartDOM.count) {
         const count = cart.reduce((total, item) => total + item.quantity, 0);
+        const oldCount = cartDOM.count.textContent;
         cartDOM.count.textContent = count;
+
+        if (oldCount !== String(count)) {
+            cartDOM.count.classList.remove('cart-badge-bump');
+            void cartDOM.count.offsetWidth; // Force reflow
+            cartDOM.count.classList.add('cart-badge-bump');
+        }
     }
     renderMobileFloatingCartBar();
     if (typeof syncQtyButtons === 'function') {
@@ -121,7 +128,7 @@ function updateCartDisplay() {
         cartDOM.itemsContainer.innerHTML = `
             <div class="text-center py-12">
                 <p class="text-gray-600 text-lg mb-4">🛒 Your cart is empty</p>
-                <p class="text-gray-500 text-sm mb-6">Add delicious protein boxs to get started</p>
+                <p class="text-gray-500 text-sm mb-6">Add delicious protein boxes to get started</p>
                 <a href="menu.html" class="inline-block bg-primary-light text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-hover transition">
                     Browse Menu
                 </a>

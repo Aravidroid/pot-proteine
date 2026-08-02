@@ -29,19 +29,73 @@ document.addEventListener('DOMContentLoaded', () => {
         loadFeaturedProducts();
     }
 
-    // Setup mobile menu toggle
+    // Setup mobile menu toggle with smooth slide-down animation
     if (appDOM.mobileMenuBtn && appDOM.mobileMenu) {
-        appDOM.mobileMenuBtn.addEventListener('click', () => {
-            appDOM.mobileMenu.classList.toggle('hidden');
+        const iconOpen = document.getElementById('menu-icon-open');
+        const iconClose = document.getElementById('menu-icon-close');
+
+        const toggleMenu = (show) => {
+            const isOpen = show !== undefined ? show : !appDOM.mobileMenu.classList.contains('is-open');
+            if (isOpen) {
+                appDOM.mobileMenu.classList.remove('hidden');
+                // Trigger reflow to ensure CSS max-height transition runs smoothly
+                void appDOM.mobileMenu.offsetWidth;
+                appDOM.mobileMenu.classList.add('is-open');
+                appDOM.mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                if (iconOpen) iconOpen.classList.add('hidden');
+                if (iconClose) iconClose.classList.remove('hidden');
+            } else {
+                appDOM.mobileMenu.classList.remove('is-open');
+                appDOM.mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                if (iconOpen) iconOpen.classList.remove('hidden');
+                if (iconClose) iconClose.classList.add('hidden');
+                setTimeout(() => {
+                    if (!appDOM.mobileMenu.classList.contains('is-open')) {
+                        appDOM.mobileMenu.classList.add('hidden');
+                    }
+                }, 350);
+            }
+        };
+
+        appDOM.mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
         });
-        
+
         // Close mobile menu when a link is clicked
         const mobileMenuLinks = appDOM.mobileMenu.querySelectorAll('a');
         mobileMenuLinks.forEach(link => {
             link.addEventListener('click', () => {
-                appDOM.mobileMenu.classList.add('hidden');
+                toggleMenu(false);
             });
         });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (appDOM.mobileMenu.classList.contains('is-open') &&
+                !appDOM.mobileMenu.contains(e.target) &&
+                !appDOM.mobileMenuBtn.contains(e.target)) {
+                toggleMenu(false);
+            }
+        });
+    }
+
+    // Setup subtle scroll-based transform for featured hero image
+    const featuredImg = document.querySelector('.featured-Box-img');
+    if (featuredImg) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    if (scrollY < 900) {
+                        featuredImg.style.transform = `translateY(${scrollY * 0.08}px)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
     }
 });
 
@@ -103,9 +157,9 @@ function loadFeaturedProducts() {
 }
 
 /**
- * Create product card HTML template (DEPRECATED - use loadProductsPage instead)
+ * Create product card HTML
  * @param {Object} product - Product object
- * @returns {string} HTML template
+ * @returns {string} HTML string
  */
 function createProductCard(product) {
     return `
@@ -148,12 +202,6 @@ function smoothScroll(target) {
         element.scrollIntoView({ behavior: 'smooth' });
     }
 }
-
-/**
- * Format price
- * @param {number} price - Price value
- * @returns {string} Formatted price
- */
 function formatPrice(price) {
     return `₹${price.toFixed(2)}`;
 }
