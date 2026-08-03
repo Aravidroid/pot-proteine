@@ -64,6 +64,18 @@ function loadOrderSummary() {
             </div>`;
         });
 
+        const instructions = localStorage.getItem('proteinPotCartInstructions') || '';
+        if (instructions.trim()) {
+            htmlBuilder += `
+                <div class="mt-3 p-3 bg-amber-50/90 border border-amber-200 rounded-xl text-xs text-amber-900">
+                    <div class="font-bold flex items-center gap-1 mb-1 text-amber-950">
+                        <span> </span> Allergy & Fruit Preference Notes:
+                    </div>
+                    <p class="italic text-amber-900 font-medium">${instructions.trim()}</p>
+                </div>
+            `;
+        }
+
         checkoutDOM.summaryContainer.innerHTML = htmlBuilder;
     }
 
@@ -234,6 +246,7 @@ function generateOrderNumber() {
  */
 function buildWhatsAppMessage(orderData) {
     const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+    const instructions = localStorage.getItem('proteinPotCartInstructions') || '';
 
     let orderSummary = '';
     cart.forEach(item => {
@@ -247,7 +260,7 @@ function buildWhatsAppMessage(orderData) {
     const orderNumber = orderData.orderNumber;
     const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
 
-    return `New Order - Pot protéine
+    let message = `New Order - Pot protéine
 
 Name: ${orderData.customerName}
 Phone: ${orderData.customerPhone}
@@ -259,10 +272,16 @@ ${orderData.customerAddress}
 ${mapsLink}
 
 Order:
-${orderSummary}
+${orderSummary}`;
 
-Total: ₹${totalAmount}
+    if (instructions.trim()) {
+        message += `\n  Allergy / Special Notes:\n"${instructions.trim()}"\n`;
+    }
+
+    message += `\nTotal: ₹${totalAmount}
 Order Number: #${orderNumber}`;
+
+    return message;
 }
 
 /**
@@ -294,7 +313,8 @@ function sendViaWhatsApp(orderData) {
         longitude: checkoutDOM.longitude,
         mapsUrl: checkoutDOM.mapsUrl,
 
-        items: cart
+        items: cart,
+        specialInstructions: localStorage.getItem('proteinPotCartInstructions') || ''
     };
 
     localStorage.setItem('orderConfirmation', JSON.stringify(orderConfirmation));
@@ -305,6 +325,7 @@ function sendViaWhatsApp(orderData) {
     // Redirect to home page after a brief delay
     setTimeout(() => {
         localStorage.removeItem('proteinPotCart');
+        localStorage.removeItem('proteinPotCartInstructions');
         localStorage.removeItem('orderDetails');
         window.location.href = 'index.html';
     }, 1500);

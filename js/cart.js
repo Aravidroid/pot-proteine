@@ -201,6 +201,49 @@ function updateCartDisplay() {
         cartDOM.totalContainer.textContent = `₹${totalPrice}`;
     }
     updateCartSummary();
+    setupInstructionsField();
+}
+
+/**
+ * Setup Custom Instructions / Allergy Notes Field in Cart Footer
+ */
+function setupInstructionsField() {
+    const cartFooter = document.querySelector('#cart-modal .cart-footer');
+    if (!cartFooter) return;
+
+    let instructionsEl = document.getElementById('cart-instructions');
+    if (!instructionsEl) {
+        const container = document.createElement('div');
+        container.id = 'cart-instructions-container';
+        container.className = 'space-y-1.5 bg-[#faf3f5] p-3 rounded-2xl border border-pink-200/80 mb-3';
+        container.innerHTML = `
+            <label for="cart-instructions" class="block text-xs font-bold text-[#2a0c2b] flex items-center justify-between">
+                <span class="flex items-center gap-1.5">
+                    <span> </span> Allergy Notes & Fruit Preferences
+                </span>
+                <span class="text-[10px] text-[#7a1c6a] font-semibold uppercase">Optional</span>
+            </label>
+            <textarea id="cart-instructions" rows="2" 
+                placeholder="e.g., Allergic to pineapple, please swap for extra watermelon or kiwi..."
+                class="w-full text-xs p-2.5 rounded-xl border border-pink-200 bg-white text-[#2a0c2b] focus:ring-2 focus:ring-[#7a1c6a] focus:outline-none resize-none transition shadow-xs"></textarea>
+        `;
+        cartFooter.insertBefore(container, cartFooter.firstChild);
+        instructionsEl = document.getElementById('cart-instructions');
+    }
+
+    if (instructionsEl) {
+        const savedVal = localStorage.getItem('proteinPotCartInstructions') || '';
+        if (document.activeElement !== instructionsEl && instructionsEl.value !== savedVal) {
+            instructionsEl.value = savedVal;
+        }
+
+        if (!instructionsEl.dataset.hasListener) {
+            instructionsEl.addEventListener('input', (e) => {
+                localStorage.setItem('proteinPotCartInstructions', e.target.value);
+            });
+            instructionsEl.dataset.hasListener = 'true';
+        }
+    }
 }
 
 let lastToggleTimestamp = 0;
@@ -289,6 +332,8 @@ function clearCart() {
 }
 
 /**
+ * Update cart summary totals (price, total protein)
+ */
 function updateCartSummary() {
     let total = 0;
     let totalProtein = 0;
@@ -303,7 +348,8 @@ function updateCartSummary() {
 
     const proteinEl = document.getElementById("cart-protein");
     if (proteinEl) {
-        proteinEl.innerText = `${totalProtein}g`;
+        const formattedProtein = Number.isInteger(totalProtein) ? totalProtein : totalProtein.toFixed(1);
+        proteinEl.innerText = `${formattedProtein}g`;
     }
 
     renderMobileFloatingCartBar();
@@ -374,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close modal by clicking overlay or modal container background
     const cartOverlay = document.getElementById('cart-overlay');
     const cartModal = document.getElementById('cart-modal');
-    
+
     if (cartOverlay) {
         cartOverlay.addEventListener('click', (e) => {
             e.stopPropagation();

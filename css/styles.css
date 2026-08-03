@@ -8,7 +8,7 @@
 
 :root {
 
-    /* Pot-Protéiné VitaFruits Palette */
+    /* Pot-Protéine VitaFruits Palette */
 
     --primary-dark: #3b113c;
     --primary-light: #7a1c6a;
@@ -60,7 +60,15 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, .section-title, .nav-brand, .price-tag, .heading-section, .heading-subsection {
+h1,
+h2,
+h3,
+h4,
+.section-title,
+.nav-brand,
+.price-tag,
+.heading-section,
+.heading-subsection {
     font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
     color: #1a071c;
     letter-spacing: -0.02em;
@@ -74,9 +82,9 @@ h1, h2, h3, h4, .section-title, .nav-brand, .price-tag, .heading-section, .headi
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: #ffffff;
-    color: #3b113c;
-    border: 1px solid #e9d5e4;
+    background: #3b113c;
+    color: #ffffff;
+    border: 1px solid #3b113c;
     padding: 0.6rem 1.25rem;
     border-radius: 9999px;
     font-weight: 700;
@@ -84,6 +92,7 @@ h1, h2, h3, h4, .section-title, .nav-brand, .price-tag, .heading-section, .headi
     text-decoration: none;
     transition: var(--transition);
     cursor: pointer;
+    box-shadow: 0 4px 14px rgba(59, 17, 60, 0.2);
 }
 
 .btn-pill-arrow .arrow-badge {
@@ -93,21 +102,24 @@ h1, h2, h3, h4, .section-title, .nav-brand, .price-tag, .heading-section, .headi
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 9999px;
-    background: #3b113c;
-    color: #ffffff;
+    background: #ffffff;
+    color: #3b113c;
     font-size: 0.75rem;
     transition: var(--transition);
 }
 
 .btn-pill-arrow:hover {
-    background: #3b113c;
+    background: #5e1352;
+    border-color: #5e1352;
     color: #ffffff;
-    border-color: #3b113c;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 17, 60, 0.3);
 }
 
 .btn-pill-arrow:hover .arrow-badge {
     background: #ffffff;
-    color: #3b113c;
+    color: #5e1352;
+    transform: translateX(2px) translateY(-2px);
 }
 
 .btn-pill-purple,
@@ -1410,7 +1422,8 @@ a:focus-visible {
     position: absolute;
     top: -4px;
     right: -4px;
-    background: #10b981; /* High contrast emerald green */
+    background: #10b981;
+    /* High contrast emerald green */
     color: #ffffff;
     font-family: 'Outfit', sans-serif;
     font-size: 0.7rem;
@@ -1429,10 +1442,21 @@ a:focus-visible {
 }
 
 @keyframes badgeScalePop {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.45); }
-    70% { transform: scale(0.9); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.45);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .cart-badge-bump {
@@ -1446,8 +1470,8 @@ a:focus-visible {
     overflow: hidden;
     transform: translateY(-8px);
     transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.3s ease,
-                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity 0.3s ease,
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-menu-drawer.is-open {
@@ -2132,7 +2156,7 @@ textarea::placeholder {
 }
 
 /* =====================================
-   PREMIUM HERO (Pot-Protéiné Style)
+   PREMIUM HERO (Pot-Protéine Style)
    ===================================== */
 
 .hero-section {
@@ -2395,7 +2419,11 @@ textarea::placeholder {
    ───────────────────────────────────────────────────────────── */
 
 /* Mobile Touch Highlights & Minimum Touch Targets */
-button, input, select, textarea, a {
+button,
+input,
+select,
+textarea,
+a {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
 }
@@ -2446,5 +2474,298 @@ button, input, select, textarea, a {
 @media (min-width: 768px) {
     .mobile-floating-cart-bar {
         display: none !important;
+    }
+}
+
+/* ==============================
+   LIFESTYLE SECTION — Premium D2C
+   ============================== */
+
+/* ==============================
+   LIFESTYLE SECTION — PREMIUM REDESIGN
+   ============================== */
+
+.lifestyle-section {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle organic background decorations */
+.lifestyle-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -80px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(122, 28, 106, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.lifestyle-section::after {
+    content: '';
+    position: absolute;
+    bottom: -120px;
+    right: -100px;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(212, 168, 83, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.lifestyle-deco-leaf-1,
+.lifestyle-deco-leaf-2,
+.lifestyle-deco-leaf-3 {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.035;
+    z-index: 0;
+}
+
+.lifestyle-deco-leaf-1 {
+    top: 60px;
+    right: 80px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(ellipse, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
+    border-radius: 60% 40% 50% 50%;
+    transform: rotate(-25deg);
+}
+
+.lifestyle-deco-leaf-2 {
+    bottom: 100px;
+    left: 40px;
+    width: 180px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(122, 28, 106, 0.1) 0%, transparent 70%);
+    border-radius: 50% 50% 40% 60%;
+    transform: rotate(15deg);
+}
+
+.lifestyle-deco-leaf-3 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(245, 233, 237, 0.4) 0%, transparent 60%);
+    border-radius: 50%;
+}
+
+/* ── Lifestyle Card — Product-Hero Design ── */
+
+.lifestyle-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 2rem;
+    overflow: hidden;
+    border: 1px solid rgba(245, 233, 237, 0.7);
+    box-shadow: 0 2px 16px rgba(59, 17, 60, 0.04);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    /* Staggered entry animation */
+    opacity: 0;
+    animation: lifestyleCardReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lifestyle-card:nth-child(1) { animation-delay: 0.05s; }
+.lifestyle-card:nth-child(2) { animation-delay: 0.15s; }
+.lifestyle-card:nth-child(3) { animation-delay: 0.25s; }
+.lifestyle-card:nth-child(4) { animation-delay: 0.35s; }
+
+@keyframes lifestyleCardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lifestyle-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(59, 17, 60, 0.10);
+    border-color: rgba(122, 28, 106, 0.12);
+}
+
+/* ── Product Image Container ── */
+
+.lifestyle-card__image {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.75rem 2rem 1rem;
+}
+
+/* Per-card soft tinted backgrounds */
+.lifestyle-card__image--warm {
+    background: linear-gradient(145deg, #fef9f0 0%, #fdf3e7 100%);
+}
+
+.lifestyle-card__image--lavender {
+    background: linear-gradient(145deg, #f5f0fa 0%, #efe8f6 100%);
+}
+
+.lifestyle-card__image--sage {
+    background: linear-gradient(145deg, #f0f7f4 0%, #e8f3ee 100%);
+}
+
+.lifestyle-card__image--rose {
+    background: linear-gradient(145deg, #fdf0f3 0%, #f9e8ed 100%);
+}
+
+/* Subtle radial glow behind product */
+.lifestyle-card__image::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65%;
+    height: 65%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.lifestyle-card__image img {
+    width: 80%;
+    max-width: 180px;
+    height: auto;
+    max-height: 160px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 20px rgba(59, 17, 60, 0.10));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.lifestyle-card:hover .lifestyle-card__image img {
+    transform: translateY(-6px) scale(1.03);
+    filter: drop-shadow(0 14px 28px rgba(59, 17, 60, 0.15));
+}
+
+/* ── Card Body ── */
+
+.lifestyle-card__body {
+    padding: 1.25rem 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* ── Unified Tag Pills — Brand Plum Palette ── */
+
+.lifestyle-tag {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: #f5e9ed;
+    color: #7a1c6a;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Subtle per-card tag tints that match image backgrounds */
+.lifestyle-tag--warm {
+    background: #fef3e0;
+    color: #a16207;
+}
+
+.lifestyle-tag--lavender {
+    background: #f0e6f6;
+    color: #6d28d9;
+}
+
+.lifestyle-tag--sage {
+    background: #e6f4ec;
+    color: #047857;
+}
+
+.lifestyle-tag--rose {
+    background: #fce7ed;
+    color: #be185d;
+}
+
+/* ── Card CTA Link — Unified Brand ── */
+
+.lifestyle-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #7a1c6a;
+    margin-top: auto;
+    padding-top: 1.1rem;
+    transition: gap 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.3s ease;
+}
+
+.lifestyle-card:hover .lifestyle-card__cta {
+    gap: 0.65rem;
+    color: #3b113c;
+}
+
+.lifestyle-card__cta svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lifestyle-card:hover .lifestyle-card__cta svg {
+    transform: translateX(4px);
+}
+
+/* ── Section Heading Premium Accent Line ── */
+
+.lifestyle-accent-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #7a1c6a, #d4a853);
+    border-radius: 2px;
+    margin: 1rem auto 0;
+}
+
+/* ── Lifestyle Grid Spacing Override ── */
+
+.lifestyle-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .lifestyle-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .lifestyle-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+
+    .lifestyle-card__image {
+        height: 230px;
     }
 }

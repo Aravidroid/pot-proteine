@@ -432,13 +432,29 @@
     <!-- Cart Sidebar Modal -->
     <div id="cart-modal" class="hidden fixed inset-0 z-50">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-xs" id="cart-overlay"></div>
-        <div class="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl flex flex-col bg-light cart-modal-container">
+        <div
+            class="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl flex flex-col bg-light cart-modal-container">
             <div class="flex justify-between items-center p-6 border-b cart-header">
                 <h2 class="text-2xl font-bold text-primary-dark">Cart</h2>
-                <button id="close-cart" onclick="toggleCartModal()" class="text-muted hover:text-dark transition text-xl font-bold p-1">✕</button>
+                <button id="close-cart" onclick="toggleCartModal()"
+                    class="text-muted hover:text-dark transition text-xl font-bold p-1">✕</button>
             </div>
             <div id="cart-items" class="flex-1 overflow-y-auto p-6"></div>
             <div class="border-t p-6 space-y-4 cart-footer">
+                <!-- Custom Allergy & Fruit Preference Notes -->
+                <div id="cart-instructions-container"
+                    class="space-y-1.5 bg-[#faf3f5] p-3 rounded-2xl border border-pink-200/80">
+                    <label for="cart-instructions"
+                        class="block text-xs font-bold text-[#2a0c2b] flex items-center justify-between">
+                        <span class="flex items-center gap-1.5">
+                            <span> </span> Allergy Notes & Fruit Preferences
+                        </span>
+                        <span class="text-[10px] text-[#7a1c6a] font-semibold uppercase">Optional</span>
+                    </label>
+                    <textarea id="cart-instructions" rows="2"
+                        placeholder="e.g., Allergic to pineapple, please swap for extra watermelon or kiwi..."
+                        class="w-full text-xs p-2.5 rounded-xl border border-pink-200 bg-white text-[#2a0c2b] focus:ring-2 focus:ring-[#7a1c6a] focus:outline-none resize-none transition shadow-xs"></textarea>
+                </div>
                 <div class="flex justify-between text-lg font-bold text-primary-dark">
                     <span>Total:</span>
                     <span id="cart-total">₹0</span>
@@ -448,10 +464,12 @@
                     <span id="cart-protein">0g</span>
                 </div>
                 <div class="space-y-2.5">
-                    <a href="checkout.html" class="w-full block text-center py-3 rounded-xl font-bold btn btn-primary shadow-md hover:shadow-lg transition">
+                    <a href="checkout.html"
+                        class="w-full block text-center py-3 rounded-xl font-bold btn btn-primary shadow-md hover:shadow-lg transition">
                         Proceed to Checkout
                     </a>
-                    <button type="button" onclick="toggleCartModal()" class="w-full block text-center py-2.5 rounded-xl font-semibold text-gray-700 hover:text-gray-900 border border-gray-200 hover:bg-gray-100 transition text-sm">
+                    <button type="button" onclick="toggleCartModal()"
+                        class="w-full block text-center py-2.5 rounded-xl font-semibold text-gray-700 hover:text-gray-900 border border-gray-200 hover:bg-gray-100 transition text-sm">
                         ← Continue Shopping
                     </button>
                 </div>
