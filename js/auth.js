@@ -3,8 +3,11 @@
  * Collects ONLY Customer Name & 10-digit Phone Number (No Passwords, No Emails)
  */
 
-// Determine API Base URL for local dev servers (Live Server port 5500, etc.)
-const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '3000' && window.location.hostname === '127.0.0.1'))
+// Determine API Base URL for local dev servers (Live Server port 5500, 5501, etc.)
+const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const isCustomDevPort = window.location.port && window.location.port !== '3000';
+
+const API_BASE = (window.location.protocol === 'file:' || (isLocalHost && isCustomDevPort))
     ? 'http://localhost:3000'
     : '';
 

@@ -2,15 +2,27 @@ const { createClient } = require('@libsql/client');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure local data directory exists for local development
-const dataDir = path.join(__dirname, 'data');
-if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-}
+let url;
+let authToken = process.env.TURSO_AUTH_TOKEN || undefined;
 
-// Config: Use Turso cloud database if credentials exist, otherwise local file DB
-const url = process.env.TURSO_DATABASE_URL || `file:${path.join(dataDir, 'pot_protein.db')}`;
-const authToken = process.env.TURSO_AUTH_TOKEN || undefined;
+// Determine DB storage URL safely for local dev vs Vercel serverless
+if (process.env.TURSO_DATABASE_URL) {
+    url = process.env.TURSO_DATABASE_URL;
+} else if (process.env.VERCEL) {
+    // Vercel serverless environment (read-only filesystem allows /tmp)
+    url = 'file:/tmp/pot_protein.db';
+} else {
+    // Local development fallback
+    const dataDir = path.join(__dirname, 'data');
+    try {
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+        }
+    } catch (e) {
+        console.warn('[Database] Could not create local data directory:', e.message);
+    }
+    url = `file:${path.join(dataDir, 'pot_protein.db')}`;
+}
 
 const db = createClient({
     url,
