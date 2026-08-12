@@ -24,6 +24,11 @@ if (process.env.TURSO_DATABASE_URL) {
     url = `file:${path.join(dataDir, 'pot_protein.db')}`;
 }
 
+// Convert libsql:// protocol to https:// for Vercel serverless HTTP transport
+if (url && url.startsWith('libsql://')) {
+    url = url.replace(/^libsql:\/\//, 'https://');
+}
+
 const db = createClient({
     url,
     authToken

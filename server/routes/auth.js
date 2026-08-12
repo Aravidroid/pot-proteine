@@ -20,12 +20,12 @@ const authLimiter = rateLimit({
  * Cookie options helper
  */
 function getCookieOptions() {
-    const isProd = process.env.NODE_ENV === 'production';
+    const isProd = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
     return {
         httpOnly: true,
         secure: isProd,
         sameSite: 'lax',
-        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        path: '/'
     };
 }
 
@@ -80,8 +80,11 @@ router.post('/customer', csrfOriginProtection, authLimiter, validateCustomerDeta
             { expiresIn: '30d' }
         );
 
-        // Set HTTP-Only Cookie
-        res.cookie('pot_token', token, getCookieOptions());
+        // Set HTTP-Only Cookie with 30-day maxAge
+        res.cookie('pot_token', token, {
+            ...getCookieOptions(),
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        });
 
         return res.status(200).json({
             success: true,

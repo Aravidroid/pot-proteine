@@ -11,6 +11,9 @@ const orderRoutes = require('../server/routes/orders');
 
 const app = express();
 
+// Enable reverse proxy trust (crucial for Vercel edge proxies, rate-limiting, and secure cookies)
+app.set('trust proxy', 1);
+
 // Security Middlewares
 app.use(helmet({
     contentSecurityPolicy: false,
@@ -38,12 +41,9 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Fallback to index.html for non-API routes if requested
-app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api/')) {
-        return res.status(404).json({ success: false, message: 'API route not found' });
-    }
-    next();
+// Fallback 404 handler for any unmatched API endpoints (GET, POST, etc.)
+app.all('/api*', (req, res) => {
+    return res.status(404).json({ success: false, message: 'API route not found' });
 });
 
 // Start Server in Local Environment

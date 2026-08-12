@@ -157,42 +157,6 @@ function loadFeaturedProducts() {
 }
 
 /**
- * Create product card HTML
- * @param {Object} product - Product object
- * @returns {string} HTML string
- */
-function createProductCard(product) {
-    return `
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105 product-card">
-            <div class="aspect-square bg-gradient-to-br from-green-100 via-orange-100 to-pink-100 flex items-center justify-center">
-                <img src="${product.image || DEFAULT_PRODUCT_IMAGE}" alt="${product.name}" class="w-full h-full object-cover">
-            </div>
-            <div class="p-4">
-                <h3 class="text-lg font-bold text-gray-800 mb-2">${product.name}</h3>
-                <p class="text-sm text-gray-600 mb-2">${product.ingredients.map(i => typeof i === 'object' && i !== null ? i.name : i).join(', ')}</p>
-                <div class="grid grid-cols-3 gap-2 mb-4 text-xs text-center">
-                    <div class="bg-green-50 p-2 rounded">
-                        <p class="font-bold text-green-600">${product.protein}g</p>
-                        <p class="text-gray-600">Protein</p>
-                    </div>
-                    <div class="bg-orange-50 p-2 rounded">
-                        <p class="font-bold text-orange-600">${product.calories}</p>
-                        <p class="text-gray-600">Cal</p>
-                    </div>
-                    <div class="bg-purple-50 p-2 rounded">
-                        <p class="font-bold text-purple-600">₹${product.price}</p>
-                        <p class="text-gray-600">Price</p>
-                    </div>
-                </div>
-                <button class="w-full add-to-cart-btn bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition" data-product-id="${product.id}">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-    `;
-}
-
-/**
  * Smooth scroll to element
  * @param {string} target - CSS selector
  */
@@ -202,24 +166,7 @@ function smoothScroll(target) {
         element.scrollIntoView({ behavior: 'smooth' });
     }
 }
-function formatPrice(price) {
-    return `₹${price.toFixed(2)}`;
-}
 
-/**
- * Format nutrition value
- * @param {number} value - Value
- * @param {string} unit - Unit (g, cal, etc.)
- * @returns {string} Formatted value
- */
-function formatNutrition(value, unit) {
-    return `${value.toFixed(1)}${unit}`;
-}
-
-/**
- * Show success notification
- * @param {string} message - Message text
- */
 function showSuccessMessage(message) {
     const notification = document.createElement('div');
     notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';

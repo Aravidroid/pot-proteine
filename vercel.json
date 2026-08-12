@@ -22,7 +22,7 @@
       ]
     },
     {
-      "source": "/(js|css|menu|why images)/(.*)",
+      "source": "/(js|css|menu|why-images|get-in-touch)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

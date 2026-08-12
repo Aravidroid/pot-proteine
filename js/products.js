@@ -195,13 +195,6 @@ const gymMenuProducts = [
 
 const allProducts = gymMenuProducts;
 
-// Delivery and Pricing Policy Notes from Menu
-const deliveryPolicy = {
-    inclusiveDelivery: true,
-    gymBulkDiscount: "If 5 orders at the same gym, there will be no delivery charges.",
-    distanceSurcharge: "Above 10 KM - delivery fee will be recharged."
-};
-
 // Data Normalization & Default Plan Duration Assignment
 gymMenuProducts.forEach(product => {
     product.image = product.image || DEFAULT_PRODUCT_IMAGE;

@@ -16,6 +16,8 @@ server/data/*.db
 server/data/*.db-journal
 *.db
 *.db-journal
+auth
+auth-wal
 
 # Vercel deployment folder
 .vercel
