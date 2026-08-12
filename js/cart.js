@@ -150,14 +150,34 @@ function updateCartDisplay() {
     // Build entire HTML at once
     let htmlBuilder = '';
     let totalPrice = 0;
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
 
     cart.forEach((item, index) => {
         const protein = Number(item.protein || 0);
         const calories = Number(item.calories || 0);
         const details = Array.isArray(item.details) ? item.details : [];
-        const itemTotal = Number(item.price || 0) * item.quantity;
+        
+        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
+        const planId = item.selectedPlanId || 'daily';
+        let unitPrice = Number(item.price || 199);
+        let isDiscounted = false;
+
+        if (isSupreme && planId === 'daily' && isEligible) {
+            unitPrice = 119;
+            isDiscounted = true;
+        }
+
+        const itemTotal = unitPrice * item.quantity;
         totalPrice += itemTotal;
         const itemImg = item.image || CART_DEFAULT_PRODUCT_IMAGE;
+
+        const priceDisplayHTML = isDiscounted
+            ? `<div class="text-right">
+                <span class="line-through text-gray-400 text-xs mr-1">₹${199 * item.quantity}</span>
+                <span class="font-extrabold text-[#7a1c6a] text-base">₹${itemTotal}</span>
+                <span class="block text-[9px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1 rounded">🎉 First Order Offer</span>
+               </div>`
+            : `<span class="font-extrabold text-gray-900 text-base">₹${itemTotal}</span>`;
 
         htmlBuilder += `
         <div class="border-b pb-4 mb-4 last:border-b-0 border-gray-100">
@@ -165,7 +185,7 @@ function updateCartDisplay() {
                 <img src="${itemImg}" 
                      alt="${item.name}" 
                      class="w-16 h-16 object-cover rounded-xl border border-gray-200 shadow-sm shrink-0 bg-gray-50"
-                     onerror="this.src='logo.png'">
+                     onerror="this.src='logo.webp'">
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-start">
                         <p class="font-bold text-gray-900 text-sm truncate">${item.name}</p>
@@ -187,7 +207,7 @@ function updateCartDisplay() {
                     <button onclick="updateItemQuantity(${index}, ${item.quantity + 1})"
                         class="w-7 h-7 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-bold text-sm transition">+</button>
                 </div>
-                <span class="font-extrabold text-gray-900 text-base">₹${itemTotal}</span>
+                ${priceDisplayHTML}
             </div>
         </div>
         `;
@@ -313,10 +333,17 @@ function showCartNotification() {
  * @returns {number} Total price
  */
 function getCartTotal() {
-    const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+    const cartList = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
 
-    return cart.reduce((sum, item) => {
-        return sum + (item.price * item.quantity);
+    return cartList.reduce((sum, item) => {
+        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
+        const planId = item.selectedPlanId || 'daily';
+        let unitPrice = Number(item.price || 199);
+        if (isSupreme && planId === 'daily' && isEligible) {
+            unitPrice = 119;
+        }
+        return sum + (unitPrice * item.quantity);
     }, 0);
 }
 /**

@@ -1,6 +1,6 @@
 {
-  "name": "Pot protéine - Fresh Healthy Fruit Boxes",
-  "short_name": "Pot protéine",
+  "name": "Pot protein - Fresh Healthy Fruit Boxes",
+  "short_name": "Pot protein",
   "description": "Healthy eating, one Box at a time. Fresh prepared fruit pots & boxes.",
   "start_url": "/index.html",
   "display": "standalone",
@@ -9,9 +9,9 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "logo.png",
+      "src": "logo.webp",
       "sizes": "192x192 512x512",
-      "type": "image/png"
+      "type": "image/webp"
     }
   ]
 }

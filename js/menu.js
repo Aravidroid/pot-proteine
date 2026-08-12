@@ -31,15 +31,32 @@ function parseProduct(p) {
 function updatePlanPrice(productId) {
     const selectEl = document.getElementById(`plan-select-${productId}`);
     if (!selectEl) return;
-    const priceTag = document.getElementById(`price-tag-${productId}`);
+    const priceContainer = document.getElementById(`price-tag-container-${productId}`);
     const selectedOption = selectEl.options[selectEl.selectedIndex];
-    const price = selectedOption.dataset.price;
-    if (priceTag && price) {
-        priceTag.textContent = `₹${price}`;
+    const planId = selectEl.value;
+
+    const isSupreme = String(productId) === '3' || String(productId) === '4';
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
+
+    if (isSupreme && planId === 'daily' && isEligible) {
+        if (priceContainer) {
+            priceContainer.innerHTML = `
+                <div class="flex items-center gap-1.5">
+                    <span class="line-through text-gray-400 text-xs font-semibold">₹199</span>
+                    <span class="price-tag text-[#7a1c6a] font-extrabold text-xl" id="price-tag-${productId}">₹119</span>
+                </div>
+                <span class="text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200/80 px-1.5 py-0.5 rounded-full inline-block mt-0.5">🎉 First Order Offer</span>
+            `;
+        }
+    } else {
+        const price = selectedOption ? selectedOption.dataset.price : '199';
+        if (priceContainer) {
+            priceContainer.innerHTML = `<span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${productId}">₹${price}</span>`;
+        }
     }
 }
 
-// Helper to toggle ingredients visibility
+// ── Helper to toggle ingredients visibility ───────────────────────────────
 function toggleIngredients(productId) {
     const container = document.getElementById(`ingredients-${productId}`);
     const btnText = document.getElementById(`ing-btn-text-${productId}`);
@@ -82,7 +99,7 @@ function buildCard(p) {
         return `<span class="ingredient-pill">${name}</span>`;
     }).join('') : '';
 
-    const ingHTML = ingPreview ? `<div class="flex flex-wrap gap-1.5 mb-3">${ingPreview}<span class="ingredient-pill text-gray-500 bg-gray-100">+more</span></div>` : '';
+    const ingHTML = ingPreview ? `<div class="flex flex-wrap gap-1.5 mb-3 items-center">${ingPreview}<span class="ingredient-pill text-emerald-800 bg-emerald-100/90 hover:bg-emerald-200 hover:text-emerald-900 border border-emerald-200/80 cursor-pointer font-bold transition-all transform hover:scale-105 active:scale-95 shadow-2xs" onclick="openProductModal('${p.id}')" title="Click to view all ingredients & details">+more</span></div>` : '';
 
     let planSelectorHTML = '';
     if (p.plans && p.plans.length > 0) {
@@ -93,6 +110,20 @@ function buildCard(p) {
                 ${p.plans.map(plan => `<option value="${plan.id}" data-price="${plan.price}">${plan.name} (${plan.duration}) - ₹${plan.price}</option>`).join('')}
             </select>
         </div>`;
+    }
+
+    const isSupreme = String(p.id) === '3' || String(p.id) === '4';
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
+
+    let priceTagHTML = `<span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${p.id}">₹${p.price}</span>`;
+    if (isSupreme && isEligible) {
+        priceTagHTML = `
+            <div class="flex items-center gap-1.5">
+                <span class="line-through text-gray-400 text-xs font-semibold">₹199</span>
+                <span class="price-tag text-[#7a1c6a] font-extrabold text-xl" id="price-tag-${p.id}">₹119</span>
+            </div>
+            <span class="text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200/80 px-1.5 py-0.5 rounded-full inline-block mt-0.5">🎉 First Order Offer</span>
+        `;
     }
 
     return `
@@ -117,11 +148,6 @@ function buildCard(p) {
             <!-- Ingredient Tags Preview -->
             ${ingHTML}
 
-            <!-- Quick View button -->
-            <button onclick="openProductModal('${p.id}')" class="text-xs font-bold text-[#7a1c6a] hover:text-[#3b113c] mb-3 text-left flex items-center gap-1">
-                <span>🔍 Quick View & Ingredients</span>
-            </button>
-
             <!-- Plan Duration Selector -->
             ${planSelectorHTML}
 
@@ -130,7 +156,9 @@ function buildCard(p) {
 
             <!-- Price + Add -->
             <div class="flex items-center justify-between mt-3 gap-3 pt-2 border-t border-pink-100/60">
-                <span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${p.id}">₹${p.price}</span>
+                <div class="flex flex-col leading-tight" id="price-tag-container-${p.id}">
+                    ${priceTagHTML}
+                </div>
                 <div class="flex-1 max-w-[160px]" id="action-${p.id}">
                     <button class="add-btn" onclick="handleAdd('${p.id}')">Add to Cart</button>
                 </div>
@@ -192,25 +220,25 @@ function openProductModal(productId) {
 
     content.innerHTML = `
         <div class="relative">
-            <div class="w-full h-52 sm:h-60 bg-gradient-to-br from-green-50 via-emerald-100 to-teal-50 flex items-center justify-center p-6 relative overflow-hidden">
+            <div class="w-full h-44 sm:h-52 bg-gradient-to-br from-green-50 via-emerald-100 to-teal-50 flex items-center justify-center p-4 relative overflow-hidden">
                 <img src="${p.image || DEFAULT_PRODUCT_IMAGE}" alt="${p.name}" class="max-h-full max-w-full object-contain drop-shadow-lg transform hover:scale-105 transition duration-300">
                 <div class="absolute bottom-3 left-4 flex gap-2">
                     <span class="badge ${meta.badgeClass} shadow-sm">${meta.icon} ${meta.label}</span>
                 </div>
             </div>
 
-            <div class="p-6">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">${p.name}</h2>
-                <div class="flex items-center gap-3 text-sm text-gray-600 mb-4">
+            <div class="p-4 sm:p-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 pr-8">${p.name}</h2>
+                <div class="flex items-center gap-2.5 text-sm text-gray-600 mb-3 flex-wrap">
                     <span class="text-xl font-bold text-gray-900" id="modal-price-${p.id}">₹${p.price}</span>
-                    ${p.protein ? `<span class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">💪 ${p.protein}g Protein</span>` : ''}
-                    ${p.calories ? `<span class="bg-orange-50 text-orange-700 px-2.5 py-1 rounded-full text-xs font-semibold">🔥 ${p.calories} kcal</span>` : ''}
+                    ${p.protein ? `<span class="bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">💪 ${p.protein}g Protein</span>` : ''}
+                    ${p.calories ? `<span class="bg-orange-50 text-orange-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">🔥 ${p.calories} kcal</span>` : ''}
                 </div>
 
                 ${plansHTML}
 
                 ${p.benefits ? `
-                <div class="my-4 p-3.5 bg-green-50/80 border border-green-200/80 rounded-xl">
+                <div class="my-3 p-3 bg-green-50/80 border border-green-200/80 rounded-xl">
                     <h3 class="text-xs font-bold uppercase tracking-wider text-green-800 mb-1 flex items-center gap-1.5">
                         <span>✨</span> What Makes It Special?
                     </h3>
@@ -219,14 +247,14 @@ function openProductModal(productId) {
                     </p>
                 </div>` : ''}
 
-                <div class="my-4">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Included Ingredients (${ingredientCount})</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+                <div class="my-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Included Ingredients (${ingredientCount})</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1">
                         ${ingredientsListHTML}
                     </div>
                 </div>
 
-                <div class="mt-6 pt-4 border-t flex items-center gap-3">
+                <div class="mt-4 pt-3 border-t border-gray-100 flex items-center gap-3 sticky bottom-0 bg-white pb-1 z-10">
                     <button onclick="handleAddFromModal('${p.id}'); closeProductModal();" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                         <span>🛒 Add to Cart</span>
                     </button>

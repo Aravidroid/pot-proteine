@@ -8,8 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="logo.png">
-    <title>Menu - Pot protéine</title>
+    <link rel="icon" type="image/webp" href="logo.webp">
+    <title>Menu - Pot protein</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -26,7 +26,7 @@
                     <a href="index.html" class="brand-link group">
                         <div
                             class="relative flex items-center justify-center p-0.5 rounded-full bg-gradient-to-tr from-[#3b113c] via-[#7a1c6a] to-[#10b981] shadow-sm transition-transform duration-300 group-hover:scale-105">
-                            <img src="logo.jpeg" alt="Pot protéine Logo"
+                            <img src="logo.webp" alt="Pot protein Logo"
                                 class="w-10 h-10 md:w-11 md:h-11 object-cover rounded-full bg-white p-0.5">
                         </div>
                         <div class="flex flex-col leading-none">
@@ -154,7 +154,7 @@
 
                     <!-- Subtitle -->
                     <h2 class="text-xs sm:text-sm font-bold text-pink-100/90 tracking-wide uppercase mb-3.5">
-                        First time ordering in Pot Protéine?
+                        First time ordering in Pot protein?
                     </h2>
 
                     <!-- Main Price Box -->
@@ -227,9 +227,9 @@
                 <!-- Col 1: Brand Info -->
                 <div class="space-y-4">
                     <div class="flex items-center space-x-2">
-                        <img src="logo.jpeg" alt="Protein Pot Logo"
+                        <img src="logo.webp" alt="Protein Pot Logo"
                             class="w-10 h-10 object-cover rounded-full border border-pink-300/30">
-                        <span class="text-xl font-bold text-white font-serif">Pot protéine</span>
+                        <span class="text-xl font-bold text-white font-serif">Pot protein</span>
                     </div>
                     <p class="text-sm opacity-80 leading-relaxed">
                         Fresh fruit & nut protein pots prepared fresh every morning in Coimbatore, Tamil Nadu. Zero
@@ -247,32 +247,20 @@
 
                 <!-- Col 2: Quick Links -->
                 <div>
-                    <h4 class="footer-heading">Quick Links</h4>
-                    <ul class="space-y-2.5 text-sm">
-                        <li><a href="index.html" class="link-light">Home</a></li>
-                        <li><a href="menu.html" class="link-light">Our Menu</a></li>
-                        <li><a href="index.html#about" class="link-light">About Us</a></li>
-                        <li><a href="feedback.html" class="link-light">Feedback Quiz 💬</a></li>
-                        <li><a href="index.html#contact" class="link-light">Contact Us</a></li>
+                    <h4 class="text-base font-extrabold text-white mb-3 tracking-wide">Quick Links</h4>
+                    <ul class="space-y-2 text-sm font-medium">
+                        <li><a href="menu.html" class="text-white/80 hover:text-white transition">Menu</a></li>
+                        <li><a href="index.html#about" class="text-white/80 hover:text-white transition">About Us</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 3: Kitchen & Delivery Info -->
+                <!-- Col 3: Contact -->
                 <div>
-                    <h4 class="footer-heading">Fresh Kitchen Info</h4>
-                    <ul class="space-y-2.5 text-sm opacity-80">
-                        <li class="flex items-start gap-2">
-                            <span>📍</span>
-                            <span>Coimbatore, Tamil Nadu</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span>⏰</span>
-                            <span>Mon – Sat: 6:00 AM – 9:00 PM</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span>🛵</span>
-                            <span>Morning fresh dispatch across Coimbatore</span>
-                        </li>
+                    <h4 class="text-base font-extrabold text-white mb-3 tracking-wide">Contact</h4>
+                    <ul class="space-y-2 text-sm font-medium">
+                        <li><a href="index.html#contact" class="text-white/80 hover:text-white transition">Contact Us</a></li>
+                        <li><a href="https://wa.me/917871974777" target="_blank"
+                                class="text-[#25D366] font-bold hover:underline transition">WhatsApp Order</a></li>
                     </ul>
                 </div>
 
@@ -292,7 +280,7 @@
             <!-- Bottom Copyright Bar -->
             <div
                 class="border-t border-white/10 pt-6 text-center text-xs text-muted-footer flex flex-col sm:flex-row justify-between items-center gap-3">
-                <p>&copy; 2026 Pot protéine. All rights reserved. | Handcrafted in Tamil Nadu, India</p>
+                <p>&copy; 2026 Pot protein. All rights reserved. | Handcrafted in Tamil Nadu, India</p>
                 <div class="flex gap-4">
                     <a href="index.html#contact" class="hover:text-white transition">Contact Support</a>
                     <span>•</span>
@@ -360,15 +348,15 @@
 
     <!-- ── Product Details Modal ── -->
     <div id="product-details-modal"
-        class="hidden fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 sm:p-6">
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeProductModal()"></div>
         <div
-            class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden z-10 my-8 transform transition-all border border-gray-100">
-            <button onclick="closeProductModal()"
-                class="absolute top-3 right-3 z-20 bg-white/90 hover:bg-white text-gray-700 hover:text-black w-9 h-9 rounded-full flex items-center justify-center shadow-md transition font-bold text-lg">
+            class="relative bg-white rounded-2xl shadow-2xl max-w-md sm:max-w-lg w-full max-h-[85vh] flex flex-col overflow-hidden z-10 my-auto transform transition-all border border-gray-100">
+            <button onclick="closeProductModal()" aria-label="Close details"
+                class="absolute top-3 right-3 z-30 bg-white/95 hover:bg-white text-gray-700 hover:text-black w-9 h-9 rounded-full flex items-center justify-center shadow-md transition font-bold text-lg border border-gray-200/80 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500">
                 ✕
             </button>
-            <div id="product-modal-content">
+            <div id="product-modal-content" class="overflow-y-auto flex-1">
                 <!-- Dynamically populated -->
             </div>
         </div>
@@ -377,6 +365,7 @@
     <!-- Scripts -->
     <script src="js/products.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
 

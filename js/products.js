@@ -8,7 +8,7 @@ const gymMenuProducts = [
         id: '1',
         name: 'Regular Weight Gain Pot',
         category: 'Regular Box',
-        image: 'menu/regular-weight-gain-pot.png',
+        image: 'menu/regular-weight-gain-pot.webp',
         price: 149,
         protein: 18,
         calories: 420,
@@ -32,7 +32,7 @@ const gymMenuProducts = [
         id: '2',
         name: 'Regular Weight Loss Pot',
         category: 'Regular Box',
-        image: 'menu/regular-weight-loss-pot.png',
+        image: 'menu/regular-weight-loss-pot.webp',
         price: 149,
         protein: 14,
         calories: 280,
@@ -57,7 +57,7 @@ const gymMenuProducts = [
         id: '3',
         name: 'Supreme Weight Gain Pot',
         category: 'Supreme Box',
-        image: 'menu/supreme-weight-gain-pot.png',
+        image: 'menu/supreme-weight-gain-pot.webp',
         price: 199,
         protein: 26,
         calories: 540,
@@ -86,7 +86,7 @@ const gymMenuProducts = [
         id: '4',
         name: 'Supreme Weight Loss Pot',
         category: 'Supreme Box',
-        image: 'menu/supreme-weight-loss-pot.png',
+        image: 'menu/supreme-weight-loss-pot.webp',
         price: 199,
         protein: 20,
         calories: 340,
@@ -115,7 +115,7 @@ const gymMenuProducts = [
         id: 'healthy-workday-menu',
         name: 'Healthy Workday Pot',
         category: 'Healthy Workday',
-        image: 'menu/healthy-workday-pot.png',
+        image: 'menu/healthy-workday-pot.webp',
         price: 69,
         protein: 15,
         calories: 310,
@@ -147,7 +147,7 @@ const gymMenuProducts = [
         id: '5',
         name: 'Diabetic Menu Pot',
         category: 'Diabetic Box',
-        image: 'menu/diabetic-menu-pot.png',
+        image: 'menu/diabetic-menu-pot.webp',
         price: 69,
         protein: 16,
         calories: 240,
@@ -229,4 +229,23 @@ function getFeaturedProducts(limit = 3) {
 // Helper function to get product by ID
 function getProductById(id) {
     return gymMenuProducts.find(p => p.id === String(id));
+}
+
+// Helper to check if customer is eligible for First-Order Supreme Box Offer (₹119)
+function isFirstOrderEligible() {
+    if (!window.currentUser) return true; // Guest visitors are eligible for first order
+    return window.currentUser.is_first_order !== false;
+}
+
+// Helper to calculate effective price considering Supreme Box First-Order Offer (₹119 instead of ₹199)
+function getProductEffectivePrice(product, planId = 'daily') {
+    if (!product) return 0;
+    const isSupreme = String(product.id) === '3' || String(product.id) === '4';
+    if (isSupreme && planId === 'daily' && isFirstOrderEligible()) {
+        return 119;
+    }
+    const base = Number(product.price || 199);
+    if (planId === 'weekly') return base * 6;
+    if (planId === 'monthly') return base * 26;
+    return base;
 }

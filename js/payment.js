@@ -1,5 +1,5 @@
 /**
- * UPI QR Generator for Pot protéine (100% Client-Side / Pure Browser)
+ * UPI QR Generator for Pot protein (100% Client-Side / Pure Browser)
  * Generates UPI QR codes and handles WhatsApp order submission
  */
 

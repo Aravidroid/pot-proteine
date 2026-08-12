@@ -1,5 +1,12 @@
 {
+  "version": 2,
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    }
+  ],
   "headers": [
     {
       "source": "/manifest.json",
@@ -15,7 +22,7 @@
       ]
     },
     {
-      "source": "/(js|css)/(.*)",
+      "source": "/(js|css|menu|why images)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -48,7 +55,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://api.qrserver.com https://*.google.com https://*.gstatic.com; connect-src 'self'; frame-ancestors 'none';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://api.qrserver.com https://*.google.com https://*.gstatic.com; connect-src 'self' https://*.turso.io; frame-ancestors 'none';"
         }
       ]
     }

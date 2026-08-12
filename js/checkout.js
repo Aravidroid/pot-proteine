@@ -1,4 +1,4 @@
-// Pot protéine - Checkout Page Management
+// Pot protein - Checkout Page Management
 // Handles form submission and order summary display
 
 // Cache DOM elements
@@ -44,6 +44,7 @@ function initializeCheckoutDOM() {
  */
 function loadOrderSummary() {
     const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
 
     if (!cart.length) {
         alert("Your cart is empty.");
@@ -57,10 +58,27 @@ function loadOrderSummary() {
 
         let htmlBuilder = '';
         cart.forEach(item => {
-            const itemTotal = item.price * item.quantity;
+            const isSupreme = String(item.id) === '3' || String(item.id) === '4';
+            const planId = item.selectedPlanId || 'daily';
+            let unitPrice = Number(item.price || 199);
+            let isDiscounted = false;
+
+            if (isSupreme && planId === 'daily' && isEligible) {
+                unitPrice = 119;
+                isDiscounted = true;
+            }
+
+            const itemTotal = unitPrice * item.quantity;
+
             htmlBuilder += `<div class="flex justify-between text-sm mb-2">
-                <span class="text-gray-700">${item.name} x${item.quantity}</span>
-                <span class="font-semibold">₹${itemTotal}</span>
+                <div>
+                    <span class="text-gray-700 font-medium">${item.name} x${item.quantity}</span>
+                    ${isDiscounted ? `<span class="block text-[10px] text-amber-800 font-bold">🎉 First Order Offer Applied</span>` : ''}
+                </div>
+                <div class="text-right">
+                    ${isDiscounted ? `<span class="line-through text-gray-400 text-xs mr-1">₹${199 * item.quantity}</span>` : ''}
+                    <span class="font-semibold text-gray-900">₹${itemTotal}</span>
+                </div>
             </div>`;
         });
 
@@ -87,8 +105,7 @@ function loadOrderSummary() {
  * Update checkout summary calculations
  */
 function updateCheckoutSummary() {
-    const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = typeof getCartTotal === 'function' ? getCartTotal() : 0;
 
     if (checkoutDOM.subtotalEl) checkoutDOM.subtotalEl.textContent = total;
     if (checkoutDOM.totalEl) checkoutDOM.totalEl.textContent = total;
@@ -260,7 +277,7 @@ function buildWhatsAppMessage(orderData) {
     const orderNumber = orderData.orderNumber;
     const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
 
-    let message = `New Order - Pot protéine
+    let message = `New Order - Pot protein
 
 Name: ${orderData.customerName}
 Phone: ${orderData.customerPhone}
@@ -318,6 +335,19 @@ function sendViaWhatsApp(orderData) {
     };
 
     localStorage.setItem('orderConfirmation', JSON.stringify(orderConfirmation));
+
+    // Post order to Express/SQLite Backend API
+    fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+            order_number: orderNumber,
+            items: cart,
+            total_amount: totalAmount,
+            instructions: localStorage.getItem('proteinPotCartInstructions') || ''
+        })
+    }).catch(err => console.warn('[Orders API] Failed to record order:', err));
 
     // Open WhatsApp
     window.open(whatsappURL, '_blank');
