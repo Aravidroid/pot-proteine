@@ -47,7 +47,7 @@ router.post('/customer', csrfOriginProtection, authLimiter, validateCustomerDeta
 
         if (existingResult.rows.length > 0) {
             const existingUser = existingResult.rows[0];
-            userId = existingUser.id;
+            userId = Number(existingUser.id);
 
             // Update name if changed
             if (existingUser.name !== name) {
@@ -58,11 +58,15 @@ router.post('/customer', csrfOriginProtection, authLimiter, validateCustomerDeta
             }
         } else {
             // Create new customer profile
-            const insertResult = await db.execute({
+            await db.execute({
                 sql: 'INSERT INTO users (name, phone) VALUES (?, ?)',
                 args: [name, phone]
             });
-            userId = Number(insertResult.lastInsertRowid);
+            const newUserResult = await db.execute({
+                sql: 'SELECT id FROM users WHERE phone = ? LIMIT 1',
+                args: [phone]
+            });
+            userId = Number(newUserResult.rows[0].id);
         }
 
         // Check first-order eligibility based on order count
