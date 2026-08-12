@@ -30,19 +30,19 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(cookieParser());
 
 // Global CSRF / Origin Protection on API endpoints
-app.use('/api', csrfOriginProtection);
+app.use(['/api', '/'], csrfOriginProtection);
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/orders', orderRoutes);
+// API Routes (supports both /api/auth and /auth prefixes for Vercel serverless rewrites)
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/orders', '/orders'], orderRoutes);
 
 // Health Check
-app.get('/api/health', (req, res) => {
+app.get(['/api/health', '/health'], (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Fallback 404 handler for any unmatched API endpoints (GET, POST, etc.)
-app.all('/api*', (req, res) => {
+// Fallback 404 handler for any unmatched API endpoints
+app.all('*', (req, res) => {
     return res.status(404).json({ success: false, message: 'API route not found' });
 });
 
