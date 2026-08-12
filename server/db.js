@@ -9,7 +9,7 @@ let authToken = process.env.TURSO_AUTH_TOKEN || undefined;
 if (process.env.TURSO_DATABASE_URL) {
     url = process.env.TURSO_DATABASE_URL;
 } else if (process.env.VERCEL) {
-    // Vercel serverless environment (read-only filesystem allows /tmp)
+    console.warn('[Database Warning] TURSO_DATABASE_URL environment variable is missing on Vercel. Please configure TURSO_DATABASE_URL and TURSO_AUTH_TOKEN in Vercel project settings.');
     url = 'file:/tmp/pot_protein.db';
 } else {
     // Local development fallback

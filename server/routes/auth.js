@@ -102,7 +102,7 @@ router.post('/customer', csrfOriginProtection, authLimiter, validateCustomerDeta
         });
     } catch (error) {
         console.error('[Customer Entry Error]', error);
-        return res.status(500).json({ success: false, message: 'Server error saving customer details.' });
+        return res.status(500).json({ success: false, message: error.message || 'Server error saving customer details.' });
     }
 });
 
