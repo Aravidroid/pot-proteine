@@ -2,6 +2,63 @@ const DEFAULT_PRODUCT_IMAGE = 'assets/pot-placeholder.svg';
 
 const gymMenuProducts = [
 
+    // ===== SUPREME BOX (Price: 199) =====
+    {
+        id: '3',
+        name: 'Supreme Weight Gain Pot',
+        category: 'Supreme Box',
+        image: 'menu/supreme-weight-gain-pot.webp',
+        price: 199,
+        protein: 26,
+        calories: 540,
+        isPopular: false,
+        benefits: "Adds avocado and premium fruits to increase healthy fats, calorie density, and micronutrient variety.",
+        ingredients: [
+            'Avocado',
+            'Dragon fruit',
+            'Rambutan',
+            'Kiwi',
+            'Green Apple',
+            'Banana',
+            'Guava',
+            'Pomegranate',
+            'Watermelon',
+            'Muskmelon',
+            'Dates',
+            'Sunflower seeds',
+            'Almond',
+            'Cashews'
+        ]
+    },
+
+    {
+        id: '4',
+        name: 'Supreme Weight Loss Pot',
+        category: 'Supreme Box',
+        image: 'menu/supreme-weight-loss-pot.webp',
+        price: 199,
+        protein: 20,
+        calories: 340,
+        isPopular: true,
+        benefits: "Packed with premium fruits rich in fiber and antioxidants for a nutrient dense, lower calorie fruit Box meal.",
+        ingredients: [
+            'Dragon fruit',
+            'Kiwi',
+            'Rambutan',
+            'Strawberry',
+            'Green Apple',
+            'Papaya',
+            'Guava',
+            'Cucumber',
+            'Pineapple',
+            'Muskmelon',
+            'Pear',
+            'Sunflower seeds',
+            'Almond',
+            'Cashews'
+        ]
+    },
+
     // ===== REGULAR BOX (Price: 149) =====
 
     {
@@ -39,64 +96,6 @@ const gymMenuProducts = [
         isPopular: true,
         benefits: "Lower calorie, high-fiber fruits and cucumber help increase meal volume while keeping calorie intake relatively lower.",
         ingredients: [
-            'Green Apple',
-            'Papaya',
-            'Guava',
-            'Cucumber',
-            'Pineapple',
-            'Muskmelon',
-            'Pear',
-            'Sunflower seeds',
-            'Almond',
-            'Cashews'
-        ]
-    },
-
-    // ===== SUPREME BOX (Price: 199) =====
-    {
-        id: '3',
-        name: 'Supreme Weight Gain Pot',
-        category: 'Supreme Box',
-        image: 'menu/supreme-weight-gain-pot.webp',
-        price: 199,
-        protein: 26,
-        calories: 540,
-        isPopular: false,
-        benefits: "Adds avocado and premium fruits to increase healthy fats, calorie density, and micronutrient variety.",
-        ingredients: [
-            'Avocado',
-            'Dragon fruit',
-            'Rambutan',
-            'Kiwi',
-            'Green Apple',
-            'Banana',
-            'Guava',
-            'Pomegranate',
-            'Watermelon',
-            'Muskmelon',
-            'Dates',
-            'Sunflower seeds',
-            'Almond',
-            'Cashews'
-        ]
-    },
-
-
-    {
-        id: '4',
-        name: 'Supreme Weight Loss Pot',
-        category: 'Supreme Box',
-        image: 'menu/supreme-weight-loss-pot.webp',
-        price: 199,
-        protein: 20,
-        calories: 340,
-        isPopular: true,
-        benefits: "Packed with premium fruits rich in fiber and antioxidants for a nutrient dense, lower calorie fruit Box meal.",
-        ingredients: [
-            'Dragon fruit',
-            'Kiwi',
-            'Rambutan',
-            'Strawberry',
             'Green Apple',
             'Papaya',
             'Guava',

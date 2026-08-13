@@ -611,7 +611,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeUpiModalBtn) {
         closeUpiModalBtn.addEventListener('click', () => {
             document.getElementById('upiModal')?.classList.add('hidden');
-            if (window.UPIPayment) window.UPIPayment.stopStatusPolling();
         });
     }
 

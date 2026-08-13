@@ -365,17 +365,14 @@ function autoFillCheckoutIfOnCheckoutPage() {
 document.addEventListener('DOMContentLoaded', async () => {
     injectAuthModalHTML();
 
-    // 1. Check server session cookie first
+    // Check server session cookie
     const serverUser = await AuthAPI.getMe();
     if (serverUser) {
         window.currentUser = serverUser;
         localStorage.setItem('proteinPotCustomer', JSON.stringify(serverUser));
     } else {
-        // 2. Fallback to localStorage for cross-port / Live Server development
-        const localUser = JSON.parse(localStorage.getItem('proteinPotCustomer') || 'null');
-        if (localUser) {
-            window.currentUser = localUser;
-        }
+        // Clear any stale localStorage session on failed server auth
+        localStorage.removeItem('proteinPotCustomer');
     }
 
     updateNavigationUI();

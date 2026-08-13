@@ -156,54 +156,6 @@ function loadFeaturedProducts() {
     });
 }
 
-/**
- * Smooth scroll to element
- * @param {string} target - CSS selector
- */
-function smoothScroll(target) {
-    const element = document.querySelector(target);
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
-function showSuccessMessage(message) {
-    const notification = document.createElement('div');
-    notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
-}
-
-/**
- * Show error notification
- * @param {string} message - Message text
- */
-function showErrorMessage(message) {
-    const notification = document.createElement('div');
-    notification.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
-}
-
-/**
- * Track analytics event
- * @param {string} eventName - Event name
- * @param {Object} eventData - Event data
- */
-function trackEvent(eventName, eventData = {}) {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', eventName, eventData);
-    }
-}
-
 const contactForm = document.getElementById("contactForm");
 if (contactForm) {
     contactForm.addEventListener("submit", function(e) {

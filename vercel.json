@@ -22,11 +22,20 @@
       ]
     },
     {
-      "source": "/(js|css|menu|why-images|get-in-touch)/(.*)",
+      "source": "/(js|css)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "value": "no-cache, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(menu|why-images|get-in-touch)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, must-revalidate"
         }
       ]
     },
