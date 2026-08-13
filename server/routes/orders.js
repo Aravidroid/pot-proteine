@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const { authenticateToken, optionalAuth } = require('../middleware/auth');
-const csrfOriginProtection = require('../middleware/csrf');
 const { validateOrderPayload } = require('../middleware/validation');
 const { calculateOrderTotal } = require('../catalog');
 
@@ -10,7 +9,7 @@ const { calculateOrderTotal } = require('../catalog');
  * POST /api/orders
  * Creates new customer order with server-side price calculation & authorization
  */
-router.post('/', csrfOriginProtection, optionalAuth, validateOrderPayload, async (req, res) => {
+router.post('/', optionalAuth, validateOrderPayload, async (req, res) => {
     try {
         const { order_number, items, instructions } = req.validatedBody;
 

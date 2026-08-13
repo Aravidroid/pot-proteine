@@ -314,7 +314,7 @@ Order Number: #${orderNumber}`;
  * Send order via WhatsApp
  * @param {Object} orderData - Order information
  */
-function sendViaWhatsApp(orderData) {
+async function sendViaWhatsApp(orderData) {
     const orderNumber = generateOrderNumber();
     orderData.orderNumber = orderNumber;
 
@@ -345,19 +345,22 @@ function sendViaWhatsApp(orderData) {
 
     localStorage.setItem('orderConfirmation', JSON.stringify(orderConfirmation));
 
-    // Post order to Express/SQLite Backend API
-    fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-            order_number: orderNumber,
-            items: cart,
-            total_amount: totalAmount,
-            is_first_order: typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true,
-            instructions: localStorage.getItem('proteinPotCartInstructions') || ''
-        })
-    }).catch(err => console.warn('[Orders API] Failed to record order:', err));
+    // Post order to Express/SQLite Backend API (await fetch so DB record completes before WhatsApp redirect)
+    try {
+        await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+                order_number: orderNumber,
+                items: cart,
+                total_amount: totalAmount,
+                instructions: localStorage.getItem('proteinPotCartInstructions') || ''
+            })
+        });
+    } catch (err) {
+        console.warn('[Orders API] Failed to record order:', err);
+    }
 
     // Update local user state so subsequent orders are treated as returning customer
     if (window.currentUser) {
@@ -513,7 +516,7 @@ function handlePaymentSuccess(statusData) {
 /**
  * Handle checkout form submission
  */
-function handleCheckoutSubmit(e) {
+async function handleCheckoutSubmit(e) {
     e.preventDefault();
 
     const validation = validateCheckoutForm();
@@ -522,13 +525,31 @@ function handleCheckoutSubmit(e) {
         return;
     }
 
+    const name = checkoutDOM.nameInput.value.trim();
+    const phone = checkoutDOM.phoneInput.value.trim();
+    const address = checkoutDOM.addressInput.value.trim();
+
+    // Auto-save customer details & establish session before placing order so user_id is linked
+    if (typeof AuthAPI !== 'undefined' && typeof AuthAPI.saveCustomerDetails === 'function') {
+        try {
+            const authRes = await AuthAPI.saveCustomerDetails(name, phone);
+            if (authRes.success && authRes.user) {
+                window.currentUser = authRes.user;
+                localStorage.setItem('proteinPotCustomer', JSON.stringify(authRes.user));
+                if (typeof updateNavigationUI === 'function') updateNavigationUI();
+            }
+        } catch (err) {
+            console.warn('[Checkout] Auto-auth failed:', err);
+        }
+    }
+
     const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'upi';
 
     // Save order details
     const orderDetails = {
-        name: checkoutDOM.nameInput.value.trim(),
-        phone: checkoutDOM.phoneInput.value.trim(),
-        address: checkoutDOM.addressInput.value.trim(),
+        name,
+        phone,
+        address,
         timestamp: new Date().toISOString()
     };
 
@@ -538,7 +559,7 @@ function handleCheckoutSubmit(e) {
         processUPIPayment(orderDetails);
     } else {
         // Send directly to WhatsApp
-        sendViaWhatsApp({
+        await sendViaWhatsApp({
             customerName: orderDetails.name,
             customerPhone: orderDetails.phone,
             customerAddress: orderDetails.address

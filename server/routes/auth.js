@@ -1,20 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const rateLimit = require('express-rate-limit');
 const db = require('../db');
 const { authenticateToken, JWT_SECRET } = require('../middleware/auth');
-const csrfOriginProtection = require('../middleware/csrf');
 const { validateCustomerDetails } = require('../middleware/validation');
-
-// Rate limiter for customer entry endpoint (Max 20 requests per 15 mins per IP)
-const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 20,
-    message: { success: false, message: 'Too many requests. Please try again in a few minutes.' },
-    standardHeaders: true,
-    legacyHeaders: false
-});
 
 /**
  * Cookie options helper
@@ -33,7 +22,7 @@ function getCookieOptions() {
  * POST /api/auth/customer
  * Passwordless Instant Customer Entry (Name + Phone ONLY)
  */
-router.post('/customer', csrfOriginProtection, authLimiter, validateCustomerDetails, async (req, res) => {
+router.post('/customer', validateCustomerDetails, async (req, res) => {
     try {
         const { name, phone } = req.validatedBody;
 
@@ -109,7 +98,7 @@ router.post('/customer', csrfOriginProtection, authLimiter, validateCustomerDeta
 /**
  * POST /api/auth/logout
  */
-router.post('/logout', csrfOriginProtection, (req, res) => {
+router.post('/logout', (req, res) => {
     res.clearCookie('pot_token', getCookieOptions());
     return res.json({ success: true, message: 'Logged out successfully.' });
 });

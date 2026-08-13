@@ -5,13 +5,12 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const csrfOriginProtection = require('../server/middleware/csrf');
 const authRoutes = require('../server/routes/auth');
 const orderRoutes = require('../server/routes/orders');
 
 const app = express();
 
-// Enable reverse proxy trust (crucial for Vercel edge proxies, rate-limiting, and secure cookies)
+// Enable reverse proxy trust (crucial for Vercel edge proxies and secure cookies)
 app.set('trust proxy', 1);
 
 // Security Middlewares
@@ -28,9 +27,6 @@ app.use(cors({
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(cookieParser());
-
-// Global CSRF / Origin Protection on API endpoints
-app.use(['/api', '/'], csrfOriginProtection);
 
 // API Routes (supports both /api/auth and /auth prefixes for Vercel serverless rewrites)
 app.use(['/api/auth', '/auth'], authRoutes);
