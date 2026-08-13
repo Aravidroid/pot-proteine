@@ -58,8 +58,9 @@ function loadOrderSummary() {
 
         let htmlBuilder = '';
         cart.forEach(item => {
-            const isSupreme = String(item.id) === '3' || String(item.id) === '4';
-            const planId = item.selectedPlanId || 'daily';
+            const rawId = String(item.id || '');
+            const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
+            const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
             let unitPrice = Number(item.price || 199);
             let isDiscounted = false;
 
@@ -268,8 +269,9 @@ function buildWhatsAppMessage(orderData) {
     const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
     let orderSummary = '';
     cart.forEach(item => {
-        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
-        const planId = item.selectedPlanId || 'daily';
+        const rawId = String(item.id || '');
+        const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
+        const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
         let unitPrice = Number(item.price || 0);
         if (isSupreme && planId === 'daily' && isEligible) {
             unitPrice = 119;

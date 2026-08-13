@@ -55,16 +55,20 @@ function updateCartCount() {
  * @param {string} customizationName - Custom Box name
  */
 function addToCart(product, quantity = 1, customizationName = null) {
-    const existingItem = cart.find(item =>
-        item.id === product.id &&
-        (customizationName === null || item.customizationName === customizationName)
-    );
+    const targetPlanId = product.selectedPlanId || (String(product.id).includes('-') ? String(product.id).split('-')[1] : 'daily');
+    const existingItem = cart.find(item => {
+        const itemPlanId = item.selectedPlanId || (String(item.id).includes('-') ? String(item.id).split('-')[1] : 'daily');
+        const cleanItemId = String(item.id).split('-')[0];
+        const cleanProdId = String(product.id).split('-')[0];
+        return cleanItemId === cleanProdId && itemPlanId === targetPlanId && (customizationName === null || item.customizationName === customizationName);
+    });
 
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
         const cartItem = {
-            id: product.id || `custom-${Date.now()}`,
+            id: String(product.id).split('-')[0] || `custom-${Date.now()}`,
+            selectedPlanId: targetPlanId,
             name: product.name || customizationName,
             price: product.price,
             quantity: quantity,
@@ -157,8 +161,9 @@ function updateCartDisplay() {
         const calories = Number(item.calories || 0);
         const details = Array.isArray(item.details) ? item.details : [];
         
-        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
-        const planId = item.selectedPlanId || 'daily';
+        const rawId = String(item.id || '');
+        const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
+        const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
         let unitPrice = Number(item.price || 199);
         let isDiscounted = false;
 
@@ -337,10 +342,11 @@ function getCartTotal() {
     const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
 
     return cartList.reduce((sum, item) => {
-        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
-        const planId = item.selectedPlanId || 'daily';
+        const rawId = String(item.id || '');
+        const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
+        const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
         let unitPrice = Number(item.price || 199);
-        if (isSupreme && planId === 'daily' && isEligible) {
+        if (isSupreme && (planId === 'daily' || planId === 'default') && isEligible) {
             unitPrice = 119;
         }
         return sum + (unitPrice * item.quantity);
@@ -367,8 +373,9 @@ function updateCartSummary() {
     const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
 
     cart.forEach(item => {
-        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
-        const planId = item.selectedPlanId || 'daily';
+        const rawId = String(item.id || '');
+        const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
+        const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
         let unitPrice = Number(item.price || 0);
         if (isSupreme && planId === 'daily' && isEligible) {
             unitPrice = 119;
@@ -400,8 +407,9 @@ function renderMobileFloatingCartBar() {
     const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
     const totalAmount = cart.reduce((sum, item) => {
-        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
-        const planId = item.selectedPlanId || 'daily';
+        const rawId = String(item.id || '');
+        const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
+        const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
         let unitPrice = Number(item.price || 0);
         if (isSupreme && planId === 'daily' && isEligible) {
             unitPrice = 119;

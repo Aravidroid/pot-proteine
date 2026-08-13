@@ -111,6 +111,15 @@ function loadFeaturedProducts() {
     let htmlBuilder = '';
     
     featured.forEach(product => {
+        const effectivePrice = typeof getProductEffectivePrice === 'function' ? getProductEffectivePrice(product) : product.price;
+        const isDiscounted = effectivePrice < product.price;
+        const priceHTML = isDiscounted
+            ? `<div class="flex items-center gap-1">
+                <span class="line-through text-gray-400 text-xs font-semibold">₹${product.price}</span>
+                <span class="nutrition-value text-[#7a1c6a] font-extrabold">₹${effectivePrice}</span>
+               </div>`
+            : `<span class="nutrition-value">₹${product.price}</span>`;
+
         htmlBuilder += `
             <div class="featured-item">
                 <div class="featured-icon">
@@ -129,7 +138,7 @@ function loadFeaturedProducts() {
                             <span class="nutrition-label">Cal</span>
                         </div>
                         <div class="nutrition-item nutrition-price">
-                            <span class="nutrition-value">₹${product.price}</span>
+                            ${priceHTML}
                             <span class="nutrition-label">Price</span>
                         </div>
                     </div>
