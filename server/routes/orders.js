@@ -40,7 +40,7 @@ router.post('/', optionalAuth, validateOrderPayload, async (req, res) => {
         // 4. Save to Database
         await db.execute({
             sql: `INSERT INTO orders (order_number, user_id, items_json, total_amount, instructions, status) 
-                  VALUES (?, ?, ?, ?, ?, 'pending')`,
+                  VALUES (?, ?, ?, ?, ?, 'Order Placed')`,
             args: [order_number, userId, itemsJson, calculatedTotalAmount, instructions || '']
         });
 

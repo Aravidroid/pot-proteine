@@ -298,7 +298,9 @@ window.openAuthModal = function () {
             if (!orders || orders.length === 0) {
                 container.innerHTML = '<p class="text-gray-400 italic text-center py-2">No past orders yet.</p>';
             } else {
-                container.innerHTML = orders.map(ord => `
+                container.innerHTML = orders.map(ord => {
+                    const statusText = (!ord.status || ord.status.toLowerCase() === 'pending') ? 'Order Placed' : ord.status;
+                    return `
                     <div class="p-2 rounded-xl bg-white border border-gray-100 flex justify-between items-center shadow-2xs">
                         <div>
                             <span class="font-bold text-gray-800">#${ord.order_number}</span>
@@ -306,10 +308,11 @@ window.openAuthModal = function () {
                         </div>
                         <div class="text-right">
                             <span class="font-semibold text-[#7a1c6a]">₹${ord.total_amount}</span>
-                            <span class="block text-[10px] capitalize text-emerald-600 font-medium">${ord.status}</span>
+                            <span class="block text-[10px] text-emerald-600 font-medium">${statusText}</span>
                         </div>
                     </div>
-                `).join('');
+                `;
+                }).join('');
             }
         });
     } else {
