@@ -364,9 +364,16 @@ function clearCart() {
 function updateCartSummary() {
     let total = 0;
     let totalProtein = 0;
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
 
     cart.forEach(item => {
-        total += Number(item.price || 0) * item.quantity;
+        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
+        const planId = item.selectedPlanId || 'daily';
+        let unitPrice = Number(item.price || 0);
+        if (isSupreme && planId === 'daily' && isEligible) {
+            unitPrice = 119;
+        }
+        total += unitPrice * item.quantity;
         totalProtein += Number(item.protein || 0) * item.quantity;
     });
 
@@ -391,7 +398,16 @@ function renderMobileFloatingCartBar() {
 
     let barEl = document.getElementById('mobileFloatingCartBar');
     const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const totalAmount = cart.reduce((sum, item) => sum + (Number(item.price || 0) * item.quantity), 0);
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
+    const totalAmount = cart.reduce((sum, item) => {
+        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
+        const planId = item.selectedPlanId || 'daily';
+        let unitPrice = Number(item.price || 0);
+        if (isSupreme && planId === 'daily' && isEligible) {
+            unitPrice = 119;
+        }
+        return sum + (unitPrice * item.quantity);
+    }, 0);
 
     if (totalCount === 0) {
         if (barEl) barEl.classList.add('hidden-bar');

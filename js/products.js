@@ -225,7 +225,7 @@ function getProductById(id) {
 
 // Helper to check if customer is eligible for First-Order Supreme Box Offer (₹119)
 function isFirstOrderEligible() {
-    if (!window.currentUser) return true; // Guest visitors are eligible for first order
+    if (!window.currentUser) return false; // Must be logged in to use the offer
     return window.currentUser.is_first_order !== false;
 }
 

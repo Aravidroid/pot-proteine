@@ -265,9 +265,16 @@ function buildWhatsAppMessage(orderData) {
     const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
     const instructions = localStorage.getItem('proteinPotCartInstructions') || '';
 
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
     let orderSummary = '';
     cart.forEach(item => {
-        orderSummary += `${item.name} x${item.quantity} - ₹${item.price * item.quantity}\n`;
+        const isSupreme = String(item.id) === '3' || String(item.id) === '4';
+        const planId = item.selectedPlanId || 'daily';
+        let unitPrice = Number(item.price || 0);
+        if (isSupreme && planId === 'daily' && isEligible) {
+            unitPrice = 119;
+        }
+        orderSummary += `${item.name} x${item.quantity} - ₹${unitPrice * item.quantity}\n`;
         if (item.details && item.details.length > 0) {
             orderSummary += `   Ingredients: ${item.details.join(', ')}\n`;
         }
@@ -345,6 +352,7 @@ function sendViaWhatsApp(orderData) {
             order_number: orderNumber,
             items: cart,
             total_amount: totalAmount,
+            is_first_order: typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true,
             instructions: localStorage.getItem('proteinPotCartInstructions') || ''
         })
     }).catch(err => console.warn('[Orders API] Failed to record order:', err));

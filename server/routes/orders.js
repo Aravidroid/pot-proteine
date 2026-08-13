@@ -17,7 +17,7 @@ router.post('/', csrfOriginProtection, optionalAuth, validateOrderPayload, async
         // 1. Derive user_id EXCLUSIVELY from authenticated session/JWT
         const userId = req.user ? req.user.id : null;
 
-        // 2. Check first-order eligibility server-side
+        // 2. Check first-order eligibility server-side — must be logged in to use the offer
         let isFirstOrder = false;
         if (userId) {
             const countRes = await db.execute({

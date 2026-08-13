@@ -3,22 +3,22 @@
 
 // ── Category metadata ────────────────────────────────────────────────────
 const categoryMeta = {
-    'weight-gain':     { label: 'Weight Gain',     badgeClass: 'badge-gain',    icon: '💪' },
-    'weight-loss':     { label: 'Weight Loss',     badgeClass: 'badge-loss',    icon: '🏃' },
-    'diabetic':        { label: 'Diabetic',        badgeClass: 'badge-diab',    icon: '🩺' },
+    'weight-gain': { label: 'Weight Gain', badgeClass: 'badge-gain', icon: '💪' },
+    'weight-loss': { label: 'Weight Loss', badgeClass: 'badge-loss', icon: '🏃' },
+    'diabetic': { label: 'Diabetic', badgeClass: 'badge-diab', icon: '🩺' },
     'healthy-workday': { label: 'Healthy Workday', badgeClass: 'badge-workday', icon: '💼' },
-    'trial':           { label: 'Trial',           badgeClass: 'badge-trial',   icon: '🧪' },
+    'trial': { label: 'Trial', badgeClass: 'badge-trial', icon: '🧪' },
 };
 
 // ── Derive category/tier from product name ───────────────────────────────
 function parseProduct(p) {
     const n = p.name.toLowerCase();
     let category = 'other';
-    if (n.includes('weight gain'))  category = 'weight-gain';
+    if (n.includes('weight gain')) category = 'weight-gain';
     else if (n.includes('weight loss')) category = 'weight-loss';
     else if (n.includes('diabetic')) category = 'diabetic';
     else if (n.includes('healthy workday') || n.includes('workday')) category = 'healthy-workday';
-    else if (n.includes('trial'))   category = 'trial';
+    else if (n.includes('trial')) category = 'trial';
 
     let tier = 'regular';
     if (n.includes('supreme')) tier = 'supreme';
@@ -36,17 +36,38 @@ function updatePlanPrice(productId) {
     const planId = selectEl.value;
 
     const isSupreme = String(productId) === '3' || String(productId) === '4';
-    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : false;
+    const isGuest = !window.currentUser;
 
-    if (isSupreme && planId === 'daily' && isEligible) {
-        if (priceContainer) {
-            priceContainer.innerHTML = `
-                <div class="flex items-center gap-1.5">
-                    <span class="line-through text-gray-400 text-xs font-semibold">₹199</span>
-                    <span class="price-tag text-[#7a1c6a] font-extrabold text-xl" id="price-tag-${productId}">₹119</span>
-                </div>
-                <span class="text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200/80 px-1.5 py-0.5 rounded-full inline-block mt-0.5">🎉 First Order Offer</span>
-            `;
+    if (isSupreme && planId === 'daily') {
+        if (isEligible) {
+            // Logged-in first-order user — show ₹119 offer
+            if (priceContainer) {
+                priceContainer.innerHTML = `
+                    <div class="flex items-center gap-1.5">
+                        <span class="line-through text-gray-400 text-xs font-semibold">₹199</span>
+                        <span class="price-tag text-[#7a1c6a] font-extrabold text-xl" id="price-tag-${productId}">₹119</span>
+                    </div>
+                    <span class="text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200/80 px-1.5 py-0.5 rounded-full inline-block mt-0.5">🎉 First Order Offer</span>
+                `;
+            }
+        } else if (isGuest) {
+            // Guest — show teaser with login nudge
+            if (priceContainer) {
+                priceContainer.innerHTML = `
+                    <span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${productId}">₹199</span>
+                    <button onclick="openAuthModal()"
+                        class="block text-[10px] font-bold text-[#7a1c6a] underline underline-offset-2 mt-0.5 hover:text-[#3b113c] transition">
+                        🎉 Login for ₹119 first order offer
+                    </button>
+                `;
+            }
+        } else {
+            // Logged-in returning user — no offer
+            const price = selectedOption ? selectedOption.dataset.price : '199';
+            if (priceContainer) {
+                priceContainer.innerHTML = `<span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${productId}">₹${price}</span>`;
+            }
         }
     } else {
         const price = selectedOption ? selectedOption.dataset.price : '199';
@@ -61,7 +82,7 @@ function toggleIngredients(productId) {
     const container = document.getElementById(`ingredients-${productId}`);
     const btnText = document.getElementById(`ing-btn-text-${productId}`);
     const chevron = document.getElementById(`ing-chevron-${productId}`);
-    
+
     if (!container) return;
 
     const isHidden = container.classList.contains('hidden');
@@ -89,7 +110,7 @@ function buildCard(p) {
 
     const nutritionHTML = (p.protein || p.calories)
         ? `<div class="flex flex-wrap gap-2 mb-3">
-            ${p.protein  ? `<span class="nutrition-chip nutrition-chip-protein">💪 ${p.protein}g Protein</span>` : ''}
+            ${p.protein ? `<span class="nutrition-chip nutrition-chip-protein">💪 ${p.protein}g Protein</span>` : ''}
             ${p.calories ? `<span class="nutrition-chip nutrition-chip-cal">🔥 ${p.calories} kcal</span>` : ''}
            </div>` : '';
 
@@ -113,16 +134,27 @@ function buildCard(p) {
     }
 
     const isSupreme = String(p.id) === '3' || String(p.id) === '4';
-    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
+    const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : false;
+    const isGuest = !window.currentUser;
 
     let priceTagHTML = `<span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${p.id}">₹${p.price}</span>`;
     if (isSupreme && isEligible) {
+        // Logged-in first-order user — show ₹119
         priceTagHTML = `
             <div class="flex items-center gap-1.5">
                 <span class="line-through text-gray-400 text-xs font-semibold">₹199</span>
                 <span class="price-tag text-[#7a1c6a] font-extrabold text-xl" id="price-tag-${p.id}">₹119</span>
             </div>
             <span class="text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200/80 px-1.5 py-0.5 rounded-full inline-block mt-0.5">🎉 First Order Offer</span>
+        `;
+    } else if (isSupreme && isGuest) {
+        // Guest — show ₹199 with login nudge
+        priceTagHTML = `
+            <span class="price-tag text-[#2a0c2b] font-extrabold text-xl" id="price-tag-${p.id}">₹199</span>
+            <button onclick="openAuthModal()"
+                class="block text-[10px] font-bold text-[#7a1c6a] underline underline-offset-2 mt-0.5 hover:text-[#3b113c] transition text-left">
+                🎉 Login for ₹119 first order offer
+            </button>
         `;
     }
 
@@ -303,10 +335,10 @@ function handleAddFromModal(productId) {
     if (typeof addToCart === 'function') {
         addToCart(itemToAdd);
     } else {
-        const cart  = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
-        const idx   = cart.findIndex(i => i.id === itemToAdd.id);
+        const cart = JSON.parse(localStorage.getItem('proteinPotCart') || '[]');
+        const idx = cart.findIndex(i => i.id === itemToAdd.id);
         if (idx > -1) { cart[idx].quantity++; }
-        else          { cart.push({ ...itemToAdd, quantity: 1, details: itemToAdd.ingredients }); }
+        else { cart.push({ ...itemToAdd, quantity: 1, details: itemToAdd.ingredients }); }
         localStorage.setItem('proteinPotCart', JSON.stringify(cart));
     }
     syncQtyButtons();
@@ -327,14 +359,14 @@ document.addEventListener('keydown', e => {
 
 // ── Render grid ──────────────────────────────────────────────────────────
 function renderGrid(filter = 'all') {
-    const grid  = document.getElementById('product-grid');
+    const grid = document.getElementById('product-grid');
     const empty = document.getElementById('empty-state');
     const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
     const parsed = products.map(parseProduct);
     const filtered = filter === 'all' ? parsed : parsed.filter(p => p.category === filter);
 
     if (filtered.length === 0) {
-        grid.innerHTML  = '';
+        grid.innerHTML = '';
         empty.style.display = 'block';
     } else {
         empty.style.display = 'none';
