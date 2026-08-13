@@ -357,6 +357,12 @@ function sendViaWhatsApp(orderData) {
         })
     }).catch(err => console.warn('[Orders API] Failed to record order:', err));
 
+    // Update local user state so subsequent orders are treated as returning customer
+    if (window.currentUser) {
+        window.currentUser.is_first_order = false;
+        localStorage.setItem('proteinPotCustomer', JSON.stringify(window.currentUser));
+    }
+
     // Open WhatsApp
     window.open(whatsappURL, '_blank');
 

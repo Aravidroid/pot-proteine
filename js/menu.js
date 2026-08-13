@@ -358,23 +358,31 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Render grid ──────────────────────────────────────────────────────────
-function renderGrid(filter = 'all') {
+let currentFilter = 'all';
+
+function renderGrid(filter = currentFilter) {
+    currentFilter = filter;
     const grid = document.getElementById('product-grid');
     const empty = document.getElementById('empty-state');
+    if (!grid) return;
     const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
     const parsed = products.map(parseProduct);
     const filtered = filter === 'all' ? parsed : parsed.filter(p => p.category === filter);
 
     if (filtered.length === 0) {
         grid.innerHTML = '';
-        empty.style.display = 'block';
+        if (empty) empty.style.display = 'block';
     } else {
-        empty.style.display = 'none';
+        if (empty) empty.style.display = 'none';
         grid.innerHTML = filtered.map(buildCard).join('');
         // Sync qty buttons with current cart state
         syncQtyButtons();
     }
 }
+
+window.refreshMenuGrid = function() {
+    renderGrid(currentFilter);
+};
 
 // ── Helper to get active cart ─────────────────────────────────────────────
 function getCartItems() {

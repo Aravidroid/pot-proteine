@@ -212,10 +212,14 @@ function setupAuthModalListeners() {
                 setTimeout(() => {
                     closeModal();
                     autoFillCheckoutIfOnCheckoutPage();
-                    // Refresh menu pricing cards if menu.js exists
-                    if (typeof buildCard === 'function' && typeof renderProducts === 'function') {
-                        renderProducts();
+                    // Refresh menu pricing cards, cart, and checkout if present
+                    if (typeof window.refreshMenuGrid === 'function') {
+                        window.refreshMenuGrid();
+                    } else if (typeof renderGrid === 'function') {
+                        renderGrid();
                     }
+                    if (typeof updateCartDisplay === 'function') updateCartDisplay();
+                    if (typeof loadOrderSummary === 'function') loadOrderSummary();
                 }, 600);
             } else {
                 showAlert(res.message || 'Failed to save details.', 'error');
@@ -234,6 +238,13 @@ function setupAuthModalListeners() {
         window.currentUser = null;
         closeModal();
         updateNavigationUI();
+        if (typeof window.refreshMenuGrid === 'function') {
+            window.refreshMenuGrid();
+        } else if (typeof renderGrid === 'function') {
+            renderGrid();
+        }
+        if (typeof updateCartDisplay === 'function') updateCartDisplay();
+        if (typeof loadOrderSummary === 'function') loadOrderSummary();
     });
 }
 
@@ -377,4 +388,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     updateNavigationUI();
     autoFillCheckoutIfOnCheckoutPage();
+
+    // Refresh menu cards, cart, and checkout summary once auth state is resolved
+    if (typeof window.refreshMenuGrid === 'function') {
+        window.refreshMenuGrid();
+    } else if (typeof renderGrid === 'function') {
+        renderGrid();
+    }
+    if (typeof updateCartDisplay === 'function') updateCartDisplay();
+    if (typeof loadOrderSummary === 'function') loadOrderSummary();
 });
