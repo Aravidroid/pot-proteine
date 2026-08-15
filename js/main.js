@@ -79,24 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Setup subtle scroll-based transform for featured hero image
-    const featuredImg = document.querySelector('.featured-Box-img');
-    if (featuredImg) {
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
-                    if (scrollY < 900) {
-                        featuredImg.style.transform = `translateY(${scrollY * 0.08}px)`;
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-    }
 });
 
 /**

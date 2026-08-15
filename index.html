@@ -183,48 +183,123 @@
                     </div>
                 </div>
 
-                <!-- Right Content (Showcase Card) -->
-                <div class="relative">
+                <!-- Right Content — Hero Slideshow -->
+                <div class="relative" id="hero-slideshow-wrapper">
 
-                    <!-- Floating Badge -->
-                    <div class="absolute -top-6 -right-4 bg-white rounded-2xl shadow-lg px-5 py-3 animate-bounce z-20">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xl">🎁</span>
-                            <div>
-                                <div class="font-bold text-sm text-[#3b113c]">
-                                    ₹119 ONLY
-                                </div>
-                                <div class="text-xs text-[#111827] font-bold">
-                                    Trial Box
-                                </div>
-                            </div>
+                    <!-- Floating Badge (updated per slide via JS) -->
+                    <div id="hero-slide-badge" class="hero-slide-badge">
+                        <span id="hero-badge-emoji" class="text-xl">🏆</span>
+                        <div>
+                            <div id="hero-badge-price" class="font-bold text-sm text-[#3b113c]"><s style="opacity:0.55;font-weight:600">₹199</s> ₹119 ONLY</div>
+                            <div id="hero-badge-label" class="text-xs text-[#111827] font-bold">Trial Box</div>
                         </div>
                     </div>
 
-                    <!-- Main Showcase Card -->
-                    <div class="bg-white rounded-[36px] p-6 sm:p-8 shadow-xl border border-pink-100/80">
+                    <!-- Slideshow Card -->
+                    <div class="bg-white rounded-[36px] p-6 sm:p-8 shadow-xl border border-pink-100/80 overflow-hidden relative">
 
-                        <div
-                            class="rounded-3xl bg-gradient-to-br from-[#f5e9ed] to-[#fdf0f3] p-6 sm:p-8 flex justify-center items-center">
+                        <!-- Slides Track -->
+                        <div id="hero-slides-track" class="hero-slides-track">
 
-                            <img src="menu/supreme-weight-gain-pot.webp" alt="Supreme Weight Gain Pot"
-                                class="w-full max-w-md featured-Box-img object-contain drop-shadow-xl">
+                            <!-- Slide 1: Supreme Weight Gain -->
+                            <div class="hero-slide active" data-index="0">
+                                <div class="rounded-3xl bg-gradient-to-br from-[#f5e9ed] to-[#fdf0f3] p-6 sm:p-8 flex justify-center items-center" style="min-height:240px">
+                                    <img src="menu/supreme-weight-gain-pot.webp" alt="Supreme Weight Gain Pot"
+                                        class="w-full max-w-md object-contain drop-shadow-xl hero-slide-img">
+                                </div>
+                                <div class="mt-5 flex justify-between items-center gap-4">
+                                    <div>
+                                        <span class="hero-slide-category-badge bg-amber-50 text-amber-800 border-amber-200">🏋️ WEIGHT GAIN</span>
+                                        <h3 class="text-xl sm:text-2xl font-extrabold text-[#2a0c2b] mt-1.5">Supreme Weight Gain Pot</h3>
+                                    </div>
+                                    <a href="menu.html" class="btn-pill-arrow shrink-0">
+                                        <span>Order Now</span>
+                                        <span class="arrow-badge">↗</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: Supreme Weight Loss -->
+                            <div class="hero-slide" data-index="1">
+                                <div class="rounded-3xl bg-gradient-to-br from-[#eef9f5] to-[#f0fdf9] p-6 sm:p-8 flex justify-center items-center" style="min-height:240px">
+                                    <img src="menu/supreme-weight-loss-pot.webp" alt="Supreme Weight Loss Pot"
+                                        class="w-full max-w-md object-contain drop-shadow-xl hero-slide-img">
+                                </div>
+                                <div class="mt-5 flex justify-between items-center gap-4">
+                                    <div>
+                                        <span class="hero-slide-category-badge bg-emerald-50 text-emerald-800 border-emerald-200">🥗 WEIGHT LOSS</span>
+                                        <h3 class="text-xl sm:text-2xl font-extrabold text-[#2a0c2b] mt-1.5">Supreme Weight Loss Pot</h3>
+                                    </div>
+                                    <a href="menu.html" class="btn-pill-arrow shrink-0">
+                                        <span>Order Now</span>
+                                        <span class="arrow-badge">↗</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: Healthy Workday -->
+                            <div class="hero-slide" data-index="2">
+                                <div class="rounded-3xl bg-gradient-to-br from-[#eff6ff] to-[#f0f9ff] p-6 sm:p-8 flex justify-center items-center" style="min-height:240px">
+                                    <img src="menu/healthy-workday-pot.webp" alt="Healthy Workday Pot"
+                                        class="w-full max-w-md object-contain drop-shadow-xl hero-slide-img">
+                                </div>
+                                <div class="mt-5 flex justify-between items-center gap-4">
+                                    <div>
+                                        <span class="hero-slide-category-badge bg-cyan-50 text-cyan-800 border-cyan-200">💼 HEALTHY WORKDAY</span>
+                                        <h3 class="text-xl sm:text-2xl font-extrabold text-[#2a0c2b] mt-1.5">Healthy Workday Pot</h3>
+                                    </div>
+                                    <a href="menu.html" class="btn-pill-arrow shrink-0">
+                                        <span>Order Now</span>
+                                        <span class="arrow-badge">↗</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: Diabetic Menu -->
+                            <div class="hero-slide" data-index="3">
+                                <div class="rounded-3xl bg-gradient-to-br from-[#f5f3ff] to-[#faf5ff] p-6 sm:p-8 flex justify-center items-center" style="min-height:240px">
+                                    <img src="menu/diabetic-menu-pot.webp" alt="Diabetic Menu Pot"
+                                        class="w-full max-w-md object-contain drop-shadow-xl hero-slide-img">
+                                </div>
+                                <div class="mt-5 flex justify-between items-center gap-4">
+                                    <div>
+                                        <span class="hero-slide-category-badge bg-purple-50 text-purple-800 border-purple-200">🩺 DIABETIC MENU</span>
+                                        <h3 class="text-xl sm:text-2xl font-extrabold text-[#2a0c2b] mt-1.5">Diabetic Menu Pot</h3>
+                                    </div>
+                                    <a href="menu.html" class="btn-pill-arrow shrink-0">
+                                        <span>Order Now</span>
+                                        <span class="arrow-badge">↗</span>
+                                    </a>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="mt-6 flex justify-between items-center gap-4">
+                        <!-- Prev / Next Arrows -->
+                        <button type="button" id="hero-prev" class="hero-arrow hero-arrow--prev" aria-label="Previous slide">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <button type="button" id="hero-next" class="hero-arrow hero-arrow--next" aria-label="Next slide">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
 
-                            <div>
-                                <h3 class="text-xl sm:text-2xl font-extrabold text-[#2a0c2b]">
-                                    Supreme Weight Gain Pot
-                                </h3>
+                        <!-- Dot Indicators + Progress bar -->
+                        <div class="hero-slideshow-footer">
+                            <div id="hero-dots" class="hero-dots">
+                                <button type="button" class="hero-dot active" data-dot="0" aria-label="Go to slide 1"></button>
+                                <button type="button" class="hero-dot" data-dot="1" aria-label="Go to slide 2"></button>
+                                <button type="button" class="hero-dot" data-dot="2" aria-label="Go to slide 3"></button>
+                                <button type="button" class="hero-dot" data-dot="3" aria-label="Go to slide 4"></button>
                             </div>
+                        </div>
 
-                            <a href="menu.html" class="btn-pill-arrow shrink-0">
-                                <span>Order Now</span>
-                                <span class="arrow-badge">↗</span>
-                            </a>
-
+                        <!-- Auto-play Progress Bar -->
+                        <div class="hero-progress-track">
+                            <div id="hero-progress-bar" class="hero-progress-bar"></div>
                         </div>
 
                     </div>
@@ -237,99 +312,7 @@
 
     </section>
 
-    <!-- ── Daily Specials & Health Care Section (Compact Marketing & Menu Links) ── -->
-    <section class="py-10 sm:py-14 bg-white border-b border-pink-100/60" id="daily-specials">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#2a0c2b] tracking-tight">
-                    ✨ Featured Specials Starting @ ₹69
-                </h2>
-            </div>
-
-            <!-- 2-Card Marketing Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
-
-                <!-- Card 1: Healthy Workday Pot Marketing Card -->
-                <div
-                    class="bg-white rounded-[28px] p-5 sm:p-6 border border-pink-100/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
-                    <div>
-                        <!-- Pot Image Showcase Container -->
-                        <div class="w-full h-44 sm:h-52 rounded-2xl bg-gradient-to-br from-[#fdf0f3] via-[#faf3f5] to-[#f5e9ed] p-3 mb-4 flex items-center justify-center border border-pink-100/60 overflow-hidden group">
-                            <img src="menu/healthy-workday-pot.webp" alt="Healthy Workday Pot" class="max-h-full max-w-full object-contain mix-blend-multiply drop-shadow-xl transform group-hover:scale-105 transition duration-300">
-                        </div>
-
-                        <!-- Header Badges -->
-                        <div class="flex items-center justify-between mb-2.5">
-                            <span
-                                class="bg-cyan-50 text-cyan-800 border border-cyan-200/80 px-3 py-1 rounded-full text-xs font-extrabold flex items-center gap-1.5 shadow-2xs">
-                                💼 HEALTHY WORKDAY
-                            </span>
-                            <span class="text-xs font-extrabold text-[#7a1c6a] bg-pink-50 border border-pink-100/80 px-3 py-1 rounded-full">
-                                Starting @ ₹69/day
-                            </span>
-                        </div>
-
-                        <!-- Title -->
-                        <h3 class="text-xl sm:text-2xl font-extrabold text-[#2a0c2b] mb-2 tracking-tight">
-                            Healthy Workday Pot
-                        </h3>
-
-                        <!-- Marketing Description -->
-                        <p class="text-xs sm:text-sm text-[#4b2040] font-semibold leading-relaxed mb-4">
-                            Fuel your workday with 15g natural protein & fresh fruit vitamins delivered straight to your office desk in Coimbatore. Zero-prep clean energy to beat the 3 PM slump.
-                        </p>
-                    </div>
-
-                    <!-- Footer: Menu Redirect CTA -->
-                    <div class="pt-3.5 border-t border-pink-100/80 flex justify-end">
-                        <a href="menu.html" class="btn-pill-purple shadow-sm hover:shadow-md text-xs py-2.5 px-5 text-center justify-center">
-                            <span>Explore Workday Pots ↗</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 2: Diabetic Menu Pot Marketing Card -->
-                <div
-                    class="bg-white rounded-[28px] p-5 sm:p-6 border border-pink-100/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
-                    <div>
-                        <!-- Pot Image Showcase Container -->
-                        <div class="w-full h-44 sm:h-52 rounded-2xl bg-gradient-to-br from-[#fdf0f3] via-[#faf3f5] to-[#f5e9ed] p-3 mb-4 flex items-center justify-center border border-pink-100/60 overflow-hidden group">
-                            <img src="menu/diabetic-menu-pot.webp" alt="Diabetic Menu Pot" class="max-h-full max-w-full object-contain mix-blend-multiply drop-shadow-xl transform group-hover:scale-105 transition duration-300">
-                        </div>
-
-                        <!-- Header Badges -->
-                        <div class="flex items-center justify-between mb-2.5">
-                            <span
-                                class="bg-purple-50 text-purple-800 border border-purple-200/80 px-3 py-1 rounded-full text-xs font-extrabold flex items-center gap-1.5 shadow-2xs">
-                                🩺 DIABETIC MENU
-                            </span>
-                            <span class="text-xs font-extrabold text-[#7a1c6a] bg-pink-50 border border-pink-100/80 px-3 py-1 rounded-full">
-                                Starting @ ₹69/day
-                            </span>
-                        </div>
-
-                        <!-- Title -->
-                        <h3 class="text-xl sm:text-2xl font-extrabold text-[#2a0c2b] mb-2 tracking-tight">
-                            Diabetic Menu Pot
-                        </h3>
-
-                        <!-- Marketing Description -->
-                        <p class="text-xs sm:text-sm text-[#4b2040] font-semibold leading-relaxed mb-4">
-                            Curated with low-GI fruits like Avocado, Raspberry, Dragon Fruit & Strawberry. High fiber & 16g natural protein with zero added sugar — perfect for you or loved ones.
-                        </p>
-                    </div>
-
-                    <!-- Footer: Menu Redirect CTA -->
-                    <div class="pt-3.5 border-t border-pink-100/80 flex justify-end">
-                        <a href="menu.html" class="btn-pill-purple shadow-sm hover:shadow-md text-xs py-2.5 px-5 text-center justify-center">
-                            <span>Explore Diabetic Pots ↗</span>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+    <!-- Daily Specials section removed — content is now part of the hero slideshow -->
 
     <!-- ── Standalone Coimbatore Delivery Coverage & Perks Section ── -->
     <section
@@ -889,6 +872,7 @@
     <script src="js/cart.js?v=2"></script>
     <script src="js/auth.js?v=2"></script>
     <script src="js/main.js?v=2"></script>
+    <script src="js/hero-slideshow.js?v=1"></script>
 </body>
 
 </html>
