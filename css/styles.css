@@ -50,14 +50,28 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: var(--text-dark);
     line-height: 1.6;
     background: var(--bg-light);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;
+    overflow-x: hidden;
+}
+
+/* Isolate sticky navbar on its own GPU compositing layer to prevent text tearing during scroll */
+.nav-container {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 h1,
@@ -72,6 +86,8 @@ h4,
     font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
     color: #1a071c;
     letter-spacing: -0.02em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ==============================
@@ -1313,6 +1329,10 @@ a:focus-visible {
     border-left: 4px solid var(--primary-light);
     box-shadow: 0 4px 14px rgba(59, 17, 60, 0.05);
     transition: var(--transition);
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    color: inherit;
 }
 
 .contact-box:hover {

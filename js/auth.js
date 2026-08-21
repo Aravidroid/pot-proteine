@@ -333,7 +333,7 @@ function updateNavigationUI() {
     if (!userBtn) {
         userBtn = document.createElement('button');
         userBtn.id = 'nav-user-btn';
-        userBtn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-full bg-purple-100/70 hover:bg-purple-200 text-[#3b113c] text-xs font-semibold transition-all duration-200';
+        userBtn.className = 'hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full bg-purple-100/70 hover:bg-purple-200 text-[#3b113c] text-xs font-semibold transition-all duration-200';
         // Insert right before cart button
         const cartBtn = document.getElementById('cart-btn');
         if (cartBtn) {
