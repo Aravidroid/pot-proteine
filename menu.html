@@ -357,15 +357,15 @@
 
     <!-- ── Product Details Modal ── -->
     <div id="product-details-modal"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeProductModal()"></div>
-        <div
-            class="relative bg-white rounded-2xl shadow-2xl max-w-md sm:max-w-lg w-full max-h-[85vh] flex flex-col overflow-hidden z-10 my-auto transform transition-all border border-gray-100">
+        class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-all duration-300">
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300" onclick="closeProductModal()"></div>
+        <div id="product-modal-dialog"
+            class="relative bg-white rounded-t-[32px] sm:rounded-3xl shadow-2xl max-w-lg w-full max-h-[92vh] sm:max-h-[85vh] flex flex-col overflow-hidden z-10 transform transition-all duration-300 border border-pink-100/80 my-0 sm:my-auto">
             <button onclick="closeProductModal()" aria-label="Close details"
-                class="absolute top-3 right-3 z-30 bg-white/95 hover:bg-white text-gray-700 hover:text-black w-9 h-9 rounded-full flex items-center justify-center shadow-md transition font-bold text-lg border border-gray-200/80 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500">
+                class="absolute top-3.5 right-3.5 z-30 bg-white/90 hover:bg-white text-gray-700 hover:text-black w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-md transition-all font-bold text-sm sm:text-base border border-gray-200/80 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none">
                 ✕
             </button>
-            <div id="product-modal-content" class="overflow-y-auto flex-1">
+            <div id="product-modal-content" class="overflow-y-auto flex-1 flex flex-col">
                 <!-- Dynamically populated -->
             </div>
         </div>

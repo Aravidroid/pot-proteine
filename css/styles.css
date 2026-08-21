@@ -1968,50 +1968,215 @@ textarea::placeholder {
 }
 
 .price-tag {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: var(--text-dark);
+    letter-spacing: -0.02em;
 }
 
 /* ==============================
-   MENU PAGE - INGREDIENT PILLS
+   MENU PAGE - MACRO STRIP
    ============================== */
 
-.ingredient-pill {
-    background: #f0fdf4;
-    color: #166534;
+.macro-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.65rem;
+    background: #faf3f5;
+    border: 1px solid #f5e9ed;
     border-radius: 9999px;
-    padding: 0.2rem 0.6rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.macro-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.macro-protein {
+    color: #7a1c6a;
+}
+
+.macro-cal {
+    color: #92400e;
+}
+
+.macro-divider {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #d1d5db;
+}
+
+/* ==============================
+   MENU PAGE - 3-PILL INGREDIENT PREVIEW
+   ============================== */
+
+.ingredient-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.ingredient-pill {
+    background: #fdf2f8;
+    color: #831843;
+    border: 1px solid #fce7f3;
+    border-radius: 9999px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 600;
     white-space: nowrap;
 }
 
+.ingredient-more-pill {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    border-radius: 9999px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ingredient-more-pill:hover {
+    background: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+    transform: scale(1.05);
+}
+
 /* ==============================
-   MENU PAGE - ADD TO CART BUTTON
+   MENU PAGE - SEGMENTED PLAN PILLS
    ============================== */
 
-.add-btn {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    border-radius: 9999px;
-    font-weight: 700;
-    font-size: 0.875rem;
+.plan-segmented-wrapper {
+    background: #f8f1f4;
+    border: 1px solid #f1e0e8;
+    border-radius: 1rem;
+    padding: 0.3rem;
+}
+
+.plan-segmented-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3rem;
+}
+
+.plan-pill-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.25rem;
+    border-radius: 0.75rem;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #581c4e;
     cursor: pointer;
-    background: linear-gradient(135deg, #7a1c6a, #3b113c);
-    color: white;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    text-align: center;
+}
+
+.plan-pill-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.7);
+    color: #3b113c;
+}
+
+.plan-pill-btn.active {
+    background: #3b113c;
+    color: #ffffff;
+    border-color: #3b113c;
+    box-shadow: 0 4px 12px rgba(59, 17, 60, 0.25);
+    transform: translateY(-1px);
+}
+
+.plan-pill-name {
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.plan-pill-price {
+    font-size: 0.68rem;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-top: 0.1rem;
+}
+
+.plan-pill-btn.active .plan-pill-price {
+    opacity: 1;
+    color: #fef08a;
+    font-weight: 700;
+}
+
+.plan-pill-badge {
+    position: absolute;
+    top: -6px;
+    right: -4px;
+    font-size: 0.55rem;
+    font-weight: 800;
+    padding: 0.1rem 0.35rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.plan-badge-savings {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.plan-badge-offer {
+    background: #f59e0b;
+    color: #ffffff;
+}
+
+/* ==============================
+   MENU PAGE - TACTILE ADD BUTTON
+   ============================== */
+
+.btn-tactile-add {
+    width: 100%;
+    padding: 0.65rem 1.15rem;
+    border-radius: 9999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    background: linear-gradient(135deg, #7a1c6a 0%, #3b113c 100%);
+    color: #ffffff;
     border: none;
-    transition: opacity 0.2s, transform 0.1s;
-    box-shadow: 0 4px 12px rgba(59, 17, 60, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(59, 17, 60, 0.25);
 }
 
-.add-btn:hover {
-    opacity: 0.95;
-    transform: scale(1.02);
+.btn-tactile-add:hover {
+    background: linear-gradient(135deg, #8e227c 0%, #4c174e 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 17, 60, 0.35);
 }
 
-.add-btn:active {
-    transform: scale(0.98);
+.btn-tactile-add:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 8px rgba(59, 17, 60, 0.2);
 }
 
 /* ==============================
@@ -2021,17 +2186,21 @@ textarea::placeholder {
 .qty-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    justify-content: space-between;
+    gap: 0.4rem;
+    background: #faf3f5;
+    border: 1px solid #f3e1eb;
+    border-radius: 9999px;
+    padding: 0.2rem 0.3rem;
 }
 
 .qty-btn {
-    width: 2rem;
-    height: 2rem;
+    width: 1.85rem;
+    height: 1.85rem;
     border-radius: 9999px;
     background: #3b113c;
     color: white;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -2039,45 +2208,52 @@ textarea::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.qty-btn:hover {
+    background: #7a1c6a;
+    transform: scale(1.08);
+}
+
+.qty-btn:active {
+    transform: scale(0.92);
 }
 
 .qty-display {
-    font-weight: 700;
-    font-size: 1rem;
-    min-width: 1.5rem;
+    font-weight: 800;
+    font-size: 0.95rem;
+    min-width: 1.25rem;
     text-align: center;
-    color: #1b4332;
-}
-
-/* ==============================
-   MENU PAGE - NUTRITION CHIP
-   ============================== */
-
-.nutrition-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.3rem 0.7rem;
-    border-radius: 9999px;
-    font-weight: 700;
-    font-size: 0.75rem;
-}
-
-.nutrition-chip-protein {
-    background: #fdf0f3;
-    color: #7a1c6a;
-    border: 1px solid #f5e9ed;
-}
-
-.nutrition-chip-cal {
-    background: #fef08a;
     color: #3b113c;
-    border: 1px solid #fef08a;
 }
 
 /* ==============================
-   MENU PAGE - EMPTY STATE
+   MENU PAGE - MODAL SLIDE-UP
    ============================== */
+
+#product-details-modal.is-opening #product-modal-dialog {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.ingredient-weight-card {
+    background: #ffffff;
+    border: 1px solid #f3e8ee;
+    border-radius: 0.85rem;
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.ingredient-weight-card:hover {
+    border-color: #e5c4d8;
+    box-shadow: 0 3px 10px rgba(59, 17, 60, 0.06);
+    transform: translateY(-1px);
+}
 
 #empty-state {
     display: none;

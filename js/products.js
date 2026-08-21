@@ -13,21 +13,25 @@ const gymMenuProducts = [
         calories: 540,
         isPopular: false,
         benefits: "Adds avocado and premium fruits to increase healthy fats, calorie density, and micronutrient variety.",
+        plans: [
+            { id: 'daily', name: 'Daily', duration: '1 Day', days: 1, price: 199, originalPrice: 199, savingsTag: '' },
+            { id: 'weekly', name: '6-Day', duration: '6 Days/wk', days: 6, price: 1134, originalPrice: 1194, savingsTag: 'Save ₹60' },
+            { id: 'monthly', name: '26-Day', duration: '26 Days/mo', days: 26, price: 4654, originalPrice: 5174, savingsTag: 'Save ₹520' }
+        ],
         ingredients: [
-            'Avocado',
-            'Dragon fruit',
-            'Rambutan',
-            'Kiwi',
-            'Green Apple',
-            'Banana',
-            'Guava',
-            'Pomegranate',
-            'Watermelon',
-            'Muskmelon',
-            'Dates',
-            'Sunflower seeds',
-            'Almond',
-            'Cashews'
+            { name: 'Avocado', weight: '50g', macro: '1.2g protein' },
+            { name: 'Dragon fruit', weight: '70g', macro: '1.4g protein' },
+            { name: 'Kiwi', weight: '40g', macro: '0.8g protein' },
+            { name: 'Rambutan', weight: '40g', macro: '0.5g protein' },
+            { name: 'Green Apple', weight: '50g', macro: '0.3g protein' },
+            { name: 'Banana', weight: '60g', macro: '1.2g protein' },
+            { name: 'Pomegranate', weight: '40g', macro: '1.0g protein' },
+            { name: 'Guava', weight: '50g', macro: '2.6g protein' },
+            { name: 'Watermelon', weight: '60g', macro: '0.6g protein' },
+            { name: 'Muskmelon', weight: '50g', macro: '0.5g protein' },
+            { name: 'Dates', weight: '30g', macro: '1.8g protein' },
+            { name: 'Almond & Cashews', weight: '35g', macro: '7.8g protein' },
+            { name: 'Sunflower seeds', weight: '20g', macro: '4.2g protein' }
         ]
     },
 
@@ -41,21 +45,25 @@ const gymMenuProducts = [
         calories: 340,
         isPopular: true,
         benefits: "Packed with premium fruits rich in fiber and antioxidants for a nutrient dense, lower calorie fruit Box meal.",
+        plans: [
+            { id: 'daily', name: 'Daily', duration: '1 Day', days: 1, price: 199, originalPrice: 199, savingsTag: '' },
+            { id: 'weekly', name: '6-Day', duration: '6 Days/wk', days: 6, price: 1134, originalPrice: 1194, savingsTag: 'Save ₹60' },
+            { id: 'monthly', name: '26-Day', duration: '26 Days/mo', days: 26, price: 4654, originalPrice: 5174, savingsTag: 'Save ₹520' }
+        ],
         ingredients: [
-            'Dragon fruit',
-            'Kiwi',
-            'Rambutan',
-            'Strawberry',
-            'Green Apple',
-            'Papaya',
-            'Guava',
-            'Cucumber',
-            'Pineapple',
-            'Muskmelon',
-            'Pear',
-            'Sunflower seeds',
-            'Almond',
-            'Cashews'
+            { name: 'Dragon fruit', weight: '80g', macro: '1.6g protein' },
+            { name: 'Kiwi', weight: '45g', macro: '0.9g protein' },
+            { name: 'Strawberry', weight: '40g', macro: '0.4g protein' },
+            { name: 'Rambutan', weight: '35g', macro: '0.4g protein' },
+            { name: 'Green Apple', weight: '50g', macro: '0.3g protein' },
+            { name: 'Papaya', weight: '60g', macro: '0.5g protein' },
+            { name: 'Guava', weight: '50g', macro: '2.6g protein' },
+            { name: 'Cucumber', weight: '50g', macro: '0.4g protein' },
+            { name: 'Pineapple', weight: '40g', macro: '0.3g protein' },
+            { name: 'Muskmelon', weight: '50g', macro: '0.5g protein' },
+            { name: 'Pear', weight: '40g', macro: '0.2g protein' },
+            { name: 'Almond & Cashews', weight: '25g', macro: '5.5g protein' },
+            { name: 'Sunflower seeds', weight: '20g', macro: '4.2g protein' }
         ]
     },
 
@@ -71,17 +79,21 @@ const gymMenuProducts = [
         calories: 420,
         isPopular: true,
         benefits: "Higher energy fruits with dates and nuts provide more calories, healthy fats, and natural carbohydrates to support increased energy intake.",
+        plans: [
+            { id: 'daily', name: 'Daily', duration: '1 Day', days: 1, price: 149, originalPrice: 149, savingsTag: '' },
+            { id: 'weekly', name: '6-Day', duration: '6 Days/wk', days: 6, price: 849, originalPrice: 894, savingsTag: 'Save ₹45' },
+            { id: 'monthly', name: '26-Day', duration: '26 Days/mo', days: 26, price: 3499, originalPrice: 3874, savingsTag: 'Save ₹375' }
+        ],
         ingredients: [
-            'Green Apple',
-            'Banana',
-            'Guava',
-            'Pomegranate',
-            'Watermelon',
-            'Muskmelon',
-            'Dates',
-            'Sunflower seeds',
-            'Almond',
-            'Cashews'
+            { name: 'Green Apple', weight: '60g', macro: '0.3g protein' },
+            { name: 'Banana', weight: '60g', macro: '1.2g protein' },
+            { name: 'Guava', weight: '50g', macro: '2.6g protein' },
+            { name: 'Pomegranate', weight: '40g', macro: '1.0g protein' },
+            { name: 'Watermelon', weight: '60g', macro: '0.6g protein' },
+            { name: 'Muskmelon', weight: '50g', macro: '0.5g protein' },
+            { name: 'Dates', weight: '30g', macro: '1.8g protein' },
+            { name: 'Almond & Cashews', weight: '25g', macro: '5.5g protein' },
+            { name: 'Sunflower seeds', weight: '20g', macro: '4.2g protein' }
         ]
     },
 
@@ -95,17 +107,21 @@ const gymMenuProducts = [
         calories: 280,
         isPopular: true,
         benefits: "Lower calorie, high-fiber fruits and cucumber help increase meal volume while keeping calorie intake relatively lower.",
+        plans: [
+            { id: 'daily', name: 'Daily', duration: '1 Day', days: 1, price: 149, originalPrice: 149, savingsTag: '' },
+            { id: 'weekly', name: '6-Day', duration: '6 Days/wk', days: 6, price: 849, originalPrice: 894, savingsTag: 'Save ₹45' },
+            { id: 'monthly', name: '26-Day', duration: '26 Days/mo', days: 26, price: 3499, originalPrice: 3874, savingsTag: 'Save ₹375' }
+        ],
         ingredients: [
-            'Green Apple',
-            'Papaya',
-            'Guava',
-            'Cucumber',
-            'Pineapple',
-            'Muskmelon',
-            'Pear',
-            'Sunflower seeds',
-            'Almond',
-            'Cashews'
+            { name: 'Green Apple', weight: '60g', macro: '0.3g protein' },
+            { name: 'Papaya', weight: '60g', macro: '0.5g protein' },
+            { name: 'Guava', weight: '50g', macro: '2.6g protein' },
+            { name: 'Cucumber', weight: '60g', macro: '0.4g protein' },
+            { name: 'Pineapple', weight: '40g', macro: '0.3g protein' },
+            { name: 'Muskmelon', weight: '50g', macro: '0.5g protein' },
+            { name: 'Pear', weight: '40g', macro: '0.2g protein' },
+            { name: 'Almond & Cashews', weight: '20g', macro: '4.5g protein' },
+            { name: 'Sunflower seeds', weight: '20g', macro: '4.2g protein' }
         ]
     },
 
@@ -120,24 +136,24 @@ const gymMenuProducts = [
         calories: 310,
         isPopular: true,
         plans: [
-            { id: 'daily', name: 'Daily Pack', duration: '1 Day', days: 1, price: 69 },
-            { id: 'weekly', name: 'Weekly Pack', duration: '6 Days/wk', days: 6, price: 414 },
-            { id: 'monthly', name: 'Monthly Pack', duration: '26 Days/mo', days: 26, price: 1794 }
+            { id: 'daily', name: 'Daily', duration: '1 Day', days: 1, price: 69, originalPrice: 69, savingsTag: '' },
+            { id: 'weekly', name: '6-Day', duration: '6 Days/wk', days: 6, price: 399, originalPrice: 414, savingsTag: 'Save ₹15' },
+            { id: 'monthly', name: '26-Day', duration: '26 Days/mo', days: 26, price: 1699, originalPrice: 1794, savingsTag: 'Save ₹95' }
         ],
         benefits: "A convenient daily fruit Box for working professionals and students, providing a variety of fruits to help increase daily intake of vitamins, minerals, and dietary fiber.",
         ingredients: [
-            'Apple',
-            'Orange',
-            'Guava',
-            'Papaya',
-            'Watermelon',
-            'Muskmelon',
-            'Pineapple',
-            'Pear',
-            'Pomegranate',
-            'Dragon fruit (Fixed)',
-            'Kiwi (Fixed)',
-            'Strawberry (Fixed)'
+            { name: 'Dragon fruit (Fixed)', weight: '60g', macro: '1.2g protein' },
+            { name: 'Kiwi (Fixed)', weight: '35g', macro: '0.7g protein' },
+            { name: 'Strawberry (Fixed)', weight: '30g', macro: '0.3g protein' },
+            { name: 'Apple', weight: '50g', macro: '0.3g protein' },
+            { name: 'Orange', weight: '50g', macro: '0.6g protein' },
+            { name: 'Guava', weight: '40g', macro: '2.1g protein' },
+            { name: 'Papaya', weight: '50g', macro: '0.4g protein' },
+            { name: 'Watermelon', weight: '50g', macro: '0.5g protein' },
+            { name: 'Muskmelon', weight: '40g', macro: '0.4g protein' },
+            { name: 'Pomegranate', weight: '35g', macro: '0.9g protein' },
+            { name: 'Pineapple', weight: '35g', macro: '0.3g protein' },
+            { name: 'Pear', weight: '35g', macro: '0.2g protein' }
         ]
     },
 
@@ -152,42 +168,20 @@ const gymMenuProducts = [
         calories: 240,
         isPopular: false,
         benefits: "Features fruits and vegetables selected for a relatively lower glycemic impact, making it a more blood sugar–conscious fruit option when eaten in appropriate portions.",
+        plans: [
+            { id: 'daily', name: 'Daily', duration: '1 Day', days: 1, price: 69, originalPrice: 69, savingsTag: '' },
+            { id: 'weekly', name: '6-Day', duration: '6 Days/wk', days: 6, price: 399, originalPrice: 414, savingsTag: 'Save ₹15' },
+            { id: 'monthly', name: '26-Day', duration: '26 Days/mo', days: 26, price: 1699, originalPrice: 1794, savingsTag: 'Save ₹95' }
+        ],
         ingredients: [
-            {
-                name: 'Raspberry',
-                weight: '50gm',
-                macro: '4gm'
-            },
-            {
-                name: 'Avocado',
-                weight: '50gm',
-                macro: '0.7gm'
-            },
-            {
-                name: 'Dragon fruit',
-                weight: '80gm',
-                macro: '8gm'
-            },
-            {
-                name: 'Strawberry',
-                weight: '40gm',
-                macro: '5gm'
-            },
-            {
-                name: 'Pomelo',
-                weight: '50gm',
-                macro: '6gm'
-            },
-            {
-                name: 'Cucumber',
-                weight: '40gm',
-                macro: '2gm'
-            },
-            {
-                name: 'Kiwi',
-                weight: '30gm',
-                macro: '9gm'
-            }
+            { name: 'Raspberry', weight: '50g', macro: '1.2g protein' },
+            { name: 'Avocado', weight: '50g', macro: '1.0g protein' },
+            { name: 'Dragon fruit', weight: '80g', macro: '1.6g protein' },
+            { name: 'Strawberry', weight: '40g', macro: '0.4g protein' },
+            { name: 'Pomelo', weight: '50g', macro: '0.6g protein' },
+            { name: 'Cucumber', weight: '40g', macro: '0.3g protein' },
+            { name: 'Kiwi', weight: '30g', macro: '0.6g protein' },
+            { name: 'Almond & Seeds', weight: '25g', macro: '5.8g protein' }
         ]
     }
 ];

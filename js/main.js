@@ -102,6 +102,12 @@ function loadFeaturedProducts() {
                </div>`
             : `<span class="nutrition-value">₹${product.price}</span>`;
 
+        const ingredients = Array.isArray(product.ingredients) ? product.ingredients : [];
+        const top3Pills = ingredients.slice(0, 3).map(i => {
+            const name = typeof i === 'object' && i !== null ? i.name : i;
+            return `<span class="ingredient-pill">${name}</span>`;
+        }).join('');
+
         htmlBuilder += `
             <div class="featured-item">
                 <div class="featured-icon">
@@ -109,24 +115,22 @@ function loadFeaturedProducts() {
                 </div>
                 <div class="featured-content">
                     <h3 class="featured-name">${product.name}</h3>
-                    <p class="featured-desc">${product.description || product.ingredients.map(i => typeof i === 'object' && i !== null ? i.name : i).join(', ')}</p>
-                    <div class="nutrition-grid">
-                        <div class="nutrition-item nutrition-protein">
-                            <span class="nutrition-value">${product.protein}g</span>
-                            <span class="nutrition-label">Protein</span>
-                        </div>
-                        <div class="nutrition-item nutrition-calories">
-                            <span class="nutrition-value">${product.calories}</span>
-                            <span class="nutrition-label">Cal</span>
-                        </div>
-                        <div class="nutrition-item nutrition-price">
-                            ${priceHTML}
-                            <span class="nutrition-label">Price</span>
-                        </div>
+                    <div class="macro-strip my-2">
+                        <span class="macro-item macro-protein">💪 ${product.protein}g Protein</span>
+                        <span class="macro-divider"></span>
+                        <span class="macro-item macro-cal">🔥 ${product.calories} kcal</span>
                     </div>
-                    <button class="add-to-cart-btn w-full text-white py-2 rounded-lg font-semibold transition btn-featured-add-to-cart" data-product-id="${product.id}">
-                        Add to Cart
-                    </button>
+                    <div class="ingredient-pills-row mb-3">
+                        ${top3Pills}
+                    </div>
+                    <div class="flex items-center justify-between mt-auto pt-2 border-t border-pink-100 gap-2">
+                        <div>
+                            ${priceHTML}
+                        </div>
+                        <button class="add-to-cart-btn btn-tactile-add !w-auto !py-2 !px-4 text-xs font-bold" data-product-id="${product.id}">
+                            ＋ Add
+                        </button>
+                    </div>
                 </div>
             </div>
         `;

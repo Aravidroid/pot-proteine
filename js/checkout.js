@@ -278,7 +278,8 @@ function buildWhatsAppMessage(orderData) {
         }
         orderSummary += `${item.name} x${item.quantity} - ₹${unitPrice * item.quantity}\n`;
         if (item.details && item.details.length > 0) {
-            orderSummary += `   Ingredients: ${item.details.join(', ')}\n`;
+            const ingNames = item.details.map(i => typeof i === 'object' && i !== null ? (i.name || i) : i);
+            orderSummary += `   Ingredients: ${ingNames.join(', ')}\n`;
         }
     });
 
@@ -436,10 +437,17 @@ async function processUPIPayment(orderDetails) {
         if (confirmBtn) {
             confirmBtn.onclick = () => {
                 // Build order confirmation receipt for WhatsApp
-                const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+                const isEligible = typeof isFirstOrderEligible === 'function' ? isFirstOrderEligible() : true;
                 let orderSummaryText = '';
                 cart.forEach(item => {
-                    orderSummaryText += `${item.name} x${item.quantity} - ₹${item.price * item.quantity}\n`;
+                    const rawId = String(item.id || '');
+                    const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
+                    const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
+                    let unitPrice = Number(item.price || 0);
+                    if (isSupreme && planId === 'daily' && isEligible) {
+                        unitPrice = 119;
+                    }
+                    orderSummaryText += `${item.name} x${item.quantity} - ₹${unitPrice * item.quantity}\n`;
                 });
 
                 const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
