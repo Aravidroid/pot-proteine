@@ -103,7 +103,7 @@ function injectAuthModalHTML() {
             <!-- Modal Header -->
             <div class="relative bg-gradient-to-r from-[#3b113c] via-[#7a1c6a] to-[#51134f] px-6 py-5 text-white flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <img src="logo.webp" alt="Pot protéine" class="w-8 h-8 rounded-full border border-white/30 object-cover">
+                    <img src="logo.png" alt="Pot protéine" class="w-8 h-8 rounded-full border border-white/30 object-cover">
                     <h3 id="auth-modal-title" class="font-bold text-lg tracking-wide">Customer Details</h3>
                 </div>
                 <button id="auth-modal-close" class="p-1 rounded-full hover:bg-white/20 text-white/80 hover:text-white transition-colors" aria-label="Close modal">

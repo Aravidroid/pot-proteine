@@ -160,7 +160,7 @@ function updateCartDisplay() {
         const protein = Number(item.protein || 0);
         const calories = Number(item.calories || 0);
         const details = Array.isArray(item.details) ? item.details : [];
-        
+
         const rawId = String(item.id || '');
         const isSupreme = rawId === '3' || rawId === '4' || rawId.startsWith('3-') || rawId.startsWith('4-');
         const planId = item.selectedPlanId || (rawId.includes('-') ? rawId.split('-')[1] : 'daily');
@@ -190,7 +190,7 @@ function updateCartDisplay() {
                 <img src="${itemImg}" 
                      alt="${item.name}" 
                      class="w-16 h-16 object-cover rounded-xl border border-gray-200 shadow-sm shrink-0 bg-gray-50"
-                     onerror="this.src='logo.webp'">
+                     onerror="this.src='logo.png'">
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-start">
                         <p class="font-bold text-gray-900 text-sm truncate">${item.name}</p>
