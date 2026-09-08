@@ -227,6 +227,93 @@ function updateCartDisplay() {
     }
     updateCartSummary();
     setupInstructionsField();
+    setupDeliveryScheduleInCart();
+}
+
+/**
+ * Setup compact Delivery Schedule (Date + Single Time Option) in Cart Footer
+ */
+function setupDeliveryScheduleInCart() {
+    const cartFooter = document.querySelector('#cart-modal .cart-footer');
+    if (!cartFooter) return;
+
+    const isSubscription = cart.some(item => item.selectedPlanId === 'weekly' || item.selectedPlanId === 'monthly');
+
+    const today = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowStr = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth() + 1)}-${pad(tomorrow.getDate())}`;
+
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + 14);
+    const maxDateStr = `${maxDate.getFullYear()}-${pad(maxDate.getMonth() + 1)}-${pad(maxDate.getDate())}`;
+
+    let container = document.getElementById('cart-delivery-schedule-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'cart-delivery-schedule-container';
+        container.className = 'space-y-1.5 bg-[#faf3f5] p-3 rounded-2xl border border-pink-200/80 mb-3';
+
+        const instructionsContainer = document.getElementById('cart-instructions-container');
+        if (instructionsContainer) {
+            cartFooter.insertBefore(container, instructionsContainer);
+        } else {
+            cartFooter.insertBefore(container, cartFooter.firstChild);
+        }
+    }
+
+    container.innerHTML = `
+        <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs font-bold text-[#2a0c2b] flex items-center gap-1.5">
+                <span>📅</span> <span>${isSubscription ? 'Subscription Start & Daily Time' : 'Delivery Date & Time'}</span>
+            </label>
+            <span class="text-[10px] text-[#7a1c6a] font-bold bg-pink-100 px-2 py-0.5 rounded-full">
+                Fresh Prepared
+            </span>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <div>
+                <label for="cart-delivery-date" class="block text-[10px] font-bold text-[#4b2040] mb-0.5">${isSubscription ? 'Start Date' : 'Date'}</label>
+                <input type="date" id="cart-delivery-date" 
+                    min="${isSubscription ? tomorrowStr : todayStr}" 
+                    max="${maxDateStr}" 
+                    class="w-full text-xs p-2 rounded-xl border border-pink-200 bg-white text-[#2a0c2b] focus:ring-2 focus:ring-[#7a1c6a] focus:outline-none font-medium transition shadow-2xs">
+            </div>
+            <div>
+                <label for="cart-delivery-time" class="block text-[10px] font-bold text-[#4b2040] mb-0.5">${isSubscription ? 'Daily Time' : 'Preferred Time'}</label>
+                <input type="time" id="cart-delivery-time" 
+                    class="w-full text-xs p-2 rounded-xl border border-pink-200 bg-white text-[#2a0c2b] focus:ring-2 focus:ring-[#7a1c6a] focus:outline-none font-bold transition shadow-2xs">
+            </div>
+        </div>
+    `;
+
+    const dateInput = document.getElementById('cart-delivery-date');
+    const timeInput = document.getElementById('cart-delivery-time');
+
+    let savedDate = localStorage.getItem('proteinPotDeliveryDate');
+    if (!savedDate || (isSubscription && savedDate < tomorrowStr) || savedDate < todayStr) {
+        savedDate = isSubscription ? tomorrowStr : (today.getHours() >= 19 ? tomorrowStr : todayStr);
+    }
+    if (dateInput) {
+        dateInput.value = savedDate;
+        dateInput.addEventListener('change', (e) => {
+            localStorage.setItem('proteinPotDeliveryDate', e.target.value);
+        });
+    }
+
+    let savedTime = localStorage.getItem('proteinPotDeliveryTime') || '08:30';
+    if (timeInput) {
+        timeInput.value = savedTime;
+        timeInput.addEventListener('input', (e) => {
+            localStorage.setItem('proteinPotDeliveryTime', e.target.value);
+        });
+        timeInput.addEventListener('change', (e) => {
+            localStorage.setItem('proteinPotDeliveryTime', e.target.value);
+        });
+    }
 }
 
 /**

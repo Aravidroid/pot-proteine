@@ -16,6 +16,19 @@ const checkoutDOM = {
     mapsLinkSummary: null,
     summaryMapsLink: null,
 
+    // Delivery schedule elements
+    deliveryDateInput: null,
+    deliveryTimeInput: null,
+    btnDateToday: null,
+    btnDateTomorrow: null,
+    scheduleTitle: null,
+    dateLabel: null,
+    timeLabel: null,
+    subscriptionScheduleNote: null,
+    deliveryScheduleSummary: null,
+    summaryScheduleLabel: null,
+    summaryScheduleText: null,
+
     mapsUrl: null,
     latitude: null,
     longitude: null
@@ -37,6 +50,19 @@ function initializeCheckoutDOM() {
     checkoutDOM.mapsLink = document.getElementById('mapsLink');
     checkoutDOM.mapsLinkSummary = document.getElementById('mapsLinkSummary');
     checkoutDOM.summaryMapsLink = document.getElementById('summaryMapsLink');
+
+    // Delivery schedule bindings
+    checkoutDOM.deliveryDateInput = document.getElementById('deliveryDate');
+    checkoutDOM.deliveryTimeInput = document.getElementById('deliveryTime');
+    checkoutDOM.btnDateToday = document.getElementById('btnDateToday');
+    checkoutDOM.btnDateTomorrow = document.getElementById('btnDateTomorrow');
+    checkoutDOM.scheduleTitle = document.getElementById('scheduleTitle');
+    checkoutDOM.dateLabel = document.getElementById('dateLabel');
+    checkoutDOM.timeLabel = document.getElementById('timeLabel');
+    checkoutDOM.subscriptionScheduleNote = document.getElementById('subscriptionScheduleNote');
+    checkoutDOM.deliveryScheduleSummary = document.getElementById('deliveryScheduleSummary');
+    checkoutDOM.summaryScheduleLabel = document.getElementById('summaryScheduleLabel');
+    checkoutDOM.summaryScheduleText = document.getElementById('summaryScheduleText');
 }
 
 /**
@@ -212,6 +238,177 @@ function handleGetMapsLink() {
 }
 
 /**
+ * Convert YYYY-MM-DD date string to readable format (e.g. Mon, 8 Sep 2026)
+ * @param {string} dateStr - YYYY-MM-DD
+ * @returns {string} Formatted date string
+ */
+function formatReadableDate(dateStr) {
+    if (!dateStr) return '';
+    try {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+            const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            return d.toLocaleDateString('en-IN', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+    } catch (e) {}
+    return dateStr;
+}
+
+/**
+ * Convert 24-hour time HH:MM to 12-hour AM/PM format (e.g. 08:30 AM)
+ * @param {string} timeStr - HH:MM
+ * @returns {string} Formatted time string
+ */
+function formatReadableTime(timeStr) {
+    if (!timeStr) return '';
+    const parts = timeStr.split(':');
+    if (parts.length < 2) return timeStr;
+    let hours = parseInt(parts[0], 10);
+    const minutes = parts[1];
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const strHours = String(hours).padStart(2, '0');
+    return `${strHours}:${minutes} ${ampm}`;
+}
+
+/**
+ * Setup delivery date & time scheduler with dynamic single-order vs subscription behavior
+ */
+function setupDeliverySchedule() {
+    const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
+    const isSubscription = cart.some(item => item.selectedPlanId === 'weekly' || item.selectedPlanId === 'monthly');
+
+    const today = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowStr = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth() + 1)}-${pad(tomorrow.getDate())}`;
+
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + 14);
+    const maxDateStr = `${maxDate.getFullYear()}-${pad(maxDate.getMonth() + 1)}-${pad(maxDate.getDate())}`;
+
+    if (checkoutDOM.deliveryDateInput) {
+        checkoutDOM.deliveryDateInput.min = isSubscription ? tomorrowStr : todayStr;
+        checkoutDOM.deliveryDateInput.max = maxDateStr;
+    }
+
+    if (isSubscription) {
+        if (checkoutDOM.scheduleTitle) checkoutDOM.scheduleTitle.innerHTML = '🔄 Subscription Schedule *';
+        if (checkoutDOM.dateLabel) checkoutDOM.dateLabel.textContent = 'Subscription Start Date *';
+        if (checkoutDOM.timeLabel) checkoutDOM.timeLabel.textContent = 'Daily Preferred Delivery Time *';
+        if (checkoutDOM.btnDateToday) checkoutDOM.btnDateToday.classList.add('hidden');
+        if (checkoutDOM.btnDateTomorrow) checkoutDOM.btnDateTomorrow.textContent = 'Start Tomorrow';
+        if (checkoutDOM.subscriptionScheduleNote) checkoutDOM.subscriptionScheduleNote.classList.remove('hidden');
+        if (checkoutDOM.summaryScheduleLabel) checkoutDOM.summaryScheduleLabel.textContent = 'Daily Delivery:';
+    } else {
+        if (checkoutDOM.scheduleTitle) checkoutDOM.scheduleTitle.innerHTML = '📅 Delivery Schedule *';
+        if (checkoutDOM.dateLabel) checkoutDOM.dateLabel.textContent = 'Preferred Delivery Date *';
+        if (checkoutDOM.timeLabel) checkoutDOM.timeLabel.textContent = 'Preferred Delivery Time *';
+        if (checkoutDOM.btnDateToday) checkoutDOM.btnDateToday.classList.remove('hidden');
+        if (checkoutDOM.btnDateTomorrow) checkoutDOM.btnDateTomorrow.textContent = 'Tomorrow';
+        if (checkoutDOM.subscriptionScheduleNote) checkoutDOM.subscriptionScheduleNote.classList.add('hidden');
+        if (checkoutDOM.summaryScheduleLabel) checkoutDOM.summaryScheduleLabel.textContent = 'Delivery Schedule:';
+    }
+
+    // Determine initial date
+    let savedDate = localStorage.getItem('proteinPotDeliveryDate');
+    if (!savedDate || (isSubscription && savedDate < tomorrowStr) || savedDate < todayStr) {
+        savedDate = isSubscription ? tomorrowStr : (today.getHours() >= 19 ? tomorrowStr : todayStr);
+    }
+    if (checkoutDOM.deliveryDateInput) {
+        checkoutDOM.deliveryDateInput.value = savedDate;
+    }
+
+    // Determine initial time
+    let savedTime = localStorage.getItem('proteinPotDeliveryTime');
+    if (!savedTime) {
+        savedTime = '08:30'; // Popular fresh morning slot
+    }
+    if (checkoutDOM.deliveryTimeInput) {
+        checkoutDOM.deliveryTimeInput.value = savedTime;
+    }
+
+    function updateQuickPillStyles() {
+        const curDate = checkoutDOM.deliveryDateInput ? checkoutDOM.deliveryDateInput.value : '';
+        if (checkoutDOM.btnDateToday) {
+            if (curDate === todayStr) {
+                checkoutDOM.btnDateToday.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold border-2 border-[#3b113c] bg-[#3b113c] text-white shadow-xs';
+            } else {
+                checkoutDOM.btnDateToday.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold border border-pink-200 bg-white text-[#3b113c] hover:bg-[#3b113c] hover:text-white transition shadow-2xs';
+            }
+        }
+        if (checkoutDOM.btnDateTomorrow) {
+            if (curDate === tomorrowStr) {
+                checkoutDOM.btnDateTomorrow.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold border-2 border-[#3b113c] bg-[#3b113c] text-white shadow-xs';
+            } else {
+                checkoutDOM.btnDateTomorrow.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold border border-pink-200 bg-white text-[#3b113c] hover:bg-[#3b113c] hover:text-white transition shadow-2xs';
+            }
+        }
+    }
+
+    function updateScheduleSummary() {
+        const curDate = checkoutDOM.deliveryDateInput ? checkoutDOM.deliveryDateInput.value : '';
+        const curTime = checkoutDOM.deliveryTimeInput ? checkoutDOM.deliveryTimeInput.value : '';
+
+        if (curDate) {
+            localStorage.setItem('proteinPotDeliveryDate', curDate);
+        }
+        if (curTime) {
+            localStorage.setItem('proteinPotDeliveryTime', curTime);
+        }
+
+        if (checkoutDOM.deliveryScheduleSummary) {
+            if (curDate && curTime) {
+                checkoutDOM.deliveryScheduleSummary.classList.remove('hidden');
+                if (checkoutDOM.summaryScheduleText) {
+                    const dateText = curDate === todayStr ? 'Today' : (curDate === tomorrowStr ? 'Tomorrow' : formatReadableDate(curDate));
+                    checkoutDOM.summaryScheduleText.textContent = `${dateText} @ ${formatReadableTime(curTime)}`;
+                }
+            }
+        }
+        updateQuickPillStyles();
+    }
+
+    if (checkoutDOM.btnDateToday) {
+        checkoutDOM.btnDateToday.onclick = () => {
+            if (checkoutDOM.deliveryDateInput) {
+                checkoutDOM.deliveryDateInput.value = todayStr;
+                updateScheduleSummary();
+            }
+        };
+    }
+
+    if (checkoutDOM.btnDateTomorrow) {
+        checkoutDOM.btnDateTomorrow.onclick = () => {
+            if (checkoutDOM.deliveryDateInput) {
+                checkoutDOM.deliveryDateInput.value = tomorrowStr;
+                updateScheduleSummary();
+            }
+        };
+    }
+
+    if (checkoutDOM.deliveryDateInput) {
+        checkoutDOM.deliveryDateInput.onchange = updateScheduleSummary;
+    }
+
+    if (checkoutDOM.deliveryTimeInput) {
+        checkoutDOM.deliveryTimeInput.oninput = updateScheduleSummary;
+        checkoutDOM.deliveryTimeInput.onchange = updateScheduleSummary;
+    }
+
+    updateScheduleSummary();
+}
+
+/**
  * Validate checkout form
  * @returns {Object} Validation result {isValid, errors}
  */
@@ -235,6 +432,14 @@ function validateCheckoutForm() {
 
     if (!checkoutDOM.mapsUrl) {
         errors.push('Please share your GPS location');
+    }
+
+    if (checkoutDOM.deliveryDateInput && !checkoutDOM.deliveryDateInput.value) {
+        errors.push('Please select a delivery date');
+    }
+
+    if (checkoutDOM.deliveryTimeInput && !checkoutDOM.deliveryTimeInput.value) {
+        errors.push('Please select a preferred delivery time');
     }
 
     return {
@@ -287,12 +492,26 @@ function buildWhatsAppMessage(orderData) {
     const orderNumber = orderData.orderNumber;
     const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
 
-    let message = `New Order - Pot protein
+    const dateVal = checkoutDOM.deliveryDateInput?.value || localStorage.getItem('proteinPotDeliveryDate') || '';
+    const timeVal = checkoutDOM.deliveryTimeInput?.value || localStorage.getItem('proteinPotDeliveryTime') || '';
+    const isSubscription = cart.some(item => item.selectedPlanId === 'weekly' || item.selectedPlanId === 'monthly');
+
+    const formattedDate = formatReadableDate(dateVal);
+    const formattedTime = formatReadableTime(timeVal);
+
+    let scheduleSection = '';
+    if (isSubscription) {
+        scheduleSection = `🔄 Subscription Start Date: ${formattedDate}\n⏰ Daily Delivery Time: ${formattedTime} (Mon–Sat)\n`;
+    } else {
+        scheduleSection = `📅 Delivery Date: ${formattedDate}\n⏰ Preferred Delivery Time: ${formattedTime}\n`;
+    }
+
+    let message = `${isSubscription ? 'New Subscription' : 'New Order'} - Pot protein
 
 Name: ${orderData.customerName}
 Phone: ${orderData.customerPhone}
 
-Address:
+${scheduleSection}Address:
 ${orderData.customerAddress}
 
 📍 Delivery Location:
@@ -327,6 +546,16 @@ async function sendViaWhatsApp(orderData) {
     const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
     const totalAmount = getCartTotal();
 
+    const dateVal = checkoutDOM.deliveryDateInput?.value || localStorage.getItem('proteinPotDeliveryDate') || '';
+    const timeVal = checkoutDOM.deliveryTimeInput?.value || localStorage.getItem('proteinPotDeliveryTime') || '';
+    const isSubscription = cart.some(item => item.selectedPlanId === 'weekly' || item.selectedPlanId === 'monthly');
+
+    const scheduleSummaryString = `[${isSubscription ? 'Subscription Start' : 'Delivery'}: ${formatReadableDate(dateVal)} @ ${formatReadableTime(timeVal)}]`;
+    const userNotes = localStorage.getItem('proteinPotCartInstructions') || '';
+    const combinedInstructions = userNotes.trim()
+        ? `${scheduleSummaryString} Notes: ${userNotes.trim()}`
+        : scheduleSummaryString;
+
     const orderConfirmation = {
         orderNumber: orderNumber,
         amount: totalAmount,
@@ -336,12 +565,16 @@ async function sendViaWhatsApp(orderData) {
         customerPhone: orderData.customerPhone,
         customerAddress: orderData.customerAddress,
 
+        deliveryDate: dateVal,
+        deliveryTime: timeVal,
+        formattedSchedule: `${formatReadableDate(dateVal)} @ ${formatReadableTime(timeVal)}`,
+
         latitude: checkoutDOM.latitude,
         longitude: checkoutDOM.longitude,
         mapsUrl: checkoutDOM.mapsUrl,
 
         items: cart,
-        specialInstructions: localStorage.getItem('proteinPotCartInstructions') || ''
+        specialInstructions: combinedInstructions
     };
 
     localStorage.setItem('orderConfirmation', JSON.stringify(orderConfirmation));
@@ -356,7 +589,7 @@ async function sendViaWhatsApp(orderData) {
                 order_number: orderNumber,
                 items: cart,
                 total_amount: totalAmount,
-                instructions: localStorage.getItem('proteinPotCartInstructions') || ''
+                instructions: combinedInstructions
             })
         });
     } catch (err) {
@@ -376,6 +609,8 @@ async function sendViaWhatsApp(orderData) {
     setTimeout(() => {
         localStorage.removeItem('proteinPotCart');
         localStorage.removeItem('proteinPotCartInstructions');
+        localStorage.removeItem('proteinPotDeliveryDate');
+        localStorage.removeItem('proteinPotDeliveryTime');
         localStorage.removeItem('orderDetails');
         window.location.href = 'index.html';
     }, 1500);
@@ -452,11 +687,25 @@ async function processUPIPayment(orderDetails) {
 
                 const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
 
+                const dateVal = checkoutDOM.deliveryDateInput?.value || localStorage.getItem('proteinPotDeliveryDate') || '';
+                const timeVal = checkoutDOM.deliveryTimeInput?.value || localStorage.getItem('proteinPotDeliveryTime') || '';
+                const isSubscription = cart.some(item => item.selectedPlanId === 'weekly' || item.selectedPlanId === 'monthly');
+                const formattedDate = formatReadableDate(dateVal);
+                const formattedTime = formatReadableTime(timeVal);
+
+                let scheduleSection = '';
+                if (isSubscription) {
+                    scheduleSection = `🔄 Subscription Start Date: ${formattedDate}\n⏰ Daily Delivery Time: ${formattedTime} (Mon–Sat)\n`;
+                } else {
+                    scheduleSection = `📅 Delivery Date: ${formattedDate}\n⏰ Preferred Delivery Time: ${formattedTime}\n`;
+                }
+
                 const waMessage = `New Order - Paid via UPI QR
 
 Name: ${orderDetails.name}
 Phone: ${orderDetails.phone}
-Address: ${orderDetails.address}
+
+${scheduleSection}Address: ${orderDetails.address}
 
 📍 Delivery Location:
 ${mapsLink}
@@ -515,6 +764,9 @@ function handlePaymentSuccess(statusData) {
 
     // Clear cart & saved details
     localStorage.removeItem('proteinPotCart');
+    localStorage.removeItem('proteinPotCartInstructions');
+    localStorage.removeItem('proteinPotDeliveryDate');
+    localStorage.removeItem('proteinPotDeliveryTime');
     localStorage.removeItem('orderDetails');
 
     // Update summary count if cart module exists
@@ -558,6 +810,8 @@ async function handleCheckoutSubmit(e) {
         name,
         phone,
         address,
+        deliveryDate: checkoutDOM.deliveryDateInput?.value || '',
+        deliveryTime: checkoutDOM.deliveryTimeInput?.value || '',
         timestamp: new Date().toISOString()
     };
 
@@ -618,6 +872,7 @@ function setupPaymentMethodToggle() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeCheckoutDOM();
     loadOrderSummary();
+    setupDeliverySchedule();
     setupPaymentMethodToggle();
 
     // Auto-capture location
