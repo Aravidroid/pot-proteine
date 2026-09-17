@@ -1074,9 +1074,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 displayMapsLink(mapsUrl);
 
+                // Calculate distance and delivery fee
+                const deliveryInfo = calculateDeliveryFee(position.coords.latitude, position.coords.longitude);
+                checkoutDOM.distanceKm = deliveryInfo.distanceKm;
+                checkoutDOM.deliveryFee = deliveryInfo.fee;
+
+                updateDeliveryUI(deliveryInfo);
+                updateCheckoutSummary();
+
                 if (checkoutDOM.getMapsBtn) {
+                    const feeStatus = deliveryInfo.isFree ? 'FREE' : `+₹${deliveryInfo.fee}`;
                     checkoutDOM.getMapsBtn.textContent =
-                        "Location Captured ✓";
+                        `Location Captured ✓ (${deliveryInfo.distanceKm.toFixed(1)} km • ${feeStatus})`;
                 }
             },
             (error) => {
