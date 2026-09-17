@@ -103,10 +103,20 @@ function validateOrderPayload(req, res, next) {
         }
     }
 
+    let validatedDeliveryFee = 0;
+    if (body.delivery_fee !== undefined && body.delivery_fee !== null) {
+        const parsedFee = Number(body.delivery_fee);
+        if (isNaN(parsedFee) || (parsedFee !== 0 && parsedFee !== 15)) {
+            return res.status(400).json({ success: false, message: 'Invalid delivery fee. Must be 0 or 15.' });
+        }
+        validatedDeliveryFee = parsedFee;
+    }
+
     req.validatedBody = {
         order_number: order_number.trim(),
         items,
-        instructions: instructions ? instructions.trim() : ''
+        instructions: instructions ? instructions.trim() : '',
+        delivery_fee: validatedDeliveryFee
     };
 
     next();

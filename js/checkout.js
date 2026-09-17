@@ -1,6 +1,55 @@
 // Pot protein - Checkout Page Management
 // Handles form submission and order summary display
 
+// Kitchen Location Configuration (11°01'13.2"N 76°54'25.5"E)
+const KITCHEN_LOCATION = {
+    lat: 11.020333,
+    lng: 76.907083,
+    freeDeliveryRadiusKm: 15.0,
+    standardDeliveryFee: 15
+};
+
+/**
+ * Calculate straight-line distance in kilometers using the Haversine formula
+ * @param {number} lat1 
+ * @param {number} lon1 
+ * @param {number} lat2 
+ * @param {number} lon2 
+ * @returns {number} Distance in km
+ */
+function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+/**
+ * Modular helper to determine delivery fee based on customer coordinates.
+ * Structured cleanly to easily plug in Google Maps Distance Matrix API in the future.
+ * @param {number} lat 
+ * @param {number} lng 
+ * @returns {{ distanceKm: number|null, fee: number, isFree: boolean }}
+ */
+function calculateDeliveryFee(lat, lng) {
+    if (typeof lat !== 'number' || typeof lng !== 'number' || isNaN(lat) || isNaN(lng)) {
+        return { distanceKm: null, fee: 0, isFree: true };
+    }
+    const distanceKm = calculateDistanceKm(KITCHEN_LOCATION.lat, KITCHEN_LOCATION.lng, lat, lng);
+    const isFree = distanceKm <= KITCHEN_LOCATION.freeDeliveryRadiusKm;
+    const fee = isFree ? 0 : KITCHEN_LOCATION.standardDeliveryFee;
+    return {
+        distanceKm,
+        fee,
+        isFree
+    };
+}
+
 // Cache DOM elements
 const checkoutDOM = {
     form: null,
@@ -10,6 +59,9 @@ const checkoutDOM = {
     summaryContainer: null,
     subtotalEl: null,
     totalEl: null,
+    deliveryFeeEl: null,
+    deliveryDistanceBadge: null,
+    summaryDistanceNote: null,
     getMapsBtn: null,
     mapsLinkDisplay: null,
     mapsLink: null,
@@ -31,7 +83,9 @@ const checkoutDOM = {
 
     mapsUrl: null,
     latitude: null,
-    longitude: null
+    longitude: null,
+    distanceKm: null,
+    deliveryFee: 0
 };
 
 /**
@@ -45,6 +99,9 @@ function initializeCheckoutDOM() {
     checkoutDOM.summaryContainer = document.getElementById('orderItemsSummary');
     checkoutDOM.subtotalEl = document.getElementById('summarySubtotal');
     checkoutDOM.totalEl = document.getElementById('summaryTotal');
+    checkoutDOM.deliveryFeeEl = document.getElementById('summaryDeliveryFee');
+    checkoutDOM.deliveryDistanceBadge = document.getElementById('deliveryDistanceBadge');
+    checkoutDOM.summaryDistanceNote = document.getElementById('summaryDistanceNote');
     checkoutDOM.getMapsBtn = document.getElementById('getMapsBtn');
     checkoutDOM.mapsLinkDisplay = document.getElementById('mapsLinkDisplay');
     checkoutDOM.mapsLink = document.getElementById('mapsLink');
@@ -129,13 +186,78 @@ function loadOrderSummary() {
 }
 
 /**
+ * Update delivery fee badges and notices in the UI
+ * @param {{ distanceKm: number|null, fee: number, isFree: boolean }} deliveryInfo
+ */
+function updateDeliveryUI(deliveryInfo) {
+    if (!deliveryInfo) return;
+
+    // 1. Update distance badge beneath the location button
+    if (checkoutDOM.deliveryDistanceBadge) {
+        if (deliveryInfo.distanceKm !== null) {
+            checkoutDOM.deliveryDistanceBadge.classList.remove('hidden');
+            if (deliveryInfo.isFree) {
+                checkoutDOM.deliveryDistanceBadge.className =
+                    'mt-2.5 p-2.5 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+                checkoutDOM.deliveryDistanceBadge.innerHTML =
+                    `<span>📍</span> <strong>${deliveryInfo.distanceKm.toFixed(1)} km</strong> from kitchen • <span class="text-emerald-700 font-bold">FREE Delivery Applied ✓</span>`;
+            } else {
+                checkoutDOM.deliveryDistanceBadge.className =
+                    'mt-2.5 p-2.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-200 block';
+                checkoutDOM.deliveryDistanceBadge.innerHTML =
+                    `<span>📍</span> <strong>${deliveryInfo.distanceKm.toFixed(1)} km</strong> from kitchen • <span class="text-[#3b113c] font-bold">+₹${deliveryInfo.fee} Delivery Fee applied (&gt;15 km)</span>`;
+            }
+        }
+    }
+
+    // 2. Update Order Summary delivery line
+    if (checkoutDOM.deliveryFeeEl) {
+        if (deliveryInfo.fee > 0) {
+            checkoutDOM.deliveryFeeEl.textContent = `₹${deliveryInfo.fee}`;
+            checkoutDOM.deliveryFeeEl.className = 'font-bold text-[#3b113c]';
+        } else {
+            checkoutDOM.deliveryFeeEl.textContent = 'FREE';
+            checkoutDOM.deliveryFeeEl.className = 'font-semibold text-primary-light';
+        }
+    }
+
+    // 3. Update summary distance note
+    if (checkoutDOM.summaryDistanceNote) {
+        if (deliveryInfo.distanceKm !== null) {
+            checkoutDOM.summaryDistanceNote.classList.remove('hidden');
+            if (deliveryInfo.isFree) {
+                checkoutDOM.summaryDistanceNote.textContent = `(${deliveryInfo.distanceKm.toFixed(1)} km • Within 15 km free zone)`;
+                checkoutDOM.summaryDistanceNote.className = 'text-[11px] text-right text-emerald-700 font-semibold';
+            } else {
+                checkoutDOM.summaryDistanceNote.textContent = `(${deliveryInfo.distanceKm.toFixed(1)} km • Beyond 15 km delivery fee)`;
+                checkoutDOM.summaryDistanceNote.className = 'text-[11px] text-right text-amber-800 font-semibold';
+            }
+        } else {
+            checkoutDOM.summaryDistanceNote.classList.add('hidden');
+        }
+    }
+}
+
+/**
  * Update checkout summary calculations
  */
 function updateCheckoutSummary() {
-    const total = typeof getCartTotal === 'function' ? getCartTotal() : 0;
+    const subtotal = typeof getCartTotal === 'function' ? getCartTotal() : 0;
+    const deliveryFee = checkoutDOM.deliveryFee || 0;
+    const total = subtotal + deliveryFee;
 
-    if (checkoutDOM.subtotalEl) checkoutDOM.subtotalEl.textContent = total;
+    if (checkoutDOM.subtotalEl) checkoutDOM.subtotalEl.textContent = subtotal;
     if (checkoutDOM.totalEl) checkoutDOM.totalEl.textContent = total;
+
+    if (checkoutDOM.deliveryFeeEl) {
+        if (deliveryFee > 0) {
+            checkoutDOM.deliveryFeeEl.textContent = `₹${deliveryFee}`;
+            checkoutDOM.deliveryFeeEl.className = 'font-bold text-[#3b113c]';
+        } else {
+            checkoutDOM.deliveryFeeEl.textContent = 'FREE';
+            checkoutDOM.deliveryFeeEl.className = 'font-semibold text-primary-light';
+        }
+    }
 }
 
 /**
@@ -198,8 +320,17 @@ function handleGetMapsLink() {
 
             displayMapsLink(mapsUrl);
 
+            // Calculate distance and delivery fee
+            const deliveryInfo = calculateDeliveryFee(latitude, longitude);
+            checkoutDOM.distanceKm = deliveryInfo.distanceKm;
+            checkoutDOM.deliveryFee = deliveryInfo.fee;
+
+            updateDeliveryUI(deliveryInfo);
+            updateCheckoutSummary();
+
+            const feeStatus = deliveryInfo.isFree ? 'FREE' : `+₹${deliveryInfo.fee}`;
             checkoutDOM.getMapsBtn.textContent =
-                "Location Captured ✓";
+                `Location Captured ✓ (${deliveryInfo.distanceKm.toFixed(1)} km • ${feeStatus})`;
         },
 
         (error) => {
@@ -488,7 +619,9 @@ function buildWhatsAppMessage(orderData) {
         }
     });
 
-    const totalAmount = getCartTotal();
+    const subtotal = getCartTotal();
+    const deliveryFee = checkoutDOM.deliveryFee || 0;
+    const totalAmount = subtotal + deliveryFee;
     const orderNumber = orderData.orderNumber;
     const mapsLink = checkoutDOM.mapsUrl || "Location Not Shared";
 
@@ -504,6 +637,14 @@ function buildWhatsAppMessage(orderData) {
         scheduleSection = `🔄 Subscription Start Date: ${formattedDate}\n⏰ Daily Delivery Time: ${formattedTime} (Mon–Sat)\n`;
     } else {
         scheduleSection = `📅 Delivery Date: ${formattedDate}\n⏰ Preferred Delivery Time: ${formattedTime}\n`;
+    }
+
+    let deliverySection = 'Delivery: FREE';
+    if (deliveryFee > 0) {
+        const distText = checkoutDOM.distanceKm !== null ? ` (${checkoutDOM.distanceKm.toFixed(1)} km from kitchen)` : '';
+        deliverySection = `Delivery Charge: ₹${deliveryFee}${distText}`;
+    } else if (checkoutDOM.distanceKm !== null) {
+        deliverySection = `Delivery: FREE (${checkoutDOM.distanceKm.toFixed(1)} km • within 15 km)`;
     }
 
     let message = `${isSubscription ? 'New Subscription' : 'New Order'} - Pot protein
@@ -524,8 +665,11 @@ ${orderSummary}`;
         message += `\n  Allergy / Special Notes:\n"${instructions.trim()}"\n`;
     }
 
-    message += `\nTotal: ₹${totalAmount}
-Order Number: #${orderNumber}`;
+    if (deliveryFee > 0) {
+        message += `\nSubtotal: ₹${subtotal}\n${deliverySection}\nTotal: ₹${totalAmount}\nOrder Number: #${orderNumber}`;
+    } else {
+        message += `\n${deliverySection}\nTotal: ₹${totalAmount}\nOrder Number: #${orderNumber}`;
+    }
 
     return message;
 }
@@ -544,7 +688,9 @@ async function sendViaWhatsApp(orderData) {
 
     // Save order to localStorage before redirecting
     const cart = JSON.parse(localStorage.getItem('proteinPotCart')) || [];
-    const totalAmount = getCartTotal();
+    const subtotal = getCartTotal();
+    const deliveryFee = checkoutDOM.deliveryFee || 0;
+    const totalAmount = subtotal + deliveryFee;
 
     const dateVal = checkoutDOM.deliveryDateInput?.value || localStorage.getItem('proteinPotDeliveryDate') || '';
     const timeVal = checkoutDOM.deliveryTimeInput?.value || localStorage.getItem('proteinPotDeliveryTime') || '';
@@ -559,6 +705,9 @@ async function sendViaWhatsApp(orderData) {
     const orderConfirmation = {
         orderNumber: orderNumber,
         amount: totalAmount,
+        subtotal: subtotal,
+        deliveryFee: deliveryFee,
+        distanceKm: checkoutDOM.distanceKm,
         timestamp: new Date().toISOString(),
 
         customerName: orderData.customerName,
@@ -589,6 +738,7 @@ async function sendViaWhatsApp(orderData) {
                 order_number: orderNumber,
                 items: cart,
                 total_amount: totalAmount,
+                delivery_fee: deliveryFee,
                 instructions: combinedInstructions
             })
         });
@@ -634,7 +784,8 @@ async function processUPIPayment(orderDetails) {
             customerPhone: orderDetails.phone,
             customerAddress: orderDetails.address,
             mapsUrl: checkoutDOM.mapsUrl || '',
-            items: cart
+            items: cart,
+            deliveryFee: checkoutDOM.deliveryFee || 0
         };
 
         const result = await window.UPIPayment.createPayment(orderData);
@@ -700,6 +851,16 @@ async function processUPIPayment(orderDetails) {
                     scheduleSection = `📅 Delivery Date: ${formattedDate}\n⏰ Preferred Delivery Time: ${formattedTime}\n`;
                 }
 
+                const subtotal = getCartTotal();
+                const deliveryFee = checkoutDOM.deliveryFee || 0;
+                let deliverySection = 'Delivery: FREE';
+                if (deliveryFee > 0) {
+                    const distText = checkoutDOM.distanceKm !== null ? ` (${checkoutDOM.distanceKm.toFixed(1)} km from kitchen)` : '';
+                    deliverySection = `Delivery Charge: ₹${deliveryFee}${distText}`;
+                } else if (checkoutDOM.distanceKm !== null) {
+                    deliverySection = `Delivery: FREE (${checkoutDOM.distanceKm.toFixed(1)} km • within 15 km)`;
+                }
+
                 const waMessage = `New Order - Paid via UPI QR
 
 Name: ${orderDetails.name}
@@ -712,6 +873,8 @@ ${mapsLink}
 
 Order Summary:
 ${orderSummaryText}
+Subtotal: ₹${subtotal}
+${deliverySection}
 Total Amount: ₹${result.amount}
 Payment VPA: ${result.merchantUpi}
 Order ID: #${result.orderId}
@@ -720,6 +883,30 @@ Order ID: #${result.orderId}
 
                 const whatsappNumber = '917871974777';
                 const waURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMessage)}`;
+
+                // Record order in backend
+                try {
+                    const scheduleSummaryString = `[${isSubscription ? 'Subscription Start' : 'Delivery'}: ${formattedDate} @ ${formattedTime}]`;
+                    const userNotes = localStorage.getItem('proteinPotCartInstructions') || '';
+                    const combinedInstructions = userNotes.trim()
+                        ? `${scheduleSummaryString} Notes: ${userNotes.trim()}`
+                        : scheduleSummaryString;
+
+                    fetch('/api/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            order_number: result.orderId,
+                            items: cart,
+                            total_amount: result.amount,
+                            delivery_fee: deliveryFee,
+                            instructions: combinedInstructions
+                        })
+                    }).catch(err => console.warn('[Orders API] Failed to record UPI order:', err));
+                } catch (err) {
+                    console.warn('[Orders API] Failed to record UPI order:', err);
+                }
 
                 // Show success modal
                 handlePaymentSuccess({

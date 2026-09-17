@@ -11,7 +11,7 @@ const { calculateOrderTotal } = require('../catalog');
  */
 router.post('/', optionalAuth, validateOrderPayload, async (req, res) => {
     try {
-        const { order_number, items, instructions } = req.validatedBody;
+        const { order_number, items, instructions, delivery_fee } = req.validatedBody;
 
         // 1. Derive user_id EXCLUSIVELY from authenticated session/JWT
         const userId = req.user ? req.user.id : null;
@@ -32,12 +32,13 @@ router.post('/', optionalAuth, validateOrderPayload, async (req, res) => {
             return res.status(400).json({ success: false, message: calculation.error });
         }
 
-        const calculatedTotalAmount = calculation.totalAmount;
+        const deliveryFee = Number(delivery_fee || 0);
+        const calculatedTotalAmount = calculation.totalAmount + deliveryFee;
 
         // 4. Serialize items details with calculated prices
         const itemsJson = JSON.stringify(calculation.itemDetails);
 
-        // 4. Save to Database
+        // 5. Save to Database
         await db.execute({
             sql: `INSERT INTO orders (order_number, user_id, items_json, total_amount, instructions, status) 
                   VALUES (?, ?, ?, ?, ?, 'Order Placed')`,
@@ -48,7 +49,8 @@ router.post('/', optionalAuth, validateOrderPayload, async (req, res) => {
             success: true,
             message: 'Order recorded successfully!',
             order_number,
-            calculated_total: calculatedTotalAmount
+            calculated_total: calculatedTotalAmount,
+            delivery_fee: deliveryFee
         });
     } catch (error) {
         console.error('[Orders Create Error]', error);

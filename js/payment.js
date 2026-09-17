@@ -42,7 +42,10 @@ const UPIPayment = {
         }
 
         const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
-        const amount = Number(subtotal.toFixed(2));
+        const deliveryFee = Number(orderData.deliveryFee || 0);
+        const amount = typeof orderData.amount === 'number' && orderData.amount > 0
+            ? Number(orderData.amount.toFixed(2))
+            : Number((subtotal + deliveryFee).toFixed(2));
 
         if (amount <= 0) {
             throw new Error('Invalid order amount');
