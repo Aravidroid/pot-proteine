@@ -10,8 +10,6 @@ const gymMenuProducts = [
         image: 'menu/Superme weight gain menu/IMG_8182.webp',
         images: [
             'menu/Superme weight gain menu/IMG_8182.webp',
-            'menu/Superme weight gain menu/IMG_8186.webp',
-            'menu/Superme weight gain menu/IMG_8190.webp',
             'menu/Superme weight gain menu/IMG_8198.webp'
         ],
         price: 199,
@@ -48,7 +46,6 @@ const gymMenuProducts = [
         image: 'menu/Supreme weight loss/IMG_8273.webp',
         images: [
             'menu/Supreme weight loss/IMG_8273.webp',
-            'menu/Supreme weight loss/IMG_8278.webp',
             'menu/Supreme weight loss/IMG_8284.webp'
         ],
         price: 199,
@@ -84,9 +81,8 @@ const gymMenuProducts = [
         id: '1',
         name: 'Regular Weight Gain Pot',
         category: 'Regular Box',
-        image: 'menu/Weight gain regular/IMG_8150.webp',
+        image: 'menu/Weight gain regular/IMG_8145.webp',
         images: [
-            'menu/Weight gain regular/IMG_8150.webp',
             'menu/Weight gain regular/IMG_8145.webp',
             'menu/Weight gain regular/IMG_8144.webp'
         ],
@@ -120,7 +116,6 @@ const gymMenuProducts = [
         image: 'menu/Weight loss regular/IMG_8230.webp',
         images: [
             'menu/Weight loss regular/IMG_8230.webp',
-            'menu/Weight loss regular/IMG_8228.webp',
             'menu/Weight loss regular/IMG_8222.webp'
         ],
         price: 149,
@@ -154,8 +149,6 @@ const gymMenuProducts = [
         image: 'menu/healthy workday menu/IMG_8325.webp',
         images: [
             'menu/healthy workday menu/IMG_8325.webp',
-            'menu/healthy workday menu/IMG_8320.webp',
-            'menu/healthy workday menu/IMG_8323.webp',
             'menu/healthy workday menu/IMG_8327.webp'
         ],
         price: 69,

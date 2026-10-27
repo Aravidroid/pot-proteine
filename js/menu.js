@@ -318,7 +318,7 @@ function buildCard(p) {
     return `
     <div class="product-card bg-white rounded-[28px] border border-pink-100/90 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="${p.category}" data-id="${p.id}">
         <!-- Header Image with Quick-View Trigger & Carousel -->
-        <div class="product-image-wrap cursor-pointer relative overflow-hidden bg-gradient-to-tr from-purple-50/50 to-pink-50/30 select-none" onclick="openProductModal('${p.id}')" title="Click to view full details & gallery">
+        <div class="product-image-wrap cursor-pointer relative overflow-hidden bg-[#fcf8fa] select-none" onclick="openProductModal('${p.id}')" title="Click to view full details & gallery">
             <img id="card-img-${p.id}" class="product-image group-hover:scale-105 transition-all duration-500" src="${currentImg}" alt="${p.name}">
             
             ${carouselArrowsHTML}

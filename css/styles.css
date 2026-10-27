@@ -1899,7 +1899,7 @@ textarea::placeholder {
 .product-image-wrap {
     position: relative;
     aspect-ratio: 4 / 3;
-    background: #f5e9ed;
+    background: #fcf8fa;
     overflow: hidden;
 }
 
