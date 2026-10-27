@@ -16,9 +16,9 @@
 
     // ── Image preloading — cache all slide images before first transition ──
     var SLIDE_IMAGES = [
-        'menu/supreme-weight-gain-pot.webp',
-        'menu/supreme-weight-loss-pot.webp',
-        'menu/healthy-workday-pot.webp',
+        'menu/Superme weight gain menu/IMG_8182.webp',
+        'menu/Supreme weight loss/IMG_8273.webp',
+        'menu/healthy workday menu/IMG_8325.webp',
         'menu/diabetic-menu-pot.webp'
     ];
 

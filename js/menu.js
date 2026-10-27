@@ -13,6 +13,107 @@ const categoryMeta = {
 // ── Track Selected Plan by Product ID (default: 'daily') ─────────────────
 const selectedPlanByProduct = {};
 
+// ── Track Active Image Index by Product for Card Carousel & Modal Gallery ──
+const cardImageIndexByProduct = {};
+let currentModalProductId = null;
+let currentModalImageIndex = 0;
+
+function changeCardImage(productId, delta) {
+    const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
+    const p = products.find(prod => String(prod.id) === String(productId));
+    if (!p) return;
+    const images = (p.images && p.images.length > 0) ? p.images : [p.image || DEFAULT_PRODUCT_IMAGE];
+    if (images.length <= 1) return;
+
+    const currentIdx = cardImageIndexByProduct[productId] || 0;
+    const newIdx = (currentIdx + delta + images.length) % images.length;
+    cardImageIndexByProduct[productId] = newIdx;
+    updateCardImageDisplay(productId, images, newIdx);
+}
+
+function setCardImage(productId, index) {
+    const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
+    const p = products.find(prod => String(prod.id) === String(productId));
+    if (!p) return;
+    const images = (p.images && p.images.length > 0) ? p.images : [p.image || DEFAULT_PRODUCT_IMAGE];
+    if (images.length <= 1) return;
+
+    cardImageIndexByProduct[productId] = index;
+    updateCardImageDisplay(productId, images, index);
+}
+
+function updateCardImageDisplay(productId, images, index) {
+    const cardImg = document.getElementById(`card-img-${productId}`);
+    const countEl = document.getElementById(`card-count-${productId}`);
+    const dotsContainer = document.getElementById(`card-dots-${productId}`);
+
+    if (cardImg) {
+        cardImg.style.opacity = '0.35';
+        setTimeout(() => {
+            cardImg.src = images[index];
+            cardImg.style.opacity = '1';
+        }, 110);
+    }
+    if (countEl) {
+        countEl.textContent = `📷 ${index + 1}/${images.length}`;
+    }
+    if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll('.card-dot');
+        dots.forEach((dot, i) => {
+            if (i === index) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+    }
+}
+
+function changeModalImage(delta) {
+    const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
+    const p = products.find(prod => String(prod.id) === String(currentModalProductId));
+    if (!p) return;
+    const images = (p.images && p.images.length > 0) ? p.images : [p.image || DEFAULT_PRODUCT_IMAGE];
+    if (images.length <= 1) return;
+
+    currentModalImageIndex = (currentModalImageIndex + delta + images.length) % images.length;
+    updateModalImageDisplay(p, images);
+}
+
+function setModalImage(index) {
+    const products = typeof allProducts !== 'undefined' ? allProducts : gymMenuProducts;
+    const p = products.find(prod => String(prod.id) === String(currentModalProductId));
+    if (!p) return;
+    const images = (p.images && p.images.length > 0) ? p.images : [p.image || DEFAULT_PRODUCT_IMAGE];
+    if (images.length <= 1) return;
+
+    currentModalImageIndex = ((index % images.length) + images.length) % images.length;
+    updateModalImageDisplay(p, images);
+}
+
+function updateModalImageDisplay(p, images) {
+    const mainImg = document.getElementById('modal-main-img');
+    const counter = document.getElementById('modal-photo-counter');
+    if (mainImg) {
+        mainImg.style.opacity = '0.3';
+        mainImg.style.transform = 'scale(0.97)';
+        setTimeout(() => {
+            mainImg.src = images[currentModalImageIndex];
+            mainImg.style.opacity = '1';
+            mainImg.style.transform = 'scale(1)';
+        }, 120);
+    }
+    if (counter) {
+        counter.textContent = `${currentModalImageIndex + 1} / ${images.length}`;
+    }
+    document.querySelectorAll('.modal-thumb-btn').forEach(btn => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        if (idx === currentModalImageIndex) {
+            btn.classList.add('active');
+            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
 // ── Derive category/tier from product name ───────────────────────────────
 function parseProduct(p) {
     const n = p.name.toLowerCase();
@@ -188,18 +289,49 @@ function buildCard(p) {
         </div>
     `;
 
+    const images = (p.images && p.images.length > 0) ? p.images : [p.image || DEFAULT_PRODUCT_IMAGE];
+    const initialIndex = cardImageIndexByProduct[p.id] || 0;
+    const currentImg = images[initialIndex] || images[0];
+    const hasMultiple = images.length > 1;
+
+    const carouselArrowsHTML = hasMultiple ? `
+        <button type="button" class="card-carousel-arrow card-carousel-prev" onclick="event.stopPropagation(); changeCardImage('${p.id}', -1)" aria-label="Previous image">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button type="button" class="card-carousel-arrow card-carousel-next" onclick="event.stopPropagation(); changeCardImage('${p.id}', 1)" aria-label="Next image">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </button>
+    ` : '';
+
+    const carouselDotsHTML = hasMultiple ? `
+        <div class="card-carousel-dots" id="card-dots-${p.id}">
+            ${images.map((_, idx) => `
+                <span class="card-dot ${idx === initialIndex ? 'active' : ''}" onclick="event.stopPropagation(); setCardImage('${p.id}', ${idx})" title="Photo ${idx + 1}"></span>
+            `).join('')}
+        </div>
+    ` : '';
+
+    const photoBadgeHTML = hasMultiple ? `
+        <span class="card-photo-count" id="card-count-${p.id}">📷 ${initialIndex + 1}/${images.length}</span>
+    ` : '';
+
     return `
     <div class="product-card bg-white rounded-[28px] border border-pink-100/90 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="${p.category}" data-id="${p.id}">
-        <!-- Header Image with Quick-View Trigger -->
-        <div class="product-image-wrap cursor-pointer relative overflow-hidden bg-gradient-to-tr from-purple-50/50 to-pink-50/30" onclick="openProductModal('${p.id}')" title="Click to view full ingredient weights & nutrition">
-            <img class="product-image group-hover:scale-105 transition-transform duration-500" src="${p.image || DEFAULT_PRODUCT_IMAGE}" alt="${p.name}">
-            <div class="absolute top-3 left-3 flex items-center gap-1.5">
+        <!-- Header Image with Quick-View Trigger & Carousel -->
+        <div class="product-image-wrap cursor-pointer relative overflow-hidden bg-gradient-to-tr from-purple-50/50 to-pink-50/30 select-none" onclick="openProductModal('${p.id}')" title="Click to view full details & gallery">
+            <img id="card-img-${p.id}" class="product-image group-hover:scale-105 transition-all duration-500" src="${currentImg}" alt="${p.name}">
+            
+            ${carouselArrowsHTML}
+            ${carouselDotsHTML}
+
+            <div class="absolute top-3 left-3 flex items-center gap-1.5 z-10 pointer-events-none">
                 <span class="badge ${meta.badgeClass} shadow-xs">${meta.icon} ${meta.label}</span>
             </div>
-            <div class="absolute top-3 right-3">
+            <div class="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+                ${photoBadgeHTML}
                 <span class="tier-label bg-white/90 backdrop-blur-xs shadow-2xs">${tierLabel}</span>
             </div>
-            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-xs text-[#7a1c6a] hover:text-[#3b113c] text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-xs text-[#7a1c6a] hover:text-[#3b113c] text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                 <span>🔍 Quick View</span>
             </div>
         </div>
@@ -251,6 +383,11 @@ function openProductModal(productId) {
     const activePlanId = selectedPlanByProduct[p.id] || 'daily';
     const totalWeight = calculateTotalWeight(p.ingredients);
     const plans = p.plans || [];
+    const images = (p.images && p.images.length > 0) ? p.images : [p.image || DEFAULT_PRODUCT_IMAGE];
+
+    currentModalProductId = String(productId);
+    currentModalImageIndex = cardImageIndexByProduct[p.id] || 0;
+    if (currentModalImageIndex >= images.length) currentModalImageIndex = 0;
 
     // Exact Ingredient Weights Breakdown Cards
     let ingredientsGridHTML = '';
@@ -309,14 +446,38 @@ function openProductModal(productId) {
             <!-- Mobile Pull Drag Bar Indicator -->
             <div class="sm:hidden w-12 h-1.5 bg-gray-200 rounded-full mx-auto mt-2.5 mb-1 shrink-0"></div>
 
-            <!-- Hero Image Banner -->
-            <div class="w-full h-48 sm:h-56 bg-gradient-to-br from-pink-50 via-purple-50 to-emerald-50 flex items-center justify-center p-4 relative overflow-hidden shrink-0">
-                <img src="${p.image || DEFAULT_PRODUCT_IMAGE}" alt="${p.name}" class="max-h-full max-w-full object-contain drop-shadow-xl transform hover:scale-105 transition duration-500">
-                <div class="absolute bottom-3 left-4 flex gap-2 items-center">
+            <!-- Hero Image Gallery Banner -->
+            <div class="w-full h-56 sm:h-64 bg-gradient-to-br from-pink-50 via-purple-50 to-emerald-50 flex items-center justify-center p-3 relative overflow-hidden shrink-0 select-none" id="modal-gallery-banner">
+                <img id="modal-main-img" src="${images[currentModalImageIndex]}" alt="${p.name}" class="max-h-full max-w-full object-contain drop-shadow-xl transition-all duration-300 transform hover:scale-105">
+                
+                ${images.length > 1 ? `
+                <button type="button" class="modal-gallery-arrow modal-gallery-prev" onclick="changeModalImage(-1)" aria-label="Previous photo">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button type="button" class="modal-gallery-arrow modal-gallery-next" onclick="changeModalImage(1)" aria-label="Next photo">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                </button>
+                <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-xs font-extrabold px-2.5 py-1 rounded-full border border-white/20 shadow-xs tracking-wider" id="modal-photo-counter">
+                    ${currentModalImageIndex + 1} / ${images.length}
+                </div>
+                ` : ''}
+
+                <div class="absolute bottom-3 left-4 flex gap-2 items-center z-10">
                     <span class="badge ${meta.badgeClass} shadow-xs">${meta.icon} ${meta.label}</span>
                     <span class="bg-white/95 text-[#2a0c2b] text-xs font-extrabold px-2.5 py-1 rounded-full shadow-xs border border-pink-100">⚖️ ${totalWeight} Total</span>
                 </div>
             </div>
+
+            ${images.length > 1 ? `
+            <!-- Interactive Thumbnail Strip -->
+            <div class="modal-thumbnail-strip flex items-center gap-2 px-4 py-2.5 bg-[#fdf2f5] border-b border-pink-100 overflow-x-auto">
+                ${images.map((imgSrc, idx) => `
+                    <button type="button" class="modal-thumb-btn ${idx === currentModalImageIndex ? 'active' : ''}" data-idx="${idx}" onclick="setModalImage(${idx})" aria-label="Photo ${idx + 1}">
+                        <img src="${imgSrc}" alt="${p.name} angle ${idx + 1}" class="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-xl border border-pink-200/80">
+                    </button>
+                `).join('')}
+            </div>
+            ` : ''}
 
             <!-- Body Details -->
             <div class="p-5 sm:p-7 overflow-y-auto flex-1">
@@ -378,6 +539,25 @@ function openProductModal(productId) {
     // Initialize price in modal
     updateModalPriceDisplay(p, activePlanId);
 
+    // Setup touch swipe for modal gallery
+    const banner = document.getElementById('modal-gallery-banner');
+    if (banner && images.length > 1) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        banner.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        banner.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (diff > 40) {
+                changeModalImage(-1);
+            } else if (diff < -40) {
+                changeModalImage(1);
+            }
+        }, { passive: true });
+    }
+
     modal.classList.remove('hidden');
     requestAnimationFrame(() => {
         modal.classList.add('is-opening');
@@ -425,11 +605,17 @@ function closeProductModal() {
         modal.classList.remove('is-opening');
         modal.classList.add('hidden');
         document.body.style.overflow = '';
+        currentModalProductId = null;
     }
 }
 
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeProductModal();
+    const modal = document.getElementById('product-details-modal');
+    if (modal && !modal.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') changeModalImage(-1);
+        if (e.key === 'ArrowRight') changeModalImage(1);
+    }
 });
 
 // ── Cart Interactions with Chosen Plan ───────────────────────────────────

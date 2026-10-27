@@ -7,7 +7,13 @@ const gymMenuProducts = [
         id: '3',
         name: 'Supreme Weight Gain Pot',
         category: 'Supreme Box',
-        image: 'menu/supreme-weight-gain-pot.webp',
+        image: 'menu/Superme weight gain menu/IMG_8182.webp',
+        images: [
+            'menu/Superme weight gain menu/IMG_8182.webp',
+            'menu/Superme weight gain menu/IMG_8186.webp',
+            'menu/Superme weight gain menu/IMG_8190.webp',
+            'menu/Superme weight gain menu/IMG_8198.webp'
+        ],
         price: 199,
         protein: 26,
         calories: 540,
@@ -39,7 +45,12 @@ const gymMenuProducts = [
         id: '4',
         name: 'Supreme Weight Loss Pot',
         category: 'Supreme Box',
-        image: 'menu/supreme-weight-loss-pot.webp',
+        image: 'menu/Supreme weight loss/IMG_8273.webp',
+        images: [
+            'menu/Supreme weight loss/IMG_8273.webp',
+            'menu/Supreme weight loss/IMG_8278.webp',
+            'menu/Supreme weight loss/IMG_8284.webp'
+        ],
         price: 199,
         protein: 20,
         calories: 340,
@@ -73,7 +84,12 @@ const gymMenuProducts = [
         id: '1',
         name: 'Regular Weight Gain Pot',
         category: 'Regular Box',
-        image: 'menu/regular-weight-gain-pot.webp',
+        image: 'menu/Weight gain regular/IMG_8150.webp',
+        images: [
+            'menu/Weight gain regular/IMG_8150.webp',
+            'menu/Weight gain regular/IMG_8145.webp',
+            'menu/Weight gain regular/IMG_8144.webp'
+        ],
         price: 149,
         protein: 18,
         calories: 420,
@@ -101,7 +117,12 @@ const gymMenuProducts = [
         id: '2',
         name: 'Regular Weight Loss Pot',
         category: 'Regular Box',
-        image: 'menu/regular-weight-loss-pot.webp',
+        image: 'menu/Weight loss regular/IMG_8230.webp',
+        images: [
+            'menu/Weight loss regular/IMG_8230.webp',
+            'menu/Weight loss regular/IMG_8228.webp',
+            'menu/Weight loss regular/IMG_8222.webp'
+        ],
         price: 149,
         protein: 14,
         calories: 280,
@@ -130,7 +151,13 @@ const gymMenuProducts = [
         id: 'healthy-workday-menu',
         name: 'Healthy Workday Pot',
         category: 'Healthy Workday',
-        image: 'menu/healthy-workday-pot.webp',
+        image: 'menu/healthy workday menu/IMG_8325.webp',
+        images: [
+            'menu/healthy workday menu/IMG_8325.webp',
+            'menu/healthy workday menu/IMG_8320.webp',
+            'menu/healthy workday menu/IMG_8323.webp',
+            'menu/healthy workday menu/IMG_8327.webp'
+        ],
         price: 69,
         protein: 15,
         calories: 310,
@@ -163,6 +190,9 @@ const gymMenuProducts = [
         name: 'Diabetic Menu Pot',
         category: 'Diabetic Box',
         image: 'menu/diabetic-menu-pot.webp',
+        images: [
+            'menu/diabetic-menu-pot.webp'
+        ],
         price: 69,
         protein: 16,
         calories: 240,
@@ -190,7 +220,14 @@ const allProducts = gymMenuProducts;
 
 // Data Normalization & Default Plan Duration Assignment
 gymMenuProducts.forEach(product => {
-    product.image = product.image || DEFAULT_PRODUCT_IMAGE;
+    if (product.images && product.images.length > 0) {
+        product.image = product.image || product.images[0];
+    } else if (product.image) {
+        product.images = [product.image];
+    } else {
+        product.image = DEFAULT_PRODUCT_IMAGE;
+        product.images = [DEFAULT_PRODUCT_IMAGE];
+    }
     product.protein = Number(product.protein || 0);
     product.calories = Number(product.calories || 0);
     product.ingredients = Array.isArray(product.ingredients) ? product.ingredients : [];
